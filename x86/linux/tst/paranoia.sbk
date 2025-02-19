@@ -114,44 +114,44 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 incl fpecount
-pushl $.LC2
+pushl $.LC6
 call printf
 addl $4,%esp
-pushl $_iob+32
+pushl stdout
 call fflush
 addl $4,%esp
 movl sigsave,%edi
 cmpl $0,%edi
-je .LC4
+je .LC7
 pushl sigsave
 pushl $8
-call signal
+call __sysv_signal
 addl $8,%esp
 movl $0,sigsave
 pushl $1
 pushl $ovfl_buf
 call longjmp
 addl $8,%esp
-.LC4:
+.LC7:
 call abort
-.LC1:
+.LC5:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf6:
-.size sigfpe,.Lf6-sigfpe
+.Lf9:
+.size sigfpe,.Lf9-sigfpe
 .data
 .align 4
-.type msg.758,@object
-msg.758:
-.long .LC759
-.long .LC760
-.long .LC761
+.type msg.761,@object
+msg.761:
 .long .LC762
-.size msg.758,16
+.long .LC763
+.long .LC764
+.long .LC765
+.size msg.761,16
 .globl main
 .text
 .align 16
@@ -163,9 +163,9 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 subl $1684,%esp
-fldl .LC8
+fldl .LC11
 fstpl Zero
-fldl .LC9
+fldl .LC12
 fstpl One
 fldl One
 fstpl -8(%ebp)
@@ -221,7 +221,7 @@ movl $1,PageNo
 movl $0,Milestone
 pushl $sigfpe
 pushl $8
-call signal
+call __sysv_signal
 addl $8,%esp
 call Instructions
 call Pause
@@ -232,45 +232,45 @@ call Pause
 call History
 call Pause
 movl $7,Milestone
-pushl $.LC13
+pushl $.LC16
 call printf
 addl $4,%esp
-pushl $.LC15
+pushl $.LC18
 fldl Zero
 faddl Zero
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC16
-jne .LC16
+jp .LC19
+jne .LC19
 fldl One
 fsubl One
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC16
-jne .LC16
+jp .LC19
+jne .LC19
 fldl Zero
 fcompl One
 fstsw %ax
 sahf
-jp .LC16
-jae .LC16
+jp .LC19
+jae .LC19
 fldl One
 faddl One
 fldl Two
 fcompp
 fstsw %ax
 sahf
-jp .LC16
-jne .LC16
+jp .LC19
+jne .LC19
 movl $1,-36(%ebp)
-jmp .LC17
-.LC16:
+jmp .LC20
+.LC19:
 movl $0,-36(%ebp)
-.LC17:
+.LC20:
 pushl -36(%ebp)
 pushl $0
 call TstCond
@@ -278,38 +278,38 @@ addl $12,%esp
 fldl Zero
 fchs
 fstpl Z
-fldl .LC8
+fldl .LC11
 fcompl Z
 fstsw %ax
 sahf
 jp 1f
-je .LC18
+je .LC21
 1:
 incl ErrCnt
-pushl $.LC20
+pushl $.LC23
 call printf
 addl $4,%esp
-fldl .LC21
+fldl .LC24
 fstpl U1
-fldl .LC9
+fldl .LC12
 fstpl Radix
 call TstPtUf
-.LC18:
-pushl $.LC23
+.LC21:
+pushl $.LC26
 fldl Two
 faddl One
 fcompl Three
 fstsw %ax
 sahf
-jp .LC24
-jne .LC24
+jp .LC27
+jne .LC27
 fldl Three
 faddl One
 fcompl Four
 fstsw %ax
 sahf
-jp .LC24
-jne .LC24
+jp .LC27
+jne .LC27
 fldl Four
 fldl Two
 fldl Two
@@ -320,8 +320,8 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC24
-jne .LC24
+jp .LC27
+jne .LC27
 fldl Four
 fsubl Three
 fsubl One
@@ -329,40 +329,40 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC24
-jne .LC24
+jp .LC27
+jne .LC27
 movl $1,-56(%ebp)
-jmp .LC25
-.LC24:
+jmp .LC28
+.LC27:
 movl $0,-56(%ebp)
-.LC25:
+.LC28:
 pushl -56(%ebp)
 pushl $0
 call TstCond
 addl $12,%esp
-fldl .LC8
+fldl .LC11
 fsubl One
 fcompl MinusOne
 fstsw %ax
 sahf
-jp .LC28
-jne .LC28
+jp .LC31
+jne .LC31
 fldl MinusOne
 faddl One
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC28
-jne .LC28
+jp .LC31
+jne .LC31
 fldl One
 faddl MinusOne
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC28
-jne .LC28
+jp .LC31
+jne .LC31
 fldl One
 subl $8,%esp
 fstpl (%esp)
@@ -375,8 +375,8 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC28
-jne .LC28
+jp .LC31
+jne .LC31
 fldl MinusOne
 fldl MinusOne
 fmull MinusOne
@@ -385,19 +385,19 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC28
-jne .LC28
+jp .LC31
+jne .LC31
 movl $1,-100(%ebp)
-jmp .LC29
-.LC28:
+jmp .LC32
+.LC31:
 movl $0,-100(%ebp)
-.LC29:
-pushl $.LC27
+.LC32:
+pushl $.LC30
 pushl -100(%ebp)
 pushl $0
 call TstCond
 addl $12,%esp
-pushl $.LC31
+pushl $.LC34
 fldl Half
 faddl MinusOne
 faddl Half
@@ -405,47 +405,47 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC32
-jne .LC32
+jp .LC35
+jne .LC35
 movl $1,-152(%ebp)
-jmp .LC33
-.LC32:
+jmp .LC36
+.LC35:
 movl $0,-152(%ebp)
-.LC33:
+.LC36:
 pushl -152(%ebp)
 pushl $0
 call TstCond
 addl $12,%esp
 movl $10,Milestone
-pushl $.LC35
+pushl $.LC38
 fldl Three
 fmull Three
 fcompl Nine
 fstsw %ax
 sahf
-jp .LC36
-jne .LC36
+jp .LC39
+jne .LC39
 fldl Nine
 fmull Three
 fcompl TwentySeven
 fstsw %ax
 sahf
-jp .LC36
-jne .LC36
+jp .LC39
+jne .LC39
 fldl Four
 faddl Four
 fcompl Eight
 fstsw %ax
 sahf
-jp .LC36
-jne .LC36
+jp .LC39
+jne .LC39
 fldl Eight
 fmull Four
 fcompl ThirtyTwo
 fstsw %ax
 sahf
-jp .LC36
-jne .LC36
+jp .LC39
+jne .LC39
 fldl ThirtyTwo
 fsubl TwentySeven
 fsubl Four
@@ -454,25 +454,25 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC36
-jne .LC36
+jp .LC39
+jne .LC39
 movl $1,-164(%ebp)
-jmp .LC37
-.LC36:
+jmp .LC40
+.LC39:
 movl $0,-164(%ebp)
-.LC37:
+.LC40:
 pushl -164(%ebp)
 pushl $0
 call TstCond
 addl $12,%esp
-pushl $.LC39
+pushl $.LC42
 fldl Four
 faddl One
 fcompl Five
 fstsw %ax
 sahf
-jp .LC40
-jne .LC40
+jp .LC43
+jne .LC43
 fldl Four
 fmull Five
 fmull Three
@@ -480,8 +480,8 @@ fmull Four
 fcompl TwoForty
 fstsw %ax
 sahf
-jp .LC40
-jne .LC40
+jp .LC43
+jne .LC43
 fldl TwoForty
 fdivl Three
 fldl Four
@@ -492,8 +492,8 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC40
-jne .LC40
+jp .LC43
+jne .LC43
 fldl TwoForty
 fdivl Four
 fldl Five
@@ -504,8 +504,8 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC40
-jne .LC40
+jp .LC43
+jne .LC43
 fldl TwoForty
 fdivl Five
 fldl Four
@@ -516,32 +516,32 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC40
-jne .LC40
+jp .LC43
+jne .LC43
 movl $1,-216(%ebp)
-jmp .LC41
-.LC40:
+jmp .LC44
+.LC43:
 movl $0,-216(%ebp)
-.LC41:
+.LC44:
 pushl -216(%ebp)
 pushl $0
 call TstCond
 addl $12,%esp
 cmpl $0,ErrCnt
-jne .LC42
-pushl $.LC44
+jne .LC45
+pushl $.LC47
 call printf
 addl $4,%esp
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
-.LC42:
-pushl $.LC46
+.LC45:
+pushl $.LC49
 call printf
 addl $4,%esp
 fldl One
 fstpl W
-.LC47:
+.LC50:
 fldl W
 fstpl -264(%ebp)
 fldl -264(%ebp)
@@ -558,7 +558,7 @@ fstpl Z
 fldl Z
 fsubl One
 fstpl Y
-.LC48:
+.LC51:
 fldl Y
 subl $8,%esp
 fstpl (%esp)
@@ -571,13 +571,13 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC47
-ja .LC47
+jp .LC50
+ja .LC50
 fldl Zero
 fstpl Precision
 fldl One
 fstpl Y
-.LC50:
+.LC53:
 fldl Y
 fstpl -280(%ebp)
 fldl W
@@ -589,39 +589,39 @@ fstpl Y
 fldl Radix
 fsubl W
 fstpl Radix
-.LC51:
+.LC54:
 fldl Zero
 fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC50
+je .LC53
 1:
 fldl Two
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC53
-jbe .LC53
+jp .LC56
+jbe .LC56
 fldl One
 fstpl Radix
-.LC53:
+.LC56:
 fldl Radix
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC55
+pushl $.LC58
 call printf
 addl $12,%esp
-fldl .LC9
+fldl .LC12
 fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC56
+je .LC59
 1:
 fldl One
 fstpl W
-.LC58:
+.LC61:
 fldl Precision
 faddl One
 fstpl Precision
@@ -631,7 +631,7 @@ fstpl W
 fldl W
 faddl One
 fstpl Y
-.LC59:
+.LC62:
 fldl Y
 fsubl W
 fldl One
@@ -639,9 +639,9 @@ fcompp
 fstsw %ax
 sahf
 jp 1f
-je .LC58
+je .LC61
 1:
-.LC56:
+.LC59:
 fldl One
 fdivl W
 fstpl U1
@@ -653,10 +653,10 @@ fstpl U2
 fldl -272(%ebp)
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC61
+pushl $.LC64
 call printf
 addl $12,%esp
-pushl $.LC62
+pushl $.LC65
 call printf
 addl $4,%esp
 fldl Radix
@@ -696,12 +696,12 @@ fldl U2
 fcompl X
 fstsw %ax
 sahf
-jp .LC63
-jbe .LC63
+jp .LC66
+jbe .LC66
 fldl U2
 fstpl X
-.LC63:
-.LC65:
+.LC66:
+.LC68:
 fldl X
 fstpl U2
 fldl U2
@@ -719,20 +719,20 @@ fstpl Y
 fldl Y
 fsubl One
 fstpl X
-.LC66:
+.LC69:
 fldl X
 fcompl U2
 fstsw %ax
 sahf
-jp .LC68
-jae .LC68
+jp .LC71
+jae .LC71
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC65
-jb .LC65
-.LC68:
+jp .LC68
+jb .LC68
+.LC71:
 fldl Two
 fdivl Three
 fstpl X
@@ -760,12 +760,12 @@ fldl U1
 fcompl X
 fstsw %ax
 sahf
-jp .LC69
-jbe .LC69
+jp .LC72
+jbe .LC72
 fldl U1
 fstpl X
-.LC69:
-.LC71:
+.LC72:
+.LC74:
 fldl X
 fstpl U1
 fldl U1
@@ -789,38 +789,38 @@ fstpl Y
 fldl Half
 faddl Y
 fstpl X
-.LC72:
+.LC75:
 fldl X
 fcompl U1
 fstsw %ax
 sahf
-jp .LC74
-jae .LC74
+jp .LC77
+jae .LC77
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC71
-jb .LC71
-.LC74:
+jp .LC74
+jb .LC74
+.LC77:
 fldl E1
 fcompl U1
 fstsw %ax
 sahf
-jp .LC75
-jne .LC75
-pushl $.LC77
+jp .LC78
+jne .LC78
+pushl $.LC80
 call printf
 addl $4,%esp
-jmp .LC76
-.LC75:
+jmp .LC79
+.LC78:
 fldl U1
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC78
+pushl $.LC81
 call printf
 addl $12,%esp
-.LC76:
+.LC79:
 fldl One
 fdivl U1
 fstpl W
@@ -830,7 +830,7 @@ faddl Half
 fstpl F9
 fldl U2
 fdivl U1
-faddl .LC79
+faddl .LC82
 subl $8,%esp
 fstpl (%esp)
 call floor
@@ -842,83 +842,83 @@ fldl E0
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC80
-jne .LC80
-pushl $.LC82
+jp .LC83
+jne .LC83
+pushl $.LC85
 call printf
 addl $4,%esp
-jmp .LC81
-.LC80:
+jmp .LC84
+.LC83:
 fldl Radix
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC83
+pushl $.LC86
 call printf
 addl $12,%esp
-.LC81:
-pushl $.LC85
+.LC84:
+pushl $.LC88
 fldl Eight
 faddl Eight
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC86
-jb .LC86
+jp .LC89
+jb .LC89
 movl $1,-364(%ebp)
-jmp .LC87
-.LC86:
+jmp .LC90
+.LC89:
 movl $0,-364(%ebp)
-.LC87:
+.LC90:
 pushl -364(%ebp)
 pushl $2
 call TstCond
 addl $12,%esp
-pushl $.LC89
+pushl $.LC92
 fldl Two
 fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC93
+je .LC96
 1:
-fldl .LC94
+fldl .LC97
 fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC93
+je .LC96
 1:
 fldl One
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC90
-jne .LC90
-.LC93:
+jp .LC93
+jne .LC93
+.LC96:
 movl $1,-376(%ebp)
-jmp .LC91
-.LC90:
+jmp .LC94
+.LC93:
 movl $0,-376(%ebp)
-.LC91:
+.LC94:
 pushl -376(%ebp)
 pushl $3
 call TstCond
 addl $12,%esp
 movl $20,Milestone
-pushl $.LC96
+pushl $.LC99
 fldl F9
 fsubl Half
 fldl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC97
-jbe .LC97
+jp .LC100
+jbe .LC100
 movl $1,-388(%ebp)
-jmp .LC98
-.LC97:
+jmp .LC101
+.LC100:
 movl $0,-388(%ebp)
-.LC98:
+.LC101:
 pushl -388(%ebp)
 pushl $0
 call TstCond
@@ -932,25 +932,25 @@ fstpl Y
 fldl Y
 fsubl Half
 fstpl Z
-pushl $.LC100
+pushl $.LC103
 fldl One
 fcompl X
 fstsw %ax
 sahf
-jp .LC103
-jne .LC103
+jp .LC106
+jne .LC106
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC101
-jne .LC101
-.LC103:
+jp .LC104
+jne .LC104
+.LC106:
 movl $1,-400(%ebp)
-jmp .LC102
-.LC101:
+jmp .LC105
+.LC104:
 movl $0,-400(%ebp)
-.LC102:
+.LC105:
 pushl -400(%ebp)
 pushl $0
 call TstCond
@@ -972,7 +972,7 @@ fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC104
+je .LC107
 1:
 fldl U1
 subl $8,%esp
@@ -1013,11 +1013,11 @@ fldl One
 fcompp
 fstsw %ax
 sahf
-jp .LC106
-jbe .LC106
+jp .LC109
+jbe .LC109
 fldl Y
 fstpl X
-.LC106:
+.LC109:
 fldl X
 fdivl TwoForty
 fstpl Precision
@@ -1043,12 +1043,12 @@ fldl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC108
-jbe .LC108
+jp .LC111
+jbe .LC111
 fldl Y
 fstpl Precision
-.LC108:
-.LC104:
+.LC111:
+.LC107:
 fldl Precision
 subl $8,%esp
 fstpl (%esp)
@@ -1059,41 +1059,41 @@ fldl -448(%ebp)
 fcompl Precision
 fstsw %ax
 sahf
-jp .LC112
-jne .LC112
-fldl One
-fcompl Radix
-fstsw %ax
-sahf
-jp .LC110
-jne .LC110
-.LC112:
-pushl $.LC113
-call printf
-addl $4,%esp
-pushl $.LC114
-call printf
-addl $4,%esp
-.LC110:
-fldl One
-fcompl Radix
-fstsw %ax
-sahf
 jp .LC115
 jne .LC115
+fldl One
+fcompl Radix
+fstsw %ax
+sahf
+jp .LC113
+jne .LC113
+.LC115:
+pushl $.LC116
+call printf
+addl $4,%esp
 pushl $.LC117
 call printf
 addl $4,%esp
-jmp .LC116
-.LC115:
+.LC113:
+fldl One
+fcompl Radix
+fstsw %ax
+sahf
+jp .LC118
+jne .LC118
+pushl $.LC120
+call printf
+addl $4,%esp
+jmp .LC119
+.LC118:
 fldl Precision
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC118
+pushl $.LC121
 call printf
 addl $12,%esp
-.LC116:
-pushl $.LC120
+.LC119:
+pushl $.LC123
 fldl U2
 fmull Nine
 fmull Nine
@@ -1102,13 +1102,13 @@ fldl One
 fcompp
 fstsw %ax
 sahf
-jp .LC121
-jbe .LC121
+jp .LC124
+jbe .LC124
 movl $1,-452(%ebp)
-jmp .LC122
-.LC121:
+jmp .LC125
+.LC124:
 movl $0,-452(%ebp)
-.LC122:
+.LC125:
 pushl -452(%ebp)
 pushl $1
 call TstCond
@@ -1130,7 +1130,7 @@ addl $8,%esp
 fstpl -500(%ebp)
 fldl -500(%ebp)
 fstpl X
-.LC123:
+.LC126:
 fldl X
 fstpl Z2
 fldl Z2
@@ -1145,20 +1145,20 @@ faddp %st,%st(1)
 faddp %st,%st(1)
 fsubl One
 fstpl X
-.LC124:
+.LC127:
 fldl X
 fcompl Z2
 fstsw %ax
 sahf
-jp .LC126
-jae .LC126
+jp .LC129
+jae .LC129
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC123
-jb .LC123
-.LC126:
+jp .LC126
+jb .LC126
+.LC129:
 fldl Three
 fdivl Four
 fldl Two
@@ -1179,7 +1179,7 @@ fldl -532(%ebp)
 fstpl Y
 fldl -532(%ebp)
 fstpl X
-.LC127:
+.LC130:
 fldl Z
 fstpl Z1
 fldl One
@@ -1200,22 +1200,22 @@ faddl -540(%ebp)
 fsubrp %st,%st(1)
 faddl -540(%ebp)
 fstpl Z
-.LC128:
+.LC131:
 fldl Z
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC130
-jae .LC130
+jp .LC133
+jae .LC133
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC127
-jb .LC127
-.LC130:
-.LC131:
+jp .LC130
+jb .LC130
+.LC133:
 .LC134:
+.LC137:
 fldl Y
 fstpl Y1
 fldl Y1
@@ -1233,20 +1233,20 @@ faddl Half
 fsubrp %st,%st(1)
 faddl Half
 fstpl Y
-.LC135:
+.LC138:
 fldl Y
 fcompl Y1
 fstsw %ax
 sahf
-jp .LC137
-jae .LC137
+jp .LC140
+jae .LC140
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC134
-jb .LC134
-.LC137:
+jp .LC137
+jb .LC137
+.LC140:
 fldl X
 fstpl X1
 fldl X1
@@ -1260,35 +1260,35 @@ faddp %st,%st(1)
 fsubl F9
 faddl F9
 fstpl X
-.LC132:
+.LC135:
 fldl X
 fcompl X1
 fstsw %ax
 sahf
-jp .LC138
-jae .LC138
+jp .LC141
+jae .LC141
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC131
-jb .LC131
-.LC138:
+jp .LC134
+jb .LC134
+.LC141:
 fldl Y1
 fcompl X1
 fstsw %ax
 sahf
-jp .LC141
-jne .LC141
+jp .LC144
+jne .LC144
 fldl Z1
 fcompl X1
 fstsw %ax
 sahf
 jp 1f
-je .LC139
+je .LC142
 1:
-.LC141:
-pushl $.LC142
+.LC144:
+pushl $.LC145
 pushl $1
 call BadCond
 addl $8,%esp
@@ -1301,16 +1301,16 @@ fstpl (%esp)
 fldl X1
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC143
+pushl $.LC146
 call printf
 addl $28,%esp
-pushl $.LC144
+pushl $.LC147
 call printf
 addl $4,%esp
-pushl $.LC145
+pushl $.LC148
 call printf
 addl $4,%esp
-pushl $.LC146
+pushl $.LC149
 call notify
 addl $4,%esp
 fldl U1
@@ -1318,59 +1318,59 @@ fcompl X1
 fstsw %ax
 sahf
 jp 1f
-je .LC150
+je .LC153
 1:
 fldl U1
 fcompl Y1
 fstsw %ax
 sahf
 jp 1f
-je .LC150
+je .LC153
 1:
 fldl U1
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC140
-jne .LC140
-.LC150:
-pushl $.LC151
+jp .LC143
+jne .LC143
+.LC153:
+pushl $.LC154
 call printf
 addl $4,%esp
-jmp .LC140
-.LC139:
-fldl U1
-fcompl Z1
-fstsw %ax
-sahf
-jp .LC154
-jne .LC154
-fldl U2
-fcompl Z2
-fstsw %ax
-sahf
-jp 1f
-je .LC152
-1:
-.LC154:
+jmp .LC143
+.LC142:
 fldl U1
 fcompl Z1
 fstsw %ax
 sahf
 jp .LC157
-jbe .LC157
+jne .LC157
 fldl U2
 fcompl Z2
 fstsw %ax
 sahf
-jp .LC155
-ja .LC155
+jp 1f
+je .LC155
+1:
 .LC157:
-pushl $.LC158
+fldl U1
+fcompl Z1
+fstsw %ax
+sahf
+jp .LC160
+jbe .LC160
+fldl U2
+fcompl Z2
+fstsw %ax
+sahf
+jp .LC158
+ja .LC158
+.LC160:
+pushl $.LC161
 pushl $0
 call BadCond
 addl $8,%esp
-pushl $.LC159
+pushl $.LC162
 call notify
 addl $4,%esp
 fldl Z1
@@ -1380,7 +1380,7 @@ fstpl (%esp)
 fldl U1
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC160
+pushl $.LC163
 call printf
 addl $20,%esp
 fldl Z2
@@ -1390,31 +1390,31 @@ fstpl (%esp)
 fldl U2
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC161
+pushl $.LC164
 call printf
 addl $20,%esp
-jmp .LC156
-.LC155:
+jmp .LC159
+.LC158:
 fldl Zero
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC164
-jae .LC164
+jp .LC167
+jae .LC167
 fldl Zero
 fcompl Z2
 fstsw %ax
 sahf
-jp .LC162
-jb .LC162
-.LC164:
+jp .LC165
+jb .LC165
+.LC167:
 fldl Radix
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC165
+pushl $.LC168
 call printf
 addl $12,%esp
-pushl $.LC166
+pushl $.LC169
 call printf
 addl $4,%esp
 fldl Z2
@@ -1423,26 +1423,26 @@ fstpl (%esp)
 fldl Z1
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC167
+pushl $.LC170
 call printf
 addl $20,%esp
-pushl $.LC168
+pushl $.LC171
 call notify
 addl $4,%esp
-.LC162:
+.LC165:
 fldl Z2
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC171
-jne .LC171
+jp .LC174
+jne .LC174
 fldl Zero
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC169
-jae .LC169
-.LC171:
+jp .LC172
+jae .LC172
+.LC174:
 fldl Z1
 fdivl U1
 fstpl X
@@ -1453,11 +1453,11 @@ fldl X
 fcompl Y
 fstsw %ax
 sahf
-jp .LC172
-jae .LC172
+jp .LC175
+jae .LC175
 fldl Y
 fstpl X
-.LC172:
+.LC175:
 fldl X
 subl $8,%esp
 fstpl (%esp)
@@ -1467,7 +1467,7 @@ fstpl -580(%ebp)
 fldl -580(%ebp)
 fchs
 fstpl Q
-pushl $.LC174
+pushl $.LC177
 call printf
 addl $4,%esp
 fldl Radix
@@ -1480,10 +1480,10 @@ fldl Q
 fdivl -588(%ebp)
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC175
+pushl $.LC178
 call printf
 addl $12,%esp
-fldl .LC94
+fldl .LC97
 subl $8,%esp
 fstpl (%esp)
 call log
@@ -1493,24 +1493,24 @@ fldl Q
 fdivl -596(%ebp)
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC176
+pushl $.LC179
 call printf
 addl $12,%esp
-.LC169:
-pushl $.LC151
+.LC172:
+pushl $.LC154
 call printf
 addl $4,%esp
-.LC156:
-.LC152:
-.LC140:
+.LC159:
+.LC155:
+.LC143:
 call Pause
 movl $35,Milestone
 fldl Two
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC177
-ja .LC177
+jp .LC180
+ja .LC180
 fldl W
 fldl Radix
 fmull Radix
@@ -1532,18 +1532,18 @@ fstpl T
 fldl T
 fsubl -584(%ebp)
 fstpl X
-pushl $.LC180
+pushl $.LC183
 fldl U2
 fcompl X
 fstsw %ax
 sahf
-jp .LC181
-jne .LC181
+jp .LC184
+jne .LC184
 movl $1,-560(%ebp)
-jmp .LC182
-.LC181:
+jmp .LC185
+.LC184:
 movl $0,-560(%ebp)
-.LC182:
+.LC185:
 pushl -560(%ebp)
 pushl $0
 call TstCond
@@ -1552,14 +1552,14 @@ fldl U2
 fcompl X
 fstsw %ax
 sahf
-jp .LC183
-jne .LC183
-pushl $.LC185
+jp .LC186
+jne .LC186
+pushl $.LC188
 call printf
 addl $4,%esp
-.LC183:
-.LC177:
-pushl $.LC186
+.LC186:
+.LC180:
+pushl $.LC189
 call printf
 addl $4,%esp
 fldl F9
@@ -1620,36 +1620,36 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC187
-jne .LC187
+jp .LC190
+jne .LC190
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC187
-jne .LC187
+jp .LC190
+jne .LC190
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC187
-jne .LC187
+jp .LC190
+jne .LC190
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC187
-jne .LC187
+jp .LC190
+jne .LC190
 movl $1,GMult
-jmp .LC188
-.LC187:
+jmp .LC191
+.LC190:
 movl $0,GMult
-pushl $.LC189
+pushl $.LC192
 pushl $0
 pushl $1
 call TstCond
 addl $12,%esp
-.LC188:
+.LC191:
 fldl Radix
 fmull U2
 fstpl Z
@@ -1691,24 +1691,24 @@ fstpl -688(%ebp)
 fldl -688(%ebp)
 fsubl U1
 fstpl Z
-pushl $.LC191
+pushl $.LC194
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC192
-jb .LC192
+jp .LC195
+jb .LC195
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC192
-jb .LC192
+jp .LC195
+jb .LC195
 movl $1,-640(%ebp)
-jmp .LC193
-.LC192:
+jmp .LC196
+.LC195:
 movl $0,-640(%ebp)
-.LC193:
+.LC196:
 pushl -640(%ebp)
 pushl $0
 call TstCond
@@ -1742,30 +1742,30 @@ fstpl T
 fldl -740(%ebp)
 fsubl T
 fstpl Z
-pushl $.LC195
+pushl $.LC198
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC196
-jne .LC196
+jp .LC199
+jne .LC199
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC196
-jne .LC196
+jp .LC199
+jne .LC199
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC196
-jne .LC196
+jp .LC199
+jne .LC199
 movl $1,-700(%ebp)
-jmp .LC197
-.LC196:
+jmp .LC200
+.LC199:
 movl $0,-700(%ebp)
-.LC197:
+.LC200:
 pushl -700(%ebp)
 pushl $2
 call TstCond
@@ -1795,30 +1795,30 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC198
-jne .LC198
+jp .LC201
+jne .LC201
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC198
-jne .LC198
+jp .LC201
+jne .LC201
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC198
-jne .LC198
+jp .LC201
+jne .LC201
 movl $1,GDiv
-jmp .LC199
-.LC198:
+jmp .LC202
+.LC201:
 movl $0,GDiv
-pushl $.LC200
+pushl $.LC203
 pushl $0
 pushl $1
 call TstCond
 addl $12,%esp
-.LC199:
+.LC202:
 fldl One
 fldl One
 faddl U2
@@ -1828,18 +1828,18 @@ fldl X
 fsubl Half
 fsubl Half
 fstpl Y
-pushl $.LC202
+pushl $.LC205
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC203
-jbe .LC203
+jp .LC206
+jbe .LC206
 movl $1,-792(%ebp)
-jmp .LC204
-.LC203:
+jmp .LC207
+.LC206:
 movl $0,-792(%ebp)
-.LC204:
+.LC207:
 pushl -792(%ebp)
 pushl $1
 call TstCond
@@ -1874,24 +1874,24 @@ fstpl X
 fldl StickyBit
 fsubl -852(%ebp)
 fstpl Y
-pushl $.LC206
+pushl $.LC209
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC207
-jne .LC207
+jp .LC210
+jne .LC210
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC207
-jne .LC207
+jp .LC210
+jne .LC210
 movl $1,-812(%ebp)
-jmp .LC208
-.LC207:
+jmp .LC211
+.LC210:
 movl $0,-812(%ebp)
-.LC208:
+.LC211:
 pushl -812(%ebp)
 pushl $0
 call TstCond
@@ -1918,42 +1918,42 @@ fldl U1
 fcompl X
 fstsw %ax
 sahf
-jp .LC209
-jne .LC209
+jp .LC212
+jne .LC212
 fldl U1
 fcompl Y
 fstsw %ax
 sahf
-jp .LC209
-jne .LC209
+jp .LC212
+jne .LC212
 fldl U2
 fcompl Z
 fstsw %ax
 sahf
-jp .LC209
-jne .LC209
+jp .LC212
+jne .LC212
 fldl U2
 fcompl T
 fstsw %ax
 sahf
-jp .LC209
-jne .LC209
+jp .LC212
+jne .LC212
 movl $1,GAddSub
-jmp .LC210
-.LC209:
+jmp .LC213
+.LC212:
 movl $0,GAddSub
-pushl $.LC211
+pushl $.LC214
 pushl $0
 pushl $1
 call TstCond
 addl $12,%esp
-.LC210:
+.LC213:
 fldl One
 fcompl F9
 fstsw %ax
 sahf
 jp 1f
-je .LC212
+je .LC215
 1:
 fldl F9
 fsubl One
@@ -1961,35 +1961,35 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC212
-ja .LC212
-pushl $.LC214
+jp .LC215
+ja .LC215
+pushl $.LC217
 pushl $1
 call BadCond
 addl $8,%esp
-pushl $.LC215
+pushl $.LC218
 call printf
 addl $4,%esp
-pushl $.LC216
+pushl $.LC219
 call printf
 addl $4,%esp
-pushl $.LC217
-call printf
-addl $4,%esp
-.LC212:
-cmpl $1,GMult
-jne .LC218
-cmpl $1,GDiv
-jne .LC218
-cmpl $1,GAddSub
-jne .LC218
 pushl $.LC220
 call printf
 addl $4,%esp
-.LC218:
+.LC215:
+cmpl $1,GMult
+jne .LC221
+cmpl $1,GDiv
+jne .LC221
+cmpl $1,GAddSub
+jne .LC221
+pushl $.LC223
+call printf
+addl $4,%esp
+.LC221:
 movl $40,Milestone
 call Pause
-pushl $.LC221
+pushl $.LC224
 call printf
 addl $4,%esp
 movl $0,RMult
@@ -2001,10 +2001,10 @@ fstpl RadixD2
 fldl Two
 fstpl A1
 movl $0,Done
-.LC222:
+.LC225:
 fldl Radix
 fstpl AInvrse
-.LC225:
+.LC228:
 fldl AInvrse
 fstpl -924(%ebp)
 fldl -924(%ebp)
@@ -2012,7 +2012,7 @@ fstpl X
 fldl -924(%ebp)
 fdivl A1
 fstpl AInvrse
-.LC226:
+.LC229:
 fldl AInvrse
 subl $8,%esp
 fstpl (%esp)
@@ -2024,47 +2024,47 @@ fcompl -924(%ebp)
 fstsw %ax
 sahf
 jp 1f
-je .LC225
+je .LC228
 1:
 fldl One
 fcompl X
 fstsw %ax
 sahf
 jp 1f
-je .LC231
+je .LC234
 1:
 fldl Three
 fcompl A1
 fstsw %ax
 sahf
-jp .LC229
-jae .LC229
-.LC231:
+jp .LC232
+jae .LC232
+.LC234:
 movl $1,-928(%ebp)
-jmp .LC230
-.LC229:
+jmp .LC233
+.LC232:
 movl $0,-928(%ebp)
-.LC230:
+.LC233:
 movl -928(%ebp),%edi
 movl %edi,Done
 cmpl $0,Done
-jne .LC232
+jne .LC235
 fldl Nine
 faddl One
 fstpl A1
-.LC232:
-.LC223:
+.LC235:
+.LC226:
 cmpl $0,Done
-je .LC222
+je .LC225
 fldl One
 fcompl X
 fstsw %ax
 sahf
-jp .LC234
-jne .LC234
+jp .LC237
+jne .LC237
 fldl Radix
 fstpl A1
-.LC234:
+.LC237:
 fldl One
 fdivl A1
 fstpl AInvrse
@@ -2073,23 +2073,23 @@ fstpl X
 fldl AInvrse
 fstpl Y
 movl $0,Done
-.LC236:
+.LC239:
 fldl X
 fmull Y
 fsubl Half
 fstpl Z
-pushl $.LC240
+pushl $.LC243
 fldl Half
 fcompl Z
 fstsw %ax
 sahf
-jp .LC241
-jne .LC241
+jp .LC244
+jne .LC244
 movl $1,-928(%ebp)
-jmp .LC242
-.LC241:
+jmp .LC245
+.LC244:
 movl $0,-928(%ebp)
-.LC242:
+.LC245:
 pushl -928(%ebp)
 pushl $0
 call TstCond
@@ -2098,13 +2098,13 @@ fldl Radix
 fcompl X
 fstsw %ax
 sahf
-jp .LC244
-jne .LC244
+jp .LC247
+jne .LC247
 movl $1,-940(%ebp)
-jmp .LC245
-.LC244:
+jmp .LC248
+.LC247:
 movl $0,-940(%ebp)
-.LC245:
+.LC248:
 movl -940(%ebp),%edi
 movl %edi,Done
 fldl Radix
@@ -2112,9 +2112,9 @@ fstpl X
 fldl One
 fdivl X
 fstpl Y
-.LC237:
+.LC240:
 cmpl $0,Done
-je .LC236
+je .LC239
 fldl One
 faddl U2
 fstpl Y2
@@ -2165,26 +2165,26 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC246
-jne .LC246
+jp .LC249
+jne .LC249
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC246
-jne .LC246
+jp .LC249
+jne .LC249
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC246
-jne .LC246
+jp .LC249
+jne .LC249
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC246
-jb .LC246
+jp .LC249
+jb .LC249
 fldl OneAndHalf
 faddl U2
 fstpl -1012(%ebp)
@@ -2250,110 +2250,110 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC248
-jne .LC248
+jp .LC251
+jne .LC251
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC248
-jne .LC248
+jp .LC251
+jne .LC251
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC248
-jne .LC248
+jp .LC251
+jne .LC251
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC248
-jne .LC248
+jp .LC251
+jne .LC251
 fldl Zero
 fcompl StickyBit
 fstsw %ax
 sahf
-jp .LC248
-jne .LC248
+jp .LC251
+jne .LC251
 fldl Half
 fcompl Y1
 fstsw %ax
 sahf
-jp .LC248
-jne .LC248
+jp .LC251
+jne .LC251
 movl $1,RMult
-pushl $.LC250
+pushl $.LC253
 call printf
 addl $4,%esp
-jmp .LC249
-.LC248:
+jmp .LC252
+.LC251:
 fldl X
 faddl U2
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC251
-jne .LC251
+jp .LC254
+jne .LC254
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC251
-jbe .LC251
+jp .LC254
+jbe .LC254
 fldl Z
 faddl U2
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC251
-jne .LC251
+jp .LC254
+jne .LC254
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC251
-jbe .LC251
+jp .LC254
+jbe .LC254
 fldl StickyBit
 faddl U2
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC251
-jne .LC251
+jp .LC254
+jne .LC254
 fldl Half
 fcompl Y1
 fstsw %ax
 sahf
-jp .LC251
-jbe .LC251
+jp .LC254
+jbe .LC254
 movl $2,RMult
-pushl $.LC253
+pushl $.LC256
 call printf
 addl $4,%esp
-jmp .LC252
-.LC251:
-pushl $.LC254
-call printf
-addl $4,%esp
-.LC252:
-.LC249:
-cmpl $1,RMult
-jne .LC247
-cmpl $0,GMult
-jne .LC247
+jmp .LC255
+.LC254:
 pushl $.LC257
+call printf
+addl $4,%esp
+.LC255:
+.LC252:
+cmpl $1,RMult
+jne .LC250
+cmpl $0,GMult
+jne .LC250
+pushl $.LC260
 call notify
 addl $4,%esp
-jmp .LC247
-.LC246:
-pushl $.LC254
+jmp .LC250
+.LC249:
+pushl $.LC257
 call printf
 addl $4,%esp
-.LC247:
+.LC250:
 movl $45,Milestone
 fldl One
 faddl U2
@@ -2410,26 +2410,26 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC258
-jb .LC258
+jp .LC261
+jb .LC261
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC258
-jb .LC258
+jp .LC261
+jb .LC261
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC258
-jb .LC258
+jp .LC261
+jb .LC261
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC258
-jb .LC258
+jp .LC261
+jb .LC261
 fldl Y2
 fstpl -1076(%ebp)
 fldl OneAndHalf
@@ -2485,38 +2485,38 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 fldl Zero
 fcompl Y2
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 fldl Zero
 fcompl Y2
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 fldl Y1
 fsubl Half
 fldl F9
@@ -2524,49 +2524,49 @@ fsubl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC260
-jne .LC260
+jp .LC263
+jne .LC263
 movl $1,RDiv
-pushl $.LC262
+pushl $.LC265
 call printf
 addl $4,%esp
 cmpl $0,GDiv
-jne .LC261
-pushl $.LC265
+jne .LC264
+pushl $.LC268
 call notify
 addl $4,%esp
-jmp .LC261
-.LC260:
+jmp .LC264
+.LC263:
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC266
-jbe .LC266
+jp .LC269
+jbe .LC269
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC266
-jbe .LC266
+jp .LC269
+jbe .LC269
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC266
-jbe .LC266
+jp .LC269
+jbe .LC269
 fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC266
-jbe .LC266
+jp .LC269
+jbe .LC269
 fldl Zero
 fcompl Y2
 fstsw %ax
 sahf
-jp .LC266
-jbe .LC266
+jp .LC269
+jbe .LC269
 fldl Y1
 fsubl Half
 fldl F9
@@ -2574,25 +2574,25 @@ fsubl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC266
-jbe .LC266
+jp .LC269
+jbe .LC269
 movl $2,RDiv
-pushl $.LC268
-call printf
-addl $4,%esp
-.LC266:
-.LC261:
-.LC258:
-cmpl $0,RDiv
-jne .LC269
 pushl $.LC271
 call printf
 addl $4,%esp
 .LC269:
+.LC264:
+.LC261:
+cmpl $0,RDiv
+jne .LC272
+pushl $.LC274
+call printf
+addl $4,%esp
+.LC272:
 fldl One
 fdivl Radix
 fstpl BInvrse
-pushl $.LC273
+pushl $.LC276
 fldl BInvrse
 fmull Radix
 fsubl Half
@@ -2600,19 +2600,19 @@ fldl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC274
-jne .LC274
+jp .LC277
+jne .LC277
 movl $1,-1064(%ebp)
-jmp .LC275
-.LC274:
+jmp .LC278
+.LC277:
 movl $0,-1064(%ebp)
-.LC275:
+.LC278:
 pushl -1064(%ebp)
 pushl $0
 call TstCond
 addl $12,%esp
 movl $50,Milestone
-pushl $.LC277
+pushl $.LC280
 fldl F9
 faddl U1
 fsubl Half
@@ -2620,8 +2620,8 @@ fldl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC278
-jne .LC278
+jp .LC281
+jne .LC281
 fldl BMinusU2
 faddl U2
 fsubl One
@@ -2630,13 +2630,13 @@ fsubl One
 fcompp
 fstsw %ax
 sahf
-jp .LC278
-jne .LC278
+jp .LC281
+jne .LC281
 movl $1,-1084(%ebp)
-jmp .LC279
-.LC278:
+jmp .LC282
+.LC281:
 movl $0,-1084(%ebp)
-.LC279:
+.LC282:
 pushl -1084(%ebp)
 pushl $0
 call TstCond
@@ -2667,21 +2667,21 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC280
-jne .LC280
+jp .LC283
+jne .LC283
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC280
-jne .LC280
+jp .LC283
+jne .LC283
 movl $2,RAddSub
-pushl $.LC282
+pushl $.LC285
 call printf
 addl $4,%esp
-.LC280:
+.LC283:
 cmpl $1,GAddSub
-jne .LC283
+jne .LC286
 fldl Half
 faddl U2
 fmull U2
@@ -2707,14 +2707,14 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC285
-jne .LC285
+jp .LC288
+jne .LC288
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC285
-jne .LC285
+jp .LC288
+jne .LC288
 fldl Half
 faddl U2
 fmull U1
@@ -2739,39 +2739,39 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC287
-jne .LC287
+jp .LC290
+jne .LC290
 fldl Zero
 fcompl Y
 fstsw %ax
 sahf
-jp .LC287
-jne .LC287
+jp .LC290
+jne .LC290
 movl $1,RAddSub
-pushl $.LC289
+pushl $.LC292
 call printf
 addl $4,%esp
 cmpl $0,GAddSub
-jne .LC284
-pushl $.LC292
+jne .LC287
+pushl $.LC295
 call notify
 addl $4,%esp
-jmp .LC284
+jmp .LC287
+.LC290:
+pushl $.LC296
+call printf
+addl $4,%esp
+jmp .LC287
+.LC288:
+pushl $.LC296
+call printf
+addl $4,%esp
+jmp .LC287
+.LC286:
+pushl $.LC296
+call printf
+addl $4,%esp
 .LC287:
-pushl $.LC293
-call printf
-addl $4,%esp
-jmp .LC284
-.LC285:
-pushl $.LC293
-call printf
-addl $4,%esp
-jmp .LC284
-.LC283:
-pushl $.LC293
-call printf
-addl $4,%esp
-.LC284:
 fldl One
 fstpl S
 fldl One
@@ -2803,29 +2803,29 @@ fcompl StickyBit
 fstsw %ax
 sahf
 jp 1f
-je .LC294
+je .LC297
 1:
 fldl Zero
 fstpl S
-pushl $.LC296
+pushl $.LC299
 pushl $3
 call BadCond
 addl $8,%esp
-.LC294:
+.LC297:
 fldl Zero
 fstpl StickyBit
 cmpl $1,GMult
-jne .LC297
+jne .LC300
 cmpl $1,GDiv
-jne .LC297
+jne .LC300
 cmpl $1,GAddSub
-jne .LC297
+jne .LC300
 cmpl $1,RMult
-jne .LC297
+jne .LC300
 cmpl $1,RDiv
-jne .LC297
+jne .LC300
 cmpl $1,RAddSub
-jne .LC297
+jne .LC300
 fldl RadixD2
 subl $8,%esp
 fstpl (%esp)
@@ -2836,9 +2836,9 @@ fldl RadixD2
 fcompl -1180(%ebp)
 fstsw %ax
 sahf
-jp .LC297
-jne .LC297
-pushl $.LC299
+jp .LC300
+jne .LC300
+pushl $.LC302
 call printf
 addl $4,%esp
 fldl Half
@@ -2860,16 +2860,16 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC300
-jb .LC300
+jp .LC303
+jb .LC303
 fldl T
 fsubl One
 fldl U2
 fcompp
 fstsw %ax
 sahf
-jp .LC300
-ja .LC300
+jp .LC303
+ja .LC303
 fldl T
 faddl Y
 fstpl Z
@@ -2882,16 +2882,16 @@ fldl U2
 fcompp
 fstsw %ax
 sahf
-jp .LC302
-ja .LC302
+jp .LC305
+ja .LC305
 fldl Y
 fsubl T
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC302
-jne .LC302
+jp .LC305
+jne .LC305
 fldl Half
 faddl U1
 fmull U1
@@ -2911,16 +2911,16 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC304
-jne .LC304
+jp .LC307
+jne .LC307
 fldl T
 fsubl F9
 fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC304
-jne .LC304
+jp .LC307
+jne .LC307
 fldl Half
 fsubl U1
 fmull U1
@@ -2937,8 +2937,8 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC306
-jne .LC306
+jp .LC309
+jne .LC309
 fldl F9
 fsubl U1
 fsubl Q
@@ -2946,8 +2946,8 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC306
-jne .LC306
+jp .LC309
+jne .LC309
 fldl One
 faddl U2
 fmull OneAndHalf
@@ -2974,8 +2974,8 @@ fldl Zero
 fcompl T
 fstsw %ax
 sahf
-jp .LC308
-jne .LC308
+jp .LC311
+jne .LC311
 fldl X
 fldl Radix
 fmull U2
@@ -2985,14 +2985,14 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC308
-jne .LC308
+jp .LC311
+jne .LC311
 fldl Two
 fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC310
+je .LC313
 1:
 fldl Two
 faddl U2
@@ -3006,70 +3006,70 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC311
-jne .LC311
+jp .LC314
+jne .LC314
 fldl S
 fstpl StickyBit
-jmp .LC311
-.LC310:
+jmp .LC314
+.LC313:
 fldl S
 fstpl StickyBit
+.LC314:
 .LC311:
-.LC308:
-.LC306:
-.LC304:
-.LC302:
+.LC309:
+.LC307:
+.LC305:
+.LC303:
 .LC300:
-.LC297:
 fldl One
 fcompl StickyBit
 fstsw %ax
 sahf
-jp .LC314
-jne .LC314
-pushl $.LC316
-call printf
-addl $4,%esp
-jmp .LC315
-.LC314:
-pushl $.LC317
-call printf
-addl $4,%esp
-.LC315:
+jp .LC317
+jne .LC317
 pushl $.LC319
+call printf
+addl $4,%esp
+jmp .LC318
+.LC317:
+pushl $.LC320
+call printf
+addl $4,%esp
+.LC318:
+pushl $.LC322
 cmpl $0,GMult
-je .LC320
+je .LC323
 cmpl $0,GDiv
-je .LC320
+je .LC323
 cmpl $0,GAddSub
-je .LC320
+je .LC323
 cmpl $0,RMult
-je .LC320
+je .LC323
 cmpl $0,RDiv
-je .LC320
+je .LC323
 cmpl $0,RAddSub
-je .LC320
+je .LC323
 movl $1,-1184(%ebp)
-jmp .LC321
-.LC320:
+jmp .LC324
+.LC323:
 movl $0,-1184(%ebp)
-.LC321:
+.LC324:
 pushl -1184(%ebp)
 pushl $3
 call TstCond
 addl $12,%esp
 movl $60,Milestone
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
-pushl $.LC322
+pushl $.LC325
 call printf
 addl $4,%esp
 pushl NoTrials
-pushl $.LC323
+pushl $.LC326
 call printf
 addl $8,%esp
-fldl .LC324
+fldl .LC327
 subl $8,%esp
 fstpl (%esp)
 call sqrt
@@ -3080,7 +3080,7 @@ fstpl Random9
 fldl Third
 fstpl Random1
 movl $1,I
-.LC325:
+.LC328:
 call Random
 fstpl -1200(%ebp)
 fldl -1200(%ebp)
@@ -3099,21 +3099,21 @@ fldl Z
 fsubl Z9
 fstpl Z9
 incl I
-.LC326:
+.LC329:
 movl NoTrials,%edi
 cmpl %edi,I
-jg .LC328
+jg .LC331
 fldl Zero
 fcompl Z9
 fstsw %ax
 sahf
 jp 1f
-je .LC325
+je .LC328
 1:
-.LC328:
+.LC331:
 movl NoTrials,%edi
 cmpl %edi,I
-jne .LC329
+jne .LC332
 fldl One
 fldl Half
 fdivl Three
@@ -3143,30 +3143,30 @@ fstpl -1240(%ebp)
 fldl -1240(%ebp)
 fsubl -1240(%ebp)
 fstpl Z9
-.LC329:
+.LC332:
 movl NoTrials,%edi
 cmpl %edi,I
-je .LC331
+je .LC334
 fldl Zero
 fcompl Z9
 fstsw %ax
 sahf
 jp 1f
-je .LC331
+je .LC334
 1:
-pushl $.LC333
+pushl $.LC336
 pushl $2
 call BadCond
 addl $8,%esp
-jmp .LC332
-.LC331:
+jmp .LC335
+.LC334:
 pushl NoTrials
-pushl $.LC334
+pushl $.LC337
 call printf
 addl $8,%esp
-.LC332:
+.LC335:
 movl $70,Milestone
-pushl $.LC335
+pushl $.LC338
 call printf
 addl $4,%esp
 fldl Zero
@@ -3179,8 +3179,8 @@ fldl -1212(%ebp)
 fcompl Zero
 fstsw %ax
 sahf
-jp .LC338
-jne .LC338
+jp .LC341
+jne .LC341
 fldl Zero
 fchs
 fstpl -1220(%ebp)
@@ -3194,8 +3194,8 @@ fldl -1228(%ebp)
 fcompl -1220(%ebp)
 fstsw %ax
 sahf
-jp .LC338
-jne .LC338
+jp .LC341
+jne .LC341
 fldl One
 subl $8,%esp
 fstpl (%esp)
@@ -3206,14 +3206,14 @@ fldl -1244(%ebp)
 fcompl One
 fstsw %ax
 sahf
-jp .LC338
-jne .LC338
+jp .LC341
+jne .LC341
 movl $1,-1196(%ebp)
-jmp .LC339
-.LC338:
+jmp .LC342
+.LC341:
 movl $0,-1196(%ebp)
-.LC339:
-pushl $.LC337
+.LC342:
+pushl $.LC340
 pushl -1196(%ebp)
 pushl $0
 call TstCond
@@ -3252,12 +3252,12 @@ fcompl J
 fstsw %ax
 sahf
 jp 1f
-je .LC340
+je .LC343
 1:
 call Pause
-.LC340:
+.LC343:
 pushl NoTrials
-pushl $.LC342
+pushl $.LC345
 call printf
 addl $8,%esp
 fldl Zero
@@ -3271,9 +3271,9 @@ fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC343
+je .LC346
 1:
-.LC345:
+.LC348:
 fldl Y
 fstpl -1284(%ebp)
 fldl -1284(%ebp)
@@ -3281,22 +3281,22 @@ fstpl X
 fldl Radix
 fmull -1284(%ebp)
 fstpl Y
-.LC346:
+.LC349:
 fldl Y
 fsubl X
 fildl NoTrials
 fcompp
 fstsw %ax
 sahf
-jp .LC345
-ja .LC345
-.LC343:
+jp .LC348
+ja .LC348
+.LC346:
 fldl X
 fmull U2
 fstpl OneUlp
 movl $1,I
-jmp .LC349
-.LC348:
+jmp .LC352
+.LC351:
 fldl X
 faddl One
 fstpl X
@@ -3307,17 +3307,17 @@ fldl Zero
 fcompl J
 fstsw %ax
 sahf
-jp .LC351
-jae .LC351
-jmp .LC350
-.LC351:
+jp .LC354
+jae .LC354
+jmp .LC353
+.LC354:
 incl I
-.LC349:
+.LC352:
 movl NoTrials,%edi
 cmpl %edi,I
-jle .LC348
-.LC350:
-pushl $.LC353
+jle .LC351
+.LC353:
+pushl $.LC356
 call printf
 addl $4,%esp
 movl $-1,I
@@ -3332,8 +3332,8 @@ faddp %st,%st(1)
 fstpl Z
 movl $0,NotMonot
 movl $0,Monot
-jmp .LC355
-.LC354:
+jmp .LC358
+.LC357:
 incl I
 fldl X
 subl $8,%esp
@@ -3363,18 +3363,18 @@ fldl Q
 fcompl X
 fstsw %ax
 sahf
-jp .LC359
-jb .LC359
+jp .LC362
+jb .LC362
 fldl Z
 fcompl Q
 fstsw %ax
 sahf
-jp .LC357
-jae .LC357
-.LC359:
+jp .LC360
+jae .LC360
+.LC362:
 movl $1,NotMonot
-jmp .LC358
-.LC357:
+jmp .LC361
+.LC360:
 fldl Q
 faddl Half
 subl $8,%esp
@@ -3385,25 +3385,25 @@ fstpl -1324(%ebp)
 fldl -1324(%ebp)
 fstpl Q
 cmpl $0,I
-jg .LC362
+jg .LC365
 fldl Q
 fmull Q
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC360
-jne .LC360
-.LC362:
-movl $1,Monot
-jmp .LC361
-.LC360:
-cmpl $0,I
-jle .LC363
-cmpl $1,I
-jle .LC365
+jp .LC363
+jne .LC363
+.LC365:
 movl $1,Monot
 jmp .LC364
-.LC365:
+.LC363:
+cmpl $0,I
+jle .LC366
+cmpl $1,I
+jle .LC368
+movl $1,Monot
+jmp .LC367
+.LC368:
 fldl Y
 fmull BInvrse
 fstpl Y
@@ -3415,8 +3415,8 @@ fstpl X
 fldl -1340(%ebp)
 faddl U1
 fstpl Z
-jmp .LC364
-.LC363:
+jmp .LC367
+.LC366:
 fldl Q
 fstpl Y
 fldl Y
@@ -3427,33 +3427,33 @@ fstpl X
 fldl -1340(%ebp)
 faddl U2
 fstpl Z
+.LC367:
 .LC364:
 .LC361:
 .LC358:
-.LC355:
 cmpl $0,NotMonot
-jne .LC367
+jne .LC370
 cmpl $0,Monot
-je .LC354
-.LC367:
+je .LC357
+.LC370:
 cmpl $0,Monot
-je .LC368
-pushl $.LC370
+je .LC371
+pushl $.LC373
 call printf
 addl $4,%esp
-jmp .LC369
-.LC368:
-pushl $.LC158
+jmp .LC372
+.LC371:
+pushl $.LC161
 pushl $2
 call BadCond
 addl $8,%esp
 fldl Y
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC371
+pushl $.LC374
 call printf
 addl $12,%esp
-.LC369:
+.LC372:
 movl $80,Milestone
 fldl MinSqEr
 faddl Half
@@ -3482,11 +3482,11 @@ fldl MaxSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC372
-jae .LC372
+jp .LC375
+jae .LC375
 fldl SqEr
 fstpl MaxSqEr
-.LC372:
+.LC375:
 fldl Y
 fldl U2
 fdivl Eight
@@ -3496,11 +3496,11 @@ fldl MinSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC374
-jbe .LC374
+jp .LC377
+jbe .LC377
 fldl SqEr
 fstpl MinSqEr
-.LC374:
+.LC377:
 fldl F9
 subl $8,%esp
 fstpl (%esp)
@@ -3523,11 +3523,11 @@ fldl MaxSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC376
-jae .LC376
+jp .LC379
+jae .LC379
 fldl SqEr
 fstpl MaxSqEr
-.LC376:
+.LC379:
 fldl Y
 faddl One
 fldl U1
@@ -3538,17 +3538,17 @@ fldl MinSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC378
-jbe .LC378
+jp .LC381
+jbe .LC381
 fldl SqEr
 fstpl MinSqEr
-.LC378:
+.LC381:
 fldl U2
 fstpl OneUlp
 fldl OneUlp
 fstpl X
 movl $1,Indx
-.LC380:
+.LC383:
 fldl X
 faddl U1
 faddl X
@@ -3584,11 +3584,11 @@ fldl MinSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC384
-jbe .LC384
+jp .LC387
+jbe .LC387
 fldl SqEr
 fstpl MinSqEr
-.LC384:
+.LC387:
 fldl Y
 fsubl Half
 faddl Z
@@ -3597,17 +3597,17 @@ fldl MaxSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC386
-jae .LC386
+jp .LC389
+jae .LC389
 fldl SqEr
 fstpl MaxSqEr
-.LC386:
+.LC389:
 movl Indx,%edi
 cmpl $1,%edi
-je .LC390
+je .LC393
 cmpl $3,%edi
-jne .LC388
-.LC390:
+jne .LC391
+.LC393:
 fldl X
 subl $8,%esp
 fstpl (%esp)
@@ -3633,18 +3633,18 @@ fldl OneUlp
 fmull -1396(%ebp)
 fmull -1412(%ebp)
 fstpl X
-jmp .LC389
-.LC388:
+jmp .LC392
+.LC391:
 fldl U1
 fstpl OneUlp
 fldl OneUlp
 fchs
 fstpl X
-.LC389:
-.LC381:
+.LC392:
+.LC384:
 incl Indx
 cmpl $3,Indx
-jle .LC380
+jle .LC383
 movl $85,Milestone
 movl $0,SqRWrng
 movl $0,Anomaly
@@ -3654,9 +3654,9 @@ fcompl Radix
 fstsw %ax
 sahf
 jp 1f
-je .LC391
+je .LC394
 1:
-pushl $.LC393
+pushl $.LC396
 call printf
 addl $4,%esp
 fldl Precision
@@ -3701,8 +3701,8 @@ fldl -1396(%ebp)
 fcompl X
 fstsw %ax
 sahf
-jp .LC396
-jne .LC396
+jp .LC399
+jne .LC399
 fldl Y
 subl $8,%esp
 fstpl (%esp)
@@ -3714,12 +3714,12 @@ fcompl Y
 fstsw %ax
 sahf
 jp 1f
-je .LC394
+je .LC397
 1:
-.LC396:
+.LC399:
 movl $1,Anomaly
-jmp .LC395
-.LC394:
+jmp .LC398
+.LC397:
 fldl Zero
 fstpl X
 fldl X
@@ -3734,18 +3734,18 @@ fstpl Z1
 fldl Four
 fmull D
 fstpl FourD
-.LC397:
+.LC400:
 fldl Z2
 fcompl Y2
 fstsw %ax
 sahf
-jp .LC400
-jae .LC400
+jp .LC403
+jae .LC403
 fldl Radix
 fstpl Q
 fldl Y
 fstpl Y1
-.LC402:
+.LC405:
 fldl Half
 fldl Q
 fdivl Y1
@@ -3770,25 +3770,25 @@ fldl Y1
 fstpl Q
 fldl X1
 fstpl Y1
-.LC403:
+.LC406:
 fldl Zero
 fcompl X1
 fstsw %ax
 sahf
-jp .LC402
-jb .LC402
+jp .LC405
+jb .LC405
 fldl One
 fcompl Q
 fstsw %ax
 sahf
-jp .LC405
-jb .LC405
+jp .LC408
+jb .LC408
 fldl Y2
 fstpl Z2
 fldl Y
 fstpl Z
-.LC405:
-.LC400:
+.LC408:
+.LC403:
 fldl Y
 faddl Two
 fstpl Y
@@ -3802,19 +3802,19 @@ fldl FourD
 fcompl Y2
 fstsw %ax
 sahf
-jp .LC407
-ja .LC407
+jp .LC410
+ja .LC410
 fldl Y2
 fsubl FourD
 fstpl Y2
-.LC407:
-.LC398:
+.LC410:
+.LC401:
 fldl D
 fcompl Y
 fstsw %ax
 sahf
-jp .LC397
-ja .LC397
+jp .LC400
+ja .LC400
 fldl FourD
 fsubl Z2
 fstpl X8
@@ -3842,13 +3842,13 @@ fcompl -1452(%ebp)
 fstsw %ax
 sahf
 jp 1f
-je .LC409
+je .LC412
 1:
 movl $1,Anomaly
-jmp .LC410
-.LC409:
+jmp .LC413
+.LC412:
 movl $0,Break
-.LC411:
+.LC414:
 fldl Z1
 fmull Z
 fstpl X
@@ -3870,57 +3870,57 @@ fldl One
 fcompl X
 fstsw %ax
 sahf
-jp .LC414
-jne .LC414
+jp .LC417
+jne .LC417
 movl $1,Break
-jmp .LC415
-.LC414:
+jmp .LC418
+.LC417:
 fldl Z1
 fsubl One
 fstpl Z1
+.LC418:
 .LC415:
-.LC412:
 cmpl $0,Break
-jne .LC416
+jne .LC419
 fldl Zero
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC411
-jb .LC411
-.LC416:
+jp .LC414
+jb .LC414
+.LC419:
 fldl Zero
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC417
-jb .LC417
+jp .LC420
+jb .LC420
 cmpl $0,Break
-jne .LC417
+jne .LC420
 movl $1,Anomaly
-jmp .LC418
-.LC417:
+jmp .LC421
+.LC420:
 fldl RadixD2
 fcompl Z1
 fstsw %ax
 sahf
-jp .LC419
-jae .LC419
+jp .LC422
+jae .LC422
 fldl Z1
 fsubl Radix
 fstpl Z1
-.LC419:
-.LC421:
-call NewD
 .LC422:
+.LC424:
+call NewD
+.LC425:
 fldl U2
 fmull D
 fldl F9
 fcompp
 fstsw %ax
 sahf
-jp .LC421
-ja .LC421
+jp .LC424
+ja .LC424
 fldl D
 fmull Radix
 fsubl D
@@ -3930,11 +3930,11 @@ fcompp
 fstsw %ax
 sahf
 jp 1f
-je .LC424
+je .LC427
 1:
 movl $1,Anomaly
-jmp .LC425
-.LC424:
+jmp .LC428
+.LC427:
 fldl D
 fstpl Z2
 movl $0,I
@@ -3976,11 +3976,11 @@ fcompp
 fstsw %ax
 sahf
 jp 1f
-je .LC426
+je .LC429
 1:
 movl $1,Anomaly
-jmp .LC427
-.LC426:
+jmp .LC430
+.LC429:
 fldl D
 fsubl Z2
 fstpl -1532(%ebp)
@@ -4007,55 +4007,55 @@ fldl Q
 fstpl X
 call SR3750
 cmpl $0,I
-jne .LC428
+jne .LC431
 movl $1,Anomaly
+.LC431:
+.LC430:
 .LC428:
-.LC427:
-.LC425:
-.LC418:
-.LC410:
-.LC395:
+.LC421:
+.LC413:
+.LC398:
 cmpl $0,I
-je .LC432
+je .LC435
 cmpl $0,Anomaly
-je .LC430
-.LC432:
-pushl $.LC433
+je .LC433
+.LC435:
+pushl $.LC436
 pushl $0
 call BadCond
 addl $8,%esp
 fldl W
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC434
+pushl $.LC437
 call printf
 addl $12,%esp
-pushl $.LC435
+pushl $.LC438
 call printf
 addl $4,%esp
 movl $1,SqRWrng
-.LC430:
-.LC391:
+.LC433:
+.LC394:
 cmpl $0,Anomaly
-jne .LC436
+jne .LC439
 fldl Zero
 fcompl MinSqEr
 fstsw %ax
 sahf
-jp .LC438
-ja .LC438
+jp .LC441
+ja .LC441
 fldl Zero
 fcompl MaxSqEr
 fstsw %ax
 sahf
-jp .LC438
-jb .LC438
+jp .LC441
+jb .LC441
 movl $1,RSqrt
-pushl $.LC440
+pushl $.LC443
 call printf
 addl $4,%esp
-jmp .LC439
-.LC438:
+jmp .LC442
+.LC441:
 fldl MaxSqEr
 faddl U2
 fldl U2
@@ -4063,53 +4063,53 @@ fsubl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC444
-jb .LC444
+jp .LC447
+jb .LC447
 fldl Half
 fcompl MinSqEr
 fstsw %ax
 sahf
-jp .LC444
-jb .LC444
+jp .LC447
+jb .LC447
 fldl MinSqEr
 faddl Radix
 fldl Half
 fcompp
 fstsw %ax
 sahf
-jp .LC441
-jbe .LC441
-.LC444:
+jp .LC444
+jbe .LC444
+.LC447:
 movl $1,SqRWrng
-jmp .LC442
-.LC441:
+jmp .LC445
+.LC444:
 movl $2,RSqrt
-pushl $.LC445
+pushl $.LC448
 call printf
 addl $4,%esp
+.LC445:
 .LC442:
 .LC439:
-.LC436:
 cmpl $0,SqRWrng
-je .LC446
-pushl $.LC448
+je .LC449
+pushl $.LC451
 call printf
 addl $4,%esp
 fldl MinSqEr
 fsubl Half
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC449
+pushl $.LC452
 call printf
 addl $12,%esp
 fldl Half
 faddl MaxSqEr
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC450
+pushl $.LC453
 call printf
 addl $12,%esp
-pushl $.LC452
+pushl $.LC455
 fldl MaxSqEr
 fsubl MinSqEr
 fldl Radix
@@ -4117,21 +4117,21 @@ fmull Radix
 fcompp
 fstsw %ax
 sahf
-jp .LC453
-jbe .LC453
+jp .LC456
+jbe .LC456
 movl $1,-1344(%ebp)
-jmp .LC454
-.LC453:
+jmp .LC457
+.LC456:
 movl $0,-1344(%ebp)
-.LC454:
+.LC457:
 pushl -1344(%ebp)
 pushl $1
 call TstCond
 addl $12,%esp
-.LC446:
+.LC449:
 movl $90,Milestone
 call Pause
-pushl $.LC455
+pushl $.LC458
 call printf
 addl $4,%esp
 movl $0,N
@@ -4141,33 +4141,33 @@ fchs
 fstpl Z
 movl $3,M
 movl $0,Break
-.LC456:
+.LC459:
 fldl One
 fstpl X
 call SR3980
 cmpl $10,I
-jg .LC459
+jg .LC462
 movl $1023,I
 call SR3980
-.LC459:
+.LC462:
 fldl MinusOne
 fcompl Z
 fstsw %ax
 sahf
-jp .LC461
-jne .LC461
+jp .LC464
+jne .LC464
 movl $1,Break
-jmp .LC462
-.LC461:
+jmp .LC465
+.LC464:
 fldl MinusOne
 fstpl Z
 call PrintIfNPositive
 movl $0,N
 movl $-4,I
-.LC462:
-.LC457:
+.LC465:
+.LC460:
 cmpl $0,Break
-je .LC456
+je .LC459
 call PrintIfNPositive
 movl N,%edi
 movl %edi,N1
@@ -4207,7 +4207,7 @@ fldcw 0(%esp)
 addl $4,%esp
 movl %eax,M
 movl $0,Break
-.LC463:
+.LC466:
 fldl Z
 fstpl X
 movl $1,I
@@ -4216,32 +4216,32 @@ fldl AInvrse
 fcompl Z
 fstsw %ax
 sahf
-jp .LC466
-jne .LC466
+jp .LC469
+jne .LC469
 movl $1,Break
-jmp .LC467
-.LC466:
+jmp .LC470
+.LC469:
 fldl AInvrse
 fstpl Z
+.LC470:
 .LC467:
-.LC464:
 cmpl $0,Break
-je .LC463
+je .LC466
 movl $100,Milestone
 movl NoTrials,%edi
 movl %edi,M
 fldl Three
 fstpl Z
-.LC468:
+.LC471:
 fldl Z
 fstpl X
 movl $1,I
 call SR3980
-.LC471:
+.LC474:
 fldl Z
 faddl Two
 fstpl Z
-.LC472:
+.LC475:
 fldl Z
 fdivl Three
 subl $8,%esp
@@ -4256,45 +4256,45 @@ fcompp
 fstsw %ax
 sahf
 jp 1f
-je .LC471
+je .LC474
 1:
-.LC469:
+.LC472:
 fldl Eight
 fmull Three
 fcompl Z
 fstsw %ax
 sahf
-jp .LC468
-ja .LC468
+jp .LC471
+ja .LC471
 cmpl $0,N
-jle .LC474
-pushl $.LC476
+jle .LC477
+pushl $.LC479
 call printf
 addl $4,%esp
-pushl $.LC477
+pushl $.LC480
 call printf
 addl $4,%esp
-.LC474:
+.LC477:
 call PrintIfNPositive
 movl N1,%edi
 addl %edi,N
 cmpl $0,N
-jne .LC478
-pushl $.LC480
-call printf
-addl $4,%esp
-.LC478:
-cmpl $0,N
-jle .LC481
-call Pause
-jmp .LC482
-.LC481:
-pushl $.LC45
-call printf
-addl $4,%esp
-.LC482:
-movl $110,Milestone
+jne .LC481
 pushl $.LC483
+call printf
+addl $4,%esp
+.LC481:
+cmpl $0,N
+jle .LC484
+call Pause
+jmp .LC485
+.LC484:
+pushl $.LC48
+call printf
+addl $4,%esp
+.LC485:
+movl $110,Milestone
+pushl $.LC486
 call printf
 addl $4,%esp
 fldl U1
@@ -4310,32 +4310,32 @@ fcompl Precision
 fstsw %ax
 sahf
 jp 1f
-je .LC484
+je .LC487
 1:
 fldl BInvrse
 fstpl D
 fldl Precision
 fstpl X
-.LC486:
+.LC489:
 fldl D
 fmull BInvrse
 fstpl D
 fldl X
 fsubl One
 fstpl X
-.LC487:
+.LC490:
 fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC486
-jb .LC486
-.LC484:
+jp .LC489
+jb .LC489
+.LC487:
 fldl One
 fstpl Y
 fldl D
 fstpl Z
-.LC489:
+.LC492:
 fldl Y
 fstpl C
 fldl Z
@@ -4345,28 +4345,28 @@ fstpl -1388(%ebp)
 fldl -1388(%ebp)
 fmull -1388(%ebp)
 fstpl Z
-.LC490:
+.LC493:
 fldl Z
 fcompl Y
 fstsw %ax
 sahf
-jp .LC492
-jae .LC492
+jp .LC495
+jae .LC495
 fldl Z
 faddl Z
 fldl Z
 fcompp
 fstsw %ax
 sahf
-jp .LC489
-jb .LC489
-.LC492:
+jp .LC492
+jb .LC492
+.LC495:
 fldl C
 fstpl Y
 fldl Y
 fmull D
 fstpl Z
-.LC493:
+.LC496:
 fldl Y
 fstpl C
 fldl Z
@@ -4374,35 +4374,35 @@ fstpl Y
 fldl Y
 fmull D
 fstpl Z
-.LC494:
+.LC497:
 fldl Z
 fcompl Y
 fstsw %ax
 sahf
-jp .LC496
-jae .LC496
+jp .LC499
+jae .LC499
 fldl Z
 faddl Z
 fldl Z
 fcompp
 fstsw %ax
 sahf
-jp .LC493
-jb .LC493
-.LC496:
+jp .LC496
+jb .LC496
+.LC499:
 fldl Two
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC497
-jbe .LC497
+jp .LC500
+jbe .LC500
 fldl Two
 fstpl HInvrse
-jmp .LC498
-.LC497:
+jmp .LC501
+.LC500:
 fldl Radix
 fstpl HInvrse
-.LC498:
+.LC501:
 fldl One
 fdivl HInvrse
 fstpl H
@@ -4414,7 +4414,7 @@ fstpl E0
 fldl E0
 fmull H
 fstpl Z
-.LC499:
+.LC502:
 fldl E0
 fstpl Y
 fldl Z
@@ -4422,22 +4422,22 @@ fstpl E0
 fldl E0
 fmull H
 fstpl Z
-.LC500:
+.LC503:
 fldl Z
 fcompl E0
 fstsw %ax
 sahf
-jp .LC502
-jae .LC502
+jp .LC505
+jae .LC505
 fldl Z
 faddl Z
 fldl Z
 fcompp
 fstsw %ax
 sahf
-jp .LC499
-jb .LC499
-.LC502:
+jp .LC502
+jb .LC502
+.LC505:
 fldl E0
 fstpl UfThold
 fldl Zero
@@ -4456,8 +4456,8 @@ fldl C
 fcompl D
 fstsw %ax
 sahf
-jp .LC503
-jb .LC503
+jp .LC506
+jb .LC506
 fldl Radix
 fmull U2
 fstpl E9
@@ -4471,9 +4471,9 @@ fldl C
 fcompl D
 fstsw %ax
 sahf
-jp .LC504
-jb .LC504
-pushl $.LC507
+jp .LC507
+jb .LC507
+pushl $.LC510
 pushl $0
 call BadCond
 addl $8,%esp
@@ -4484,8 +4484,8 @@ fstpl Y1
 fldl Z
 fstpl PseudoZero
 call Pause
-jmp .LC504
-.LC503:
+jmp .LC507
+.LC506:
 fldl D
 fstpl Underflow
 fldl Underflow
@@ -4493,7 +4493,7 @@ fmull H
 fstpl PseudoZero
 fldl Zero
 fstpl UfThold
-.LC508:
+.LC511:
 fldl Underflow
 fstpl Y1
 fldl PseudoZero
@@ -4504,8 +4504,8 @@ fldl E1
 fcompp
 fstsw %ax
 sahf
-jp .LC511
-jb .LC511
+jp .LC514
+jb .LC514
 fldl Underflow
 fmull HInvrse
 fstpl Y2
@@ -4524,47 +4524,47 @@ fldl Zero
 fcompl UfThold
 fstsw %ax
 sahf
-jp .LC513
-jne .LC513
+jp .LC516
+jne .LC516
 fldl Y2
 fcompl Y1
 fstsw %ax
 sahf
 jp 1f
-je .LC513
+je .LC516
 1:
 fldl Y1
 fstpl UfThold
-.LC513:
-.LC511:
+.LC516:
+.LC514:
 fldl PseudoZero
 fmull H
 fstpl PseudoZero
-.LC509:
+.LC512:
 fldl PseudoZero
 fcompl Underflow
 fstsw %ax
 sahf
-jp .LC515
-jae .LC515
+jp .LC518
+jae .LC518
 fldl PseudoZero
 faddl PseudoZero
 fldl PseudoZero
 fcompp
 fstsw %ax
 sahf
-jp .LC508
-jb .LC508
-.LC515:
-.LC504:
+jp .LC511
+jb .LC511
+.LC518:
+.LC507:
 fldl Zero
 fcompl PseudoZero
 fstsw %ax
 sahf
 jp 1f
-je .LC516
+je .LC519
 1:
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
 fldl PseudoZero
@@ -4573,19 +4573,19 @@ fldl Zero
 fcompl PseudoZero
 fstsw %ax
 sahf
-jp .LC518
-jb .LC518
-pushl $.LC520
+jp .LC521
+jb .LC521
+pushl $.LC523
 pushl $0
 call BadCond
 addl $8,%esp
-pushl $.LC521
+pushl $.LC524
 call printf
 addl $4,%esp
 fldl PseudoZero
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC522
+pushl $.LC525
 call printf
 addl $12,%esp
 fldl PseudoZero
@@ -4595,32 +4595,32 @@ fldl Zero
 fcompl X
 fstsw %ax
 sahf
-jp .LC519
-jb .LC519
-pushl $.LC525
+jp .LC522
+jb .LC522
+pushl $.LC528
 call printf
 addl $4,%esp
 fldl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC526
+pushl $.LC529
 call printf
 addl $12,%esp
-jmp .LC519
-.LC518:
-pushl $.LC527
+jmp .LC522
+.LC521:
+pushl $.LC530
 pushl $3
 call BadCond
 addl $8,%esp
 fldl PseudoZero
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC528
+pushl $.LC531
 call printf
 addl $12,%esp
-.LC519:
+.LC522:
 call TstPtUf
-.LC516:
+.LC519:
 movl $120,Milestone
 fldl CInvrse
 fmull Y
@@ -4629,29 +4629,29 @@ fmull Y1
 fcompp
 fstsw %ax
 sahf
-jp .LC529
-jae .LC529
+jp .LC532
+jae .LC532
 fldl H
 fmull S
 fstpl S
 fldl Underflow
 fstpl E0
-.LC529:
+.LC532:
 fldl Zero
 fcompl E1
 fstsw %ax
 sahf
 jp 1f
-je .LC531
+je .LC534
 1:
 fldl E0
 fcompl E1
 fstsw %ax
 sahf
 jp 1f
-je .LC531
+je .LC534
 1:
-pushl $.LC158
+pushl $.LC161
 pushl $2
 call BadCond
 addl $8,%esp
@@ -4659,36 +4659,36 @@ fldl E0
 fcompl E1
 fstsw %ax
 sahf
-jp .LC533
-jbe .LC533
-pushl $.LC535
+jp .LC536
+jbe .LC536
+pushl $.LC538
 call printf
 addl $4,%esp
-pushl $.LC536
+pushl $.LC539
 call printf
 addl $4,%esp
 fldl Zero
 fcompl PseudoZero
 fstsw %ax
 sahf
-jp .LC534
-jne .LC534
+jp .LC537
+jne .LC537
 fldl E1
 fstpl E0
-jmp .LC534
-.LC533:
-pushl $.LC539
+jmp .LC537
+.LC536:
+pushl $.LC542
 call printf
 addl $4,%esp
-pushl $.LC540
+pushl $.LC543
 call printf
 addl $4,%esp
+.LC537:
 .LC534:
-.LC531:
 fldl E0
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC541
+pushl $.LC544
 call printf
 addl $12,%esp
 fldl E0
@@ -4697,43 +4697,43 @@ call TstPtUf
 fldl E0
 fstpl Underflow
 cmpl $1,N
-jne .LC542
+jne .LC545
 fldl Y
 fstpl Underflow
-.LC542:
+.LC545:
 movl $4,I
 fldl Zero
 fcompl E1
 fstsw %ax
 sahf
-jp .LC544
-jne .LC544
+jp .LC547
+jne .LC547
 movl $3,I
-.LC544:
+.LC547:
 fldl Zero
 fcompl UfThold
 fstsw %ax
 sahf
-jp .LC546
-jne .LC546
+jp .LC549
+jne .LC549
 subl $2,I
-.LC546:
+.LC549:
 movl $1,UfNGrad
 movl I,%edi
 cmpl $1,%edi
-jl .LC548
+jl .LC551
 cmpl $4,%edi
-jg .LC548
-jmp *.LC571-4(,%edi,4)
+jg .LC551
+jmp *.LC574-4(,%edi,4)
 .data
 .align 4
-.LC571:
-.long .LC550
-.long .LC557
-.long .LC562
-.long .LC563
+.LC574:
+.long .LC553
+.long .LC560
+.long .LC565
+.long .LC566
 .text
-.LC550:
+.LC553:
 fldl Underflow
 fstpl UfThold
 fldl CInvrse
@@ -4745,38 +4745,38 @@ fcompp
 fstsw %ax
 sahf
 jp 1f
-je .LC551
+je .LC554
 1:
 fldl Y
 fstpl UfThold
-pushl $.LC553
+pushl $.LC556
 pushl $0
 call BadCond
 addl $8,%esp
 fldl UfThold
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC554
+pushl $.LC557
 call printf
 addl $12,%esp
 fldl C
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC555
+pushl $.LC558
 call printf
 addl $12,%esp
-pushl $.LC556
+pushl $.LC559
 call printf
 addl $4,%esp
-.LC551:
+.LC554:
 call Pause
-jmp .LC549
-.LC557:
-pushl $.LC558
+jmp .LC552
+.LC560:
+pushl $.LC561
 pushl $0
 call BadCond
 addl $8,%esp
-pushl $.LC559
+pushl $.LC562
 call printf
 addl $4,%esp
 fldl Y2
@@ -4785,7 +4785,7 @@ fstpl (%esp)
 fldl Q
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC560
+pushl $.LC563
 call printf
 addl $20,%esp
 fldl Q
@@ -4798,29 +4798,29 @@ fstpl -1468(%ebp)
 fldl -1468(%ebp)
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC561
+pushl $.LC564
 call printf
 addl $12,%esp
 fldl Q
 fstpl UfThold
-jmp .LC549
-.LC562:
+jmp .LC552
+.LC565:
 fldl X
 fstpl X
-jmp .LC549
-.LC563:
+jmp .LC552
+.LC566:
 fldl UfThold
 fcompl Q
 fstsw %ax
 sahf
-jp .LC564
-jne .LC564
+jp .LC567
+jne .LC567
 fldl E0
 fcompl E1
 fstsw %ax
 sahf
-jp .LC564
-jne .LC564
+jp .LC567
+jne .LC567
 fldl UfThold
 fldl E1
 fdivl E9
@@ -4834,13 +4834,13 @@ fldl E1
 fcompl -1492(%ebp)
 fstsw %ax
 sahf
-jp .LC564
-jb .LC564
+jp .LC567
+jb .LC567
 movl $0,UfNGrad
-pushl $.LC566
+pushl $.LC569
 call printf
 addl $4,%esp
-pushl $.LC567
+pushl $.LC570
 call printf
 addl $4,%esp
 fldl E0
@@ -4863,21 +4863,21 @@ fldl E0
 fcompl Y
 fstsw %ax
 sahf
-jp .LC569
-jne .LC569
+jp .LC572
+jne .LC572
 movl $1,-1496(%ebp)
-jmp .LC570
-.LC569:
+jmp .LC573
+.LC572:
 movl $0,-1496(%ebp)
-.LC570:
+.LC573:
 movl -1496(%ebp),%edi
 movl %edi,IEEE
-.LC564:
-.LC548:
-.LC549:
+.LC567:
+.LC551:
+.LC552:
 cmpl $0,UfNGrad
-je .LC573
-pushl $.LC45
+je .LC576
+pushl $.LC48
 call printf
 addl $4,%esp
 leal sigfpe,%edi
@@ -4886,15 +4886,15 @@ pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-je .LC575
-pushl $.LC577
+je .LC578
+pushl $.LC580
 call printf
 addl $4,%esp
 fldl H
 faddl H
 fstpl R
-jmp .LC576
-.LC575:
+jmp .LC579
+.LC578:
 fldl Underflow
 fdivl UfThold
 subl $8,%esp
@@ -4904,14 +4904,14 @@ addl $8,%esp
 fstpl -1460(%ebp)
 fldl -1460(%ebp)
 fstpl R
-.LC576:
+.LC579:
 movl $0,sigsave
 fldl H
 fcompl R
 fstsw %ax
 sahf
-jp .LC578
-jb .LC578
+jp .LC581
+jb .LC581
 fldl R
 fmull UfThold
 fstpl Z
@@ -4925,8 +4925,8 @@ fmulp %st,%st(1)
 faddp %st,%st(1)
 fmulp %st,%st(1)
 fstpl X
-jmp .LC579
-.LC578:
+jmp .LC582
+.LC581:
 fldl UfThold
 fstpl Z
 fldl Z
@@ -4939,13 +4939,13 @@ fmulp %st,%st(1)
 faddp %st,%st(1)
 fmulp %st,%st(1)
 fstpl X
-.LC579:
+.LC582:
 fldl Z
 fcompl X
 fstsw %ax
 sahf
 jp 1f
-je .LC580
+je .LC583
 1:
 fldl X
 fsubl Z
@@ -4953,9 +4953,9 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC580
-jne .LC580
-pushl $.LC158
+jp .LC583
+jne .LC583
+pushl $.LC161
 pushl $3
 call BadCond
 addl $8,%esp
@@ -4965,7 +4965,7 @@ fstpl (%esp)
 fldl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC582
+pushl $.LC585
 call printf
 addl $20,%esp
 fldl X
@@ -4974,18 +4974,9 @@ fstpl Z9
 fldl Z9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC583
-call printf
-addl $12,%esp
-pushl $.LC584
-call printf
-addl $4,%esp
-pushl $.LC585
-call printf
-addl $4,%esp
 pushl $.LC586
 call printf
-addl $4,%esp
+addl $12,%esp
 pushl $.LC587
 call printf
 addl $4,%esp
@@ -4995,42 +4986,51 @@ addl $4,%esp
 pushl $.LC589
 call printf
 addl $4,%esp
+pushl $.LC590
+call printf
+addl $4,%esp
+pushl $.LC591
+call printf
+addl $4,%esp
+pushl $.LC592
+call printf
+addl $4,%esp
 leal sigfpe,%edi
 movl %edi,sigsave
 pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-je .LC590
-pushl $.LC592
+je .LC593
+pushl $.LC595
 call printf
 addl $4,%esp
-jmp .LC591
-.LC590:
+jmp .LC594
+.LC593:
 fldl X
 fdivl Z
 fsubl Half
 fsubl Half
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC593
+pushl $.LC596
 call printf
 addl $12,%esp
-.LC591:
+.LC594:
 movl $0,sigsave
-.LC580:
-.LC573:
-pushl $.LC595
+.LC583:
+.LC576:
+pushl $.LC598
 fldl UfThold
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC594
+pushl $.LC597
 call printf
 addl $16,%esp
-pushl $.LC596
+pushl $.LC599
 call printf
 addl $4,%esp
-pushl $.LC597
+pushl $.LC600
 call printf
 addl $4,%esp
 fldl U1
@@ -5048,32 +5048,32 @@ fldl UfThold
 fcompl Y2
 fstsw %ax
 sahf
-jp .LC598
-jb .LC598
+jp .LC601
+jb .LC601
 fldl E0
 fcompl Y
 fstsw %ax
 sahf
-jp .LC600
-jae .LC600
-pushl $.LC158
+jp .LC603
+jae .LC603
+pushl $.LC161
 pushl $2
 call BadCond
 addl $8,%esp
 movl $5,I
-jmp .LC601
-.LC600:
-pushl $.LC158
+jmp .LC604
+.LC603:
+pushl $.LC161
 pushl $1
 call BadCond
 addl $8,%esp
 movl $4,I
-.LC601:
+.LC604:
 pushl I
-pushl $.LC602
+pushl $.LC605
 call printf
 addl $8,%esp
-.LC598:
+.LC601:
 movl $130,Milestone
 fldl UfThold
 subl $8,%esp
@@ -5104,7 +5104,7 @@ fstpl Y
 fldl Y
 faddl Y
 fstpl Y2
-pushl $.LC603
+pushl $.LC606
 call printf
 addl $4,%esp
 fldl Y
@@ -5113,7 +5113,7 @@ fstpl (%esp)
 fldl HInvrse
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC604
+pushl $.LC607
 call printf
 addl $20,%esp
 fldl Y
@@ -5122,7 +5122,7 @@ fstpl (%esp)
 fldl HInvrse
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC605
+pushl $.LC608
 call printf
 addl $20,%esp
 fldl Y2
@@ -5139,15 +5139,15 @@ fstpl V9
 fldl V9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC606
+pushl $.LC609
 call printf
 addl $12,%esp
 fldl Zero
 fcompl V9
 fstsw %ax
 sahf
-jp .LC609
-ja .LC609
+jp .LC612
+ja .LC612
 fldl Radix
 faddl Radix
 faddl E9
@@ -5155,21 +5155,21 @@ fmull UfThold
 fcompl V9
 fstsw %ax
 sahf
-jp .LC607
-jae .LC607
-.LC609:
-pushl $.LC610
+jp .LC610
+jae .LC610
+.LC612:
+pushl $.LC613
 pushl $1
 call BadCond
 addl $8,%esp
 fldl UfThold
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC611
+pushl $.LC614
 call printf
 addl $12,%esp
-jmp .LC608
-.LC607:
+jmp .LC611
+.LC610:
 fldl UfThold
 fldl One
 faddl E9
@@ -5177,27 +5177,27 @@ fmulp %st,%st(1)
 fcompl V9
 fstsw %ax
 sahf
-jp .LC612
-jb .LC612
-pushl $.LC614
+jp .LC615
+jb .LC615
+pushl $.LC617
 call printf
 addl $4,%esp
-jmp .LC613
-.LC612:
-pushl $.LC610
+jmp .LC616
+.LC615:
+pushl $.LC613
 pushl $2
 call BadCond
 addl $8,%esp
 fldl UfThold
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC611
+pushl $.LC614
 call printf
 addl $12,%esp
-.LC613:
-.LC608:
+.LC616:
+.LC611:
 movl $140,Milestone
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
 fldl Zero
@@ -5209,7 +5209,7 @@ fstpl Y
 fldl Zero
 fstpl Q
 movl $0,N
-.LC615:
+.LC618:
 fldl X
 fstpl Z
 incl I
@@ -5235,13 +5235,13 @@ fldl -1540(%ebp)
 fsubl X
 faddl -1548(%ebp)
 fstpl Q
-.LC616:
+.LC619:
 fldl Z
 fcompl X
 fstsw %ax
 sahf
-jp .LC615
-jb .LC615
+jp .LC618
+jb .LC618
 fldl OneAndHalf
 fldl One
 fdivl Eight
@@ -5270,11 +5270,11 @@ fstpl Y
 fldl Exp2
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC618
+pushl $.LC621
 call printf
 addl $12,%esp
 movl $1,I
-.LC619:
+.LC622:
 fldl X
 fsubl BInvrse
 fstpl Z
@@ -5309,8 +5309,8 @@ fmull U2
 fcompl -1596(%ebp)
 fstsw %ax
 sahf
-jp .LC623
-jae .LC623
+jp .LC626
+jae .LC626
 movl $1,N
 fldl X
 fsubl BInvrse
@@ -5318,7 +5318,7 @@ fldl One
 fsubl BInvrse
 fsubrp %st,%st(1)
 fstpl V9
-pushl $.LC625
+pushl $.LC628
 pushl $2
 call BadCond
 addl $8,%esp
@@ -5334,7 +5334,7 @@ fstpl -1612(%ebp)
 fldl -1612(%ebp)
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC626
+pushl $.LC629
 call printf
 addl $12,%esp
 fldl Z
@@ -5343,23 +5343,23 @@ fstpl (%esp)
 fldl V9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC627
+pushl $.LC630
 call printf
 addl $20,%esp
 fldl Q
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC628
+pushl $.LC631
 call printf
 addl $12,%esp
-pushl $.LC629
+pushl $.LC632
 call printf
 addl $4,%esp
-pushl $.LC630
+pushl $.LC633
 call printf
 addl $4,%esp
-jmp .LC621
-.LC623:
+jmp .LC624
+.LC626:
 fldl Y
 fstpl -1604(%ebp)
 fldl -1604(%ebp)
@@ -5383,27 +5383,27 @@ fldl One
 fcompl Z
 fstsw %ax
 sahf
-jp .LC631
-jae .LC631
+jp .LC634
+jae .LC634
 movl NoTrials,%edi
 cmpl %edi,I
-jge .LC631
+jge .LC634
 incl I
-jmp .LC619
-.LC631:
+jmp .LC622
+.LC634:
 fldl One
 fcompl X
 fstsw %ax
 sahf
-jp .LC633
-jae .LC633
+jp .LC636
+jae .LC636
 cmpl $0,N
-jne .LC621
-pushl $.LC637
+jne .LC624
+pushl $.LC640
 call printf
 addl $4,%esp
-jmp .LC621
-.LC633:
+jmp .LC624
+.LC636:
 fldl One
 faddl U2
 fstpl X
@@ -5414,10 +5414,10 @@ fldl Y
 faddl X
 fstpl Y
 movl $1,I
-jmp .LC619
-.LC621:
+jmp .LC622
+.LC624:
 movl $150,Milestone
-pushl $.LC638
+pushl $.LC641
 call printf
 addl $4,%esp
 movl $0,N
@@ -5447,7 +5447,7 @@ fstpl -1580(%ebp)
 fldl -1580(%ebp)
 fstpl Q
 movl $0,Break
-.LC639:
+.LC642:
 fldl CInvrse
 fstpl X
 fldl Q
@@ -5483,33 +5483,33 @@ fldl One
 fcompl Z
 fstsw %ax
 sahf
-jp .LC642
-jbe .LC642
+jp .LC645
+jbe .LC645
 movl $1,Break
-jmp .LC643
-.LC642:
+jmp .LC646
+.LC645:
 fldl AInvrse
 fstpl Z
+.LC646:
 .LC643:
-.LC640:
 cmpl $0,Break
-je .LC639
+je .LC642
 call PrintIfNPositive
 cmpl $0,N
-jne .LC644
-pushl $.LC646
+jne .LC647
+pushl $.LC649
 call printf
 addl $4,%esp
-.LC644:
-pushl $.LC45
+.LC647:
+pushl $.LC48
 call printf
 addl $4,%esp
 movl $160,Milestone
 call Pause
-pushl $.LC647
+pushl $.LC650
 call printf
 addl $4,%esp
-pushl $.LC648
+pushl $.LC651
 call printf
 addl $4,%esp
 fldl CInvrse
@@ -5524,13 +5524,13 @@ pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-je .LC649
+je .LC652
 movl $0,I
 fldl Y
 fstpl V9
-jmp .LC651
-.LC649:
+jmp .LC654
 .LC652:
+.LC655:
 fldl Y
 fstpl V
 fldl V9
@@ -5538,25 +5538,25 @@ fstpl Y
 fldl HInvrse
 fmull Y
 fstpl V9
-.LC653:
+.LC656:
 fldl Y
 fcompl V9
 fstsw %ax
 sahf
-jp .LC652
-ja .LC652
+jp .LC655
+ja .LC655
 movl $1,I
-.LC651:
+.LC654:
 movl $0,sigsave
 fldl V9
 fstpl Z
-pushl $.LC655
+pushl $.LC658
 call printf
 addl $4,%esp
 fldl Y
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC656
+pushl $.LC659
 call printf
 addl $12,%esp
 fldl Y
@@ -5571,29 +5571,29 @@ faddl V0
 fcompp
 fstsw %ax
 sahf
-jp .LC657
-jne .LC657
-pushl $.LC659
+jp .LC660
+jne .LC660
+pushl $.LC662
 call printf
 addl $4,%esp
-jmp .LC658
-.LC657:
-pushl $.LC660
+jmp .LC661
+.LC660:
+pushl $.LC663
 call printf
 addl $4,%esp
-pushl $.LC661
+pushl $.LC664
 pushl $3
 call BadCond
 addl $8,%esp
-.LC658:
+.LC661:
 fldl Y
 fcompl Z
 fstsw %ax
 sahf
 jp 1f
-je .LC662
+je .LC665
 1:
-pushl $.LC158
+pushl $.LC161
 pushl $1
 call BadCond
 addl $8,%esp
@@ -5603,12 +5603,12 @@ fstpl (%esp)
 fldl Y
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC664
+pushl $.LC667
 call printf
 addl $20,%esp
-.LC662:
+.LC665:
 cmpl $0,I
-je .LC665
+je .LC668
 fldl V
 fldl HInvrse
 fmull U2
@@ -5626,32 +5626,32 @@ fldl V0
 fcompl Z
 fstsw %ax
 sahf
-jp .LC667
-jbe .LC667
+jp .LC670
+jbe .LC670
 fldl Z
 fstpl Y
-.LC667:
+.LC670:
 fldl V0
 fcompl Y
 fstsw %ax
 sahf
-jp .LC669
-jbe .LC669
+jp .LC672
+jbe .LC672
 fldl Y
 fstpl V
-.LC669:
+.LC672:
 fldl V0
 fsubl V
 fldl V0
 fcompp
 fstsw %ax
 sahf
-jp .LC666
-jbe .LC666
+jp .LC669
+jbe .LC669
 fldl V0
 fstpl V
-jmp .LC666
-.LC665:
+jmp .LC669
+.LC668:
 fldl Y
 fldl HInvrse
 fmull U2
@@ -5665,34 +5665,34 @@ fmull U2
 fmull Y
 faddp %st,%st(1)
 fstpl V
-.LC666:
+.LC669:
 fldl V
-subl $8,%esp
-fstpl (%esp)
-pushl $.LC673
-call printf
-addl $12,%esp
-cmpl $0,I
-je .LC674
-fldl V0
 subl $8,%esp
 fstpl (%esp)
 pushl $.LC676
 call printf
 addl $12,%esp
-jmp .LC675
-.LC674:
-pushl $.LC677
+cmpl $0,I
+je .LC677
+fldl V0
+subl $8,%esp
+fstpl (%esp)
+pushl $.LC679
+call printf
+addl $12,%esp
+jmp .LC678
+.LC677:
+pushl $.LC680
 call printf
 addl $4,%esp
-.LC675:
+.LC678:
 fldl V
 fmull One
 fstpl V9
 fldl V9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC678
+pushl $.LC681
 call printf
 addl $12,%esp
 fldl V
@@ -5701,13 +5701,13 @@ fstpl V9
 fldl V9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC679
+pushl $.LC682
 call printf
 addl $12,%esp
-pushl $.LC680
+pushl $.LC683
 call printf
 addl $4,%esp
-pushl $.LC681
+pushl $.LC684
 call printf
 addl $4,%esp
 movl $170,Milestone
@@ -5717,32 +5717,32 @@ fldl V
 fcompp
 fstsw %ax
 sahf
-jp .LC686
-jbe .LC686
+jp .LC689
+jbe .LC689
 fldl V0
 fchs
 fldl V0
 fcompp
 fstsw %ax
 sahf
-jp .LC686
-jbe .LC686
+jp .LC689
+jbe .LC689
 fldl UfThold
 fchs
 fldl V
 fcompp
 fstsw %ax
 sahf
-jp .LC686
-jbe .LC686
+jp .LC689
+jbe .LC689
 fldl V
 fcompl UfThold
 fstsw %ax
 sahf
-jp .LC682
-ja .LC682
-.LC686:
-pushl $.LC687
+jp .LC685
+ja .LC685
+.LC689:
+pushl $.LC690
 pushl $0
 call BadCond
 addl $8,%esp
@@ -5755,43 +5755,43 @@ fstpl (%esp)
 fldl V
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC688
+pushl $.LC691
 call printf
 addl $28,%esp
-.LC682:
+.LC685:
 movl $175,Milestone
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
 movl $1,Indx
-.LC689:
+.LC692:
 movl Indx,%edi
 cmpl $1,%edi
-je .LC695
+je .LC698
 cmpl $2,%edi
-je .LC696
+je .LC699
 cmpl $3,%edi
-je .LC697
-jmp .LC693
-.LC695:
+je .LC700
+jmp .LC696
+.LC698:
 fldl UfThold
 fstpl Z
-jmp .LC694
-.LC696:
+jmp .LC697
+.LC699:
 fldl E0
 fstpl Z
-jmp .LC694
-.LC697:
+jmp .LC697
+.LC700:
 fldl PseudoZero
 fstpl Z
-.LC693:
-.LC694:
+.LC696:
+.LC697:
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
 jp 1f
-je .LC698
+je .LC701
 1:
 fldl Z
 subl $8,%esp
@@ -5815,64 +5815,64 @@ fldl Z
 fcompp
 fstsw %ax
 sahf
-jp .LC702
-ja .LC702
+jp .LC705
+ja .LC705
 fldl One
 faddl -1660(%ebp)
 fmull Z
 fcompl Y
 fstsw %ax
 sahf
-jp .LC700
-jae .LC700
-.LC702:
+jp .LC703
+jae .LC703
+.LC705:
 fldl U1
 fcompl V9
 fstsw %ax
 sahf
-jp .LC703
-jae .LC703
-pushl $.LC158
+jp .LC706
+jae .LC706
+pushl $.LC161
 pushl $1
 call BadCond
 addl $8,%esp
-jmp .LC704
-.LC703:
-pushl $.LC158
+jmp .LC707
+.LC706:
+pushl $.LC161
 pushl $2
 call BadCond
 addl $8,%esp
-.LC704:
+.LC707:
 fldl Z
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC705
+pushl $.LC708
 call printf
 addl $12,%esp
 fldl Y
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC706
+pushl $.LC709
 call printf
 addl $12,%esp
-.LC700:
-.LC698:
-.LC690:
+.LC703:
+.LC701:
+.LC693:
 incl Indx
 cmpl $3,Indx
-jle .LC689
+jle .LC692
 movl $180,Milestone
 movl $1,Indx
-.LC707:
+.LC710:
 cmpl $1,Indx
-jne .LC711
+jne .LC714
 fldl V
 fstpl Z
-jmp .LC712
-.LC711:
+jmp .LC715
+.LC714:
 fldl V0
 fstpl Z
-.LC712:
+.LC715:
 fldl Z
 subl $8,%esp
 fstpl (%esp)
@@ -5901,51 +5901,51 @@ fmull Z
 fcompl V9
 fstsw %ax
 sahf
-jp .LC715
-ja .LC715
+jp .LC718
+ja .LC718
 fldl Z
 fcompl V9
 fstsw %ax
 sahf
-jp .LC713
-jae .LC713
-.LC715:
+jp .LC716
+jae .LC716
+.LC718:
 fldl V9
 fstpl Y
 fldl W
 fcompl X
 fstsw %ax
 sahf
-jp .LC716
-jbe .LC716
-pushl $.LC158
+jp .LC719
+jbe .LC719
+pushl $.LC161
 pushl $1
 call BadCond
 addl $8,%esp
-jmp .LC717
-.LC716:
-pushl $.LC158
+jmp .LC720
+.LC719:
+pushl $.LC161
 pushl $2
 call BadCond
 addl $8,%esp
-.LC717:
+.LC720:
 fldl Z
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC718
+pushl $.LC721
 call printf
 addl $12,%esp
 fldl Y
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC719
+pushl $.LC722
 call printf
 addl $12,%esp
-.LC713:
-.LC708:
+.LC716:
+.LC711:
 incl Indx
 cmpl $2,Indx
-jle .LC707
+jle .LC710
 movl $190,Milestone
 call Pause
 fldl UfThold
@@ -5960,87 +5960,87 @@ fldl One
 fcompp
 fstsw %ax
 sahf
-jp .LC722
-ja .LC722
-fldl Y
-fcompl X
-fstsw %ax
-sahf
-jp .LC720
-jae .LC720
-.LC722:
-fldl X
-fmull Y
-fldl U1
-fcompp
-fstsw %ax
-sahf
 jp .LC725
 ja .LC725
 fldl Y
-fdivl U1
 fcompl X
 fstsw %ax
 sahf
 jp .LC723
 jae .LC723
 .LC725:
-pushl $.LC726
+fldl X
+fmull Y
+fldl U1
+fcompp
+fstsw %ax
+sahf
+jp .LC728
+ja .LC728
+fldl Y
+fdivl U1
+fcompl X
+fstsw %ax
+sahf
+jp .LC726
+jae .LC726
+.LC728:
+pushl $.LC729
 pushl $2
 call BadCond
 addl $8,%esp
-jmp .LC724
-.LC723:
-pushl $.LC158
+jmp .LC727
+.LC726:
+pushl $.LC161
 pushl $3
 call BadCond
 addl $8,%esp
-.LC724:
-pushl $.LC728
+.LC727:
+pushl $.LC731
 fldl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC727
+pushl $.LC730
 call printf
 addl $16,%esp
-.LC720:
+.LC723:
 movl $200,Milestone
 movl $1,Indx
-.LC729:
+.LC732:
 fldl F9
 fstpl X
 movl Indx,%edi
 cmpl $2,%edi
-jl .LC733
+jl .LC736
 cmpl $5,%edi
-jg .LC733
-jmp *.LC739-8(,%edi,4)
+jg .LC736
+jmp *.LC742-8(,%edi,4)
 .data
 .align 4
-.LC739:
-.long .LC735
-.long .LC736
-.long .LC737
+.LC742:
 .long .LC738
+.long .LC739
+.long .LC740
+.long .LC741
 .text
-.LC735:
+.LC738:
 fldl One
 faddl U2
 fstpl X
-jmp .LC734
-.LC736:
+jmp .LC737
+.LC739:
 fldl V
 fstpl X
-jmp .LC734
-.LC737:
+jmp .LC737
+.LC740:
 fldl UfThold
 fstpl X
-jmp .LC734
-.LC738:
+jmp .LC737
+.LC741:
 fldl Radix
 fstpl X
-.LC733:
-.LC734:
+.LC736:
+.LC737:
 fldl X
 fstpl Y
 leal sigfpe,%edi
@@ -6049,15 +6049,15 @@ pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-je .LC741
+je .LC744
 fldl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC743
+pushl $.LC746
 call printf
 addl $12,%esp
-jmp .LC742
-.LC741:
+jmp .LC745
+.LC744:
 fldl Y
 fdivl X
 fsubl Half
@@ -6067,118 +6067,118 @@ fldl Zero
 fcompl V9
 fstsw %ax
 sahf
-jp .LC744
-jne .LC744
-jmp .LC730
-.LC744:
+jp .LC747
+jne .LC747
+jmp .LC733
+.LC747:
 fldl U1
 fchs
 fcompl V9
 fstsw %ax
 sahf
-jp .LC746
-jne .LC746
+jp .LC749
+jne .LC749
 cmpl $5,Indx
-jge .LC746
-pushl $.LC158
+jge .LC749
+pushl $.LC161
 pushl $3
 call BadCond
 addl $8,%esp
-jmp .LC747
-.LC746:
-pushl $.LC158
+jmp .LC750
+.LC749:
+pushl $.LC161
 pushl $1
 call BadCond
 addl $8,%esp
-.LC747:
+.LC750:
 fldl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC748
+pushl $.LC751
 call printf
 addl $12,%esp
 fldl V9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC749
+pushl $.LC752
 call printf
 addl $12,%esp
-.LC742:
+.LC745:
 movl $0,sigsave
-.LC730:
+.LC733:
 incl Indx
 cmpl $5,Indx
-jle .LC729
+jle .LC732
 movl $210,Milestone
 fldl Zero
 fstpl MyZero
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
-pushl $.LC750
+pushl $.LC753
 call printf
 addl $4,%esp
 leal sigfpe,%edi
 movl %edi,sigsave
-pushl $.LC751
+pushl $.LC754
 call printf
 addl $4,%esp
 pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-jne .LC752
+jne .LC755
 fldl One
 fdivl MyZero
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC754
+pushl $.LC757
 call printf
 addl $12,%esp
-.LC752:
+.LC755:
 movl $0,sigsave
 leal sigfpe,%edi
 movl %edi,sigsave
-pushl $.LC755
+pushl $.LC758
 call printf
 addl $4,%esp
 pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-jne .LC756
+jne .LC759
 fldl Zero
 fdivl MyZero
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC754
+pushl $.LC757
 call printf
 addl $12,%esp
-.LC756:
+.LC759:
 movl $0,sigsave
 movl $220,Milestone
 call Pause
-pushl $.LC45
+pushl $.LC48
 call printf
 addl $4,%esp
 movl $0,-1648(%ebp)
-.LC763:
+.LC766:
 movl -1648(%ebp),%edi
 cmpl $0,ErrCnt(,%edi,4)
-je .LC767
+je .LC770
 movl -1648(%ebp),%edi
 leal (,%edi,4),%edi
 pushl ErrCnt(%edi)
-pushl msg.758(%edi)
-pushl $.LC769
+pushl msg.761(%edi)
+pushl $.LC772
 call printf
 addl $12,%esp
+.LC770:
 .LC767:
-.LC764:
 incl -1648(%ebp)
 cmpl $4,-1648(%ebp)
-jl .LC763
-pushl $.LC45
+jl .LC766
+pushl $.LC48
 call printf
 addl $4,%esp
 movl ErrCnt,%edi
@@ -6189,82 +6189,82 @@ leal (%esi,%edi),%edi
 movl ErrCnt+12,%esi
 leal (%esi,%edi),%edi
 cmpl $0,%edi
-jle .LC770
+jle .LC773
 movl ErrCnt,%edi
 movl ErrCnt+4,%esi
 leal (%esi,%edi),%edi
 movl ErrCnt+8,%esi
 leal (%esi,%edi),%edi
 cmpl $0,%edi
-jne .LC775
+jne .LC778
 cmpl $0,ErrCnt+12
-jle .LC775
-pushl $.LC780
+jle .LC778
+pushl $.LC783
 call printf
 addl $4,%esp
-pushl $.LC781
+pushl $.LC784
 call printf
 addl $4,%esp
-.LC775:
+.LC778:
 movl ErrCnt,%edi
 movl ErrCnt+4,%esi
 leal (%esi,%edi),%edi
 cmpl $0,%edi
-jne .LC782
+jne .LC785
 cmpl $0,ErrCnt+8
-jle .LC782
-pushl $.LC786
+jle .LC785
+pushl $.LC789
 call printf
 addl $4,%esp
-pushl $.LC787
+pushl $.LC790
 call printf
 addl $4,%esp
-.LC782:
+.LC785:
 movl ErrCnt,%edi
 movl ErrCnt+4,%esi
 leal (%esi,%edi),%edi
 cmpl $0,%edi
-jle .LC788
-pushl $.LC791
+jle .LC791
+pushl $.LC794
 call printf
 addl $4,%esp
-pushl $.LC792
-call printf
-addl $4,%esp
-.LC788:
-cmpl $0,ErrCnt
-jle .LC771
 pushl $.LC795
 call printf
 addl $4,%esp
-pushl $.LC796
+.LC791:
+cmpl $0,ErrCnt
+jle .LC774
+pushl $.LC798
 call printf
 addl $4,%esp
-jmp .LC771
-.LC770:
-pushl $.LC797
+pushl $.LC799
+call printf
+addl $4,%esp
+jmp .LC774
+.LC773:
+pushl $.LC800
 call printf
 addl $4,%esp
 cmpl $1,RMult
-jne .LC802
+jne .LC805
 cmpl $1,RDiv
-jne .LC802
+jne .LC805
 cmpl $1,RAddSub
-jne .LC802
+jne .LC805
 cmpl $1,RSqrt
-je .LC798
-.LC802:
-pushl $.LC803
+je .LC801
+.LC805:
+pushl $.LC806
 call printf
 addl $4,%esp
-jmp .LC799
-.LC798:
+jmp .LC802
+.LC801:
 fldl One
 fcompl StickyBit
 fstsw %ax
 sahf
-jp .LC804
-ja .LC804
+jp .LC807
+ja .LC807
 fldl Radix
 fsubl Two
 fldl Radix
@@ -6275,20 +6275,20 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC804
-jne .LC804
-pushl $.LC806
+jp .LC807
+jne .LC807
+pushl $.LC809
 call printf
 addl $4,%esp
-pushl $.LC807
+pushl $.LC810
 call printf
 addl $4,%esp
 fldl Two
 fcompl Radix
 fstsw %ax
 sahf
-jp .LC808
-jne .LC808
+jp .LC811
+jne .LC811
 fldl Precision
 fldl Four
 fmull Three
@@ -6303,57 +6303,57 @@ fldl Zero
 fcompp
 fstsw %ax
 sahf
-jp .LC808
-jne .LC808
-pushl $.LC810
+jp .LC811
+jne .LC811
+pushl $.LC813
 call printf
 addl $4,%esp
-jmp .LC809
-.LC808:
-pushl $.LC811
-call printf
-addl $4,%esp
-.LC809:
-cmpl $0,IEEE
-je .LC812
+jmp .LC812
+.LC811:
 pushl $.LC814
 call printf
 addl $4,%esp
-jmp .LC813
 .LC812:
-pushl $.LC815
-call printf
-addl $4,%esp
-pushl $.LC816
-call printf
-addl $4,%esp
-.LC813:
-.LC804:
+cmpl $0,IEEE
+je .LC815
 pushl $.LC817
 call printf
 addl $4,%esp
-.LC799:
-.LC771:
-cmpl $0,fpecount
-je .LC818
-pushl fpecount
+jmp .LC816
+.LC815:
+pushl $.LC818
+call printf
+addl $4,%esp
+pushl $.LC819
+call printf
+addl $4,%esp
+.LC816:
+.LC807:
 pushl $.LC820
 call printf
+addl $4,%esp
+.LC802:
+.LC774:
+cmpl $0,fpecount
+je .LC821
+pushl fpecount
+pushl $.LC823
+call printf
 addl $8,%esp
-.LC818:
-pushl $.LC821
+.LC821:
+pushl $.LC824
 call printf
 addl $4,%esp
 mov $0,%eax
-.LC7:
+.LC10:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf822:
-.size main,.Lf822-main
+.Lf825:
+.size main,.Lf825-main
 .globl Sign
 .align 16
 .type Sign,@function
@@ -6364,29 +6364,29 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 subl $8,%esp
-fldl .LC8
+fldl .LC11
 fcompl 20(%ebp)
 fstsw %ax
 sahf
-jp .LC825
-ja .LC825
-fldl .LC9
+jp .LC828
+ja .LC828
+fldl .LC12
 fstpl -8(%ebp)
-jmp .LC826
-.LC825:
-fldl .LC827
+jmp .LC829
+.LC828:
+fldl .LC830
 fstpl -8(%ebp)
-.LC826:
+.LC829:
 fldl -8(%ebp)
-.LC823:
+.LC826:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf828:
-.size Sign,.Lf828-Sign
+.Lf831:
+.size Sign,.Lf831-Sign
 .globl Pause
 .align 16
 .type Pause,@function
@@ -6397,25 +6397,25 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 pushl Milestone
-pushl $.LC830
+pushl $.LC833
 call printf
 addl $8,%esp
 pushl PageNo
-pushl $.LC831
+pushl $.LC834
 call printf
 addl $8,%esp
 incl Milestone
 incl PageNo
 mov $0,%eax
-.LC829:
+.LC832:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf832:
-.size Pause,.Lf832-Pause
+.Lf835:
+.size Pause,.Lf835-Pause
 .globl TstCond
 .align 16
 .type TstCond,@function
@@ -6426,34 +6426,34 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 cmpl $0,24(%ebp)
-jne .LC834
+jne .LC837
 pushl 28(%ebp)
 pushl 20(%ebp)
 call BadCond
 addl $8,%esp
-pushl $.LC814
+pushl $.LC817
 call printf
 addl $4,%esp
-.LC834:
+.LC837:
 mov $0,%eax
-.LC833:
+.LC836:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf836:
-.size TstCond,.Lf836-TstCond
+.Lf839:
+.size TstCond,.Lf839-TstCond
 .data
 .align 4
-.type msg.838,@object
-msg.838:
-.long .LC839
-.long .LC840
-.long .LC841
+.type msg.841,@object
+msg.841:
 .long .LC842
-.size msg.838,16
+.long .LC843
+.long .LC844
+.long .LC845
+.size msg.841,16
 .globl BadCond
 .text
 .align 16
@@ -6469,20 +6469,20 @@ leal ErrCnt(,%edi,4),%edi
 incl (,%edi)
 pushl 24(%ebp)
 movl 20(%ebp),%edi
-pushl msg.838(,%edi,4)
-pushl $.LC843
+pushl msg.841(,%edi,4)
+pushl $.LC846
 call printf
 addl $12,%esp
 mov $0,%eax
-.LC837:
+.LC840:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf844:
-.size BadCond,.Lf844-BadCond
+.Lf847:
+.size BadCond,.Lf847-BadCond
 .globl Random
 .align 16
 .type Random,@function
@@ -6515,20 +6515,20 @@ fldl -8(%ebp)
 fsubl -48(%ebp)
 fstpl -16(%ebp)
 fldl -16(%ebp)
-fldl .LC846
+fldl .LC849
 fmull -8(%ebp)
 faddp %st,%st(1)
 fstpl Random1
 fldl Random1
-.LC845:
+.LC848:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf847:
-.size Random,.Lf847-Random
+.Lf850:
+.size Random,.Lf850-Random
 .globl SqXMinX
 .align 16
 .type SqXMinX,@function
@@ -6562,30 +6562,30 @@ fcompl SqEr
 fstsw %ax
 sahf
 jp 1f
-je .LC849
+je .LC852
 1:
 fldl MinSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC851
-jbe .LC851
+jp .LC854
+jbe .LC854
 fldl SqEr
 fstpl MinSqEr
-.LC851:
+.LC854:
 fldl MaxSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC853
-jae .LC853
+jp .LC856
+jae .LC856
 fldl SqEr
 fstpl MaxSqEr
-.LC853:
+.LC856:
 fldl J
-faddl .LC9
+faddl .LC12
 fstpl J
-pushl $.LC45
+pushl $.LC48
 pushl 20(%ebp)
 call BadCond
 addl $8,%esp
@@ -6600,23 +6600,23 @@ fldl X
 fmull X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC855
+pushl $.LC858
 call printf
 addl $28,%esp
-pushl $.LC856
+pushl $.LC859
 call printf
 addl $4,%esp
-.LC849:
+.LC852:
 mov $0,%eax
-.LC848:
+.LC851:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf857:
-.size SqXMinX,.Lf857-SqXMinX
+.Lf860:
+.size SqXMinX,.Lf860-SqXMinX
 .globl NewD
 .align 16
 .type NewD,@function
@@ -6669,28 +6669,28 @@ fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC859
-jb .LC859
+jp .LC862
+jb .LC862
 fldl Z
 fchs
 fstpl Z
 fldl Z1
 fchs
 fstpl Z1
-.LC859:
+.LC862:
 fldl Radix
 fmull D
 fstpl D
 mov $0,%eax
-.LC858:
+.LC861:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf861:
-.size NewD,.Lf861-NewD
+.Lf864:
+.size NewD,.Lf864-NewD
 .globl SR3750
 .align 16
 .type SR3750,@function
@@ -6708,8 +6708,8 @@ fsubl Radix
 fcompp
 fstsw %ax
 sahf
-jp .LC863
-ja .LC863
+jp .LC866
+ja .LC866
 fldl X
 fsubl Z2
 fldl W
@@ -6717,8 +6717,8 @@ fsubl Z2
 fcompp
 fstsw %ax
 sahf
-jp .LC863
-jb .LC863
+jp .LC866
+jb .LC866
 incl I
 fldl X
 fmull D
@@ -6758,11 +6758,11 @@ fldl MinSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC865
-jbe .LC865
+jp .LC868
+jbe .LC868
 fldl SqEr
 fstpl MinSqEr
-.LC865:
+.LC868:
 fldl Y2
 fsubl X2
 fstpl SqEr
@@ -6770,22 +6770,22 @@ fldl MaxSqEr
 fcompl SqEr
 fstsw %ax
 sahf
-jp .LC867
-jae .LC867
+jp .LC870
+jae .LC870
 fldl SqEr
 fstpl MaxSqEr
-.LC867:
-.LC863:
+.LC870:
+.LC866:
 mov $0,%eax
-.LC862:
+.LC865:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf869:
-.size SR3750,.Lf869-SR3750
+.Lf872:
+.size SR3750,.Lf872-SR3750
 .globl IsYeqX
 .align 16
 .type IsYeqX,@function
@@ -6801,73 +6801,73 @@ fcompl Y
 fstsw %ax
 sahf
 jp 1f
-je .LC871
+je .LC874
 1:
 cmpl $0,N
-jg .LC873
+jg .LC876
 fldl Zero
 fcompl Z
 fstsw %ax
 sahf
-jp .LC875
-jne .LC875
+jp .LC878
+jne .LC878
 fldl Zero
 fcompl Q
 fstsw %ax
 sahf
-jp .LC875
-jb .LC875
-pushl $.LC877
+jp .LC878
+jb .LC878
+pushl $.LC880
 call printf
 addl $4,%esp
-jmp .LC876
-.LC875:
-pushl $.LC878
+jmp .LC879
+.LC878:
+pushl $.LC881
 pushl $2
 call BadCond
 addl $8,%esp
-.LC876:
+.LC879:
 fldl Q
 subl $8,%esp
 fstpl (%esp)
 fldl Z
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC879
+pushl $.LC882
 call printf
 addl $20,%esp
 fldl Y
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC880
+pushl $.LC883
 call printf
 addl $12,%esp
 fldl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC881
+pushl $.LC884
 call printf
 addl $12,%esp
 fldl Y
 fsubl X
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC882
+pushl $.LC885
 call printf
 addl $12,%esp
-.LC873:
+.LC876:
 incl N
-.LC871:
+.LC874:
 mov $0,%eax
-.LC870:
+.LC873:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf883:
-.size IsYeqX,.Lf883-IsYeqX
+.Lf886:
+.size IsYeqX,.Lf886-IsYeqX
 .globl SR3980
 .align 16
 .type SR3980,@function
@@ -6878,7 +6878,7 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 subl $8,%esp
-.LC885:
+.LC888:
 fildl I
 fstpl Q
 fldl Q
@@ -6897,30 +6897,30 @@ movl I,%edi
 leal 1(%edi),%edi
 movl %edi,I
 cmpl M,%edi
-jle .LC888
-jmp .LC887
-.LC888:
+jle .LC891
+jmp .LC890
+.LC891:
 fldl Z
 fmull X
 fstpl X
-.LC886:
+.LC889:
 fldl W
 fcompl X
 fstsw %ax
 sahf
-jp .LC885
-ja .LC885
-.LC887:
+jp .LC888
+ja .LC888
+.LC890:
 mov $0,%eax
-.LC884:
+.LC887:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf890:
-.size SR3980,.Lf890-SR3980
+.Lf893:
+.size SR3980,.Lf893-SR3980
 .globl PrintIfNPositive
 .align 16
 .type PrintIfNPositive,@function
@@ -6931,22 +6931,22 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 cmpl $0,N
-jle .LC892
+jle .LC895
 pushl N
-pushl $.LC894
+pushl $.LC897
 call printf
 addl $8,%esp
-.LC892:
+.LC895:
 mov $0,%eax
-.LC891:
+.LC894:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf895:
-.size PrintIfNPositive,.Lf895-PrintIfNPositive
+.Lf898:
+.size PrintIfNPositive,.Lf898-PrintIfNPositive
 .globl TstPtUf
 .align 16
 .type TstPtUf,@function
@@ -6963,12 +6963,12 @@ fcompl Z
 fstsw %ax
 sahf
 jp 1f
-je .LC897
+je .LC900
 1:
-pushl $.LC899
+pushl $.LC902
 call printf
 addl $4,%esp
-pushl $.LC900
+pushl $.LC903
 call printf
 addl $4,%esp
 leal sigfpe,%edi
@@ -6977,9 +6977,9 @@ pushl $ovfl_buf
 call _setjmp
 addl $4,%esp
 cmpl $0,%eax
-je .LC901
-jmp .LC903
-.LC901:
+je .LC904
+jmp .LC906
+.LC904:
 fldl Z
 faddl Z
 fdivl Z
@@ -6987,7 +6987,7 @@ fstpl Q9
 fldl Q9
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC904
+pushl $.LC907
 call printf
 addl $12,%esp
 fldl Q9
@@ -7002,48 +7002,48 @@ fmull U2
 fcompl -16(%ebp)
 fstsw %ax
 sahf
-jp .LC905
-jbe .LC905
-pushl $.LC907
+jp .LC908
+jbe .LC908
+pushl $.LC910
 call printf
 addl $4,%esp
-pushl $.LC908
+pushl $.LC911
 call printf
 addl $4,%esp
-jmp .LC906
-.LC905:
+jmp .LC909
+.LC908:
 fldl One
 fcompl Q9
 fstsw %ax
 sahf
-jp .LC911
-ja .LC911
+jp .LC914
+ja .LC914
 fldl Two
 fcompl Q9
 fstsw %ax
 sahf
-jp .LC909
-jae .LC909
-.LC911:
-.LC903:
+jp .LC912
+jae .LC912
+.LC914:
+.LC906:
 movl $1,N
 movl ErrCnt+4,%edi
 leal 1(%edi),%edi
 movl %edi,ErrCnt+4
-pushl $.LC914
+pushl $.LC917
 call printf
 addl $4,%esp
-jmp .LC910
-.LC909:
+jmp .LC913
+.LC912:
 movl $1,N
 movl ErrCnt+8,%edi
 leal 1(%edi),%edi
 movl %edi,ErrCnt+8
-pushl $.LC917
+pushl $.LC920
 call printf
 addl $4,%esp
-.LC910:
-.LC906:
+.LC913:
+.LC909:
 movl $0,sigsave
 fldl Z
 fmull One
@@ -7062,51 +7062,37 @@ fldl Random1
 fcompl Z
 fstsw %ax
 sahf
-jp .LC918
-jne .LC918
+jp .LC921
+jne .LC921
 fldl Random2
 fcompl Z
 fstsw %ax
 sahf
-jp .LC918
-jne .LC918
+jp .LC921
+jne .LC921
 fldl V9
 fcompl Z
 fstsw %ax
 sahf
-jp .LC918
-jne .LC918
+jp .LC921
+jne .LC921
 cmpl $0,N
-jle .LC919
+jle .LC922
 call Pause
-jmp .LC919
-.LC918:
+jmp .LC922
+.LC921:
 movl $1,N
-pushl $.LC922
+pushl $.LC925
 pushl $2
 call BadCond
 addl $8,%esp
 fldl Z
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC923
-call printf
-addl $12,%esp
-fldl Random1
-fcompl Z
-fstsw %ax
-sahf
-jp 1f
-je .LC924
-1:
-fldl Random1
-subl $8,%esp
-fstpl (%esp)
 pushl $.LC926
 call printf
 addl $12,%esp
-.LC924:
-fldl Random2
+fldl Random1
 fcompl Z
 fstsw %ax
 sahf
@@ -7114,73 +7100,87 @@ jp 1f
 je .LC927
 1:
 fldl Random1
-fcompl Random2
-fstsw %ax
-sahf
-jp 1f
-je .LC927
-1:
-fldl Random2
 subl $8,%esp
 fstpl (%esp)
 pushl $.LC929
 call printf
 addl $12,%esp
 .LC927:
-fldl V9
+fldl Random2
 fcompl Z
 fstsw %ax
 sahf
 jp 1f
 je .LC930
 1:
-fldl V9
+fldl Random1
+fcompl Random2
+fstsw %ax
+sahf
+jp 1f
+je .LC930
+1:
+fldl Random2
 subl $8,%esp
 fstpl (%esp)
 pushl $.LC932
 call printf
 addl $12,%esp
 .LC930:
-fldl Random1
-fcompl Random2
+fldl V9
+fcompl Z
 fstsw %ax
 sahf
 jp 1f
 je .LC933
 1:
+fldl V9
+subl $8,%esp
+fstpl (%esp)
+pushl $.LC935
+call printf
+addl $12,%esp
+.LC933:
+fldl Random1
+fcompl Random2
+fstsw %ax
+sahf
+jp 1f
+je .LC936
+1:
 movl ErrCnt+8,%edi
 leal 1(%edi),%edi
 movl %edi,ErrCnt+8
-pushl $.LC937
+pushl $.LC940
 pushl $2
 call BadCond
 addl $8,%esp
 fldl Random2
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC938
+pushl $.LC941
 call printf
 addl $12,%esp
 fldl Random1
 subl $8,%esp
 fstpl (%esp)
-pushl $.LC939
+pushl $.LC942
 call printf
 addl $12,%esp
-.LC933:
+.LC936:
 call Pause
-.LC919:
-.LC897:
+.LC922:
+.LC900:
 mov $0,%eax
-.LC896:
+.LC899:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf940:
-.size TstPtUf,.Lf940-TstPtUf
+.Lf943:
+.size TstPtUf,.Lf943-TstPtUf
 .globl notify
 .align 16
 .type notify,@function
@@ -7191,22 +7191,22 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 pushl 20(%ebp)
-pushl $.LC942
+pushl $.LC945
 call printf
 addl $8,%esp
-pushl $.LC943
+pushl $.LC946
 call printf
 addl $4,%esp
 mov $0,%eax
-.LC941:
+.LC944:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf944:
-.size notify,.Lf944-notify
+.Lf947:
+.size notify,.Lf947-notify
 .globl msglist
 .align 16
 .type msglist,@function
@@ -7216,45 +7216,45 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-jmp .LC947
-.LC946:
+jmp .LC950
+.LC949:
 movl 20(%ebp),%edi
 leal 4(%edi),%esi
 movl %esi,20(%ebp)
 pushl (,%edi)
-pushl $.LC949
+pushl $.LC952
 call printf
 addl $8,%esp
-.LC947:
+.LC950:
 movl 20(%ebp),%edi
 movl (,%edi),%edi
 cmpl $0,%edi
-jne .LC946
+jne .LC949
 mov $0,%eax
-.LC945:
+.LC948:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf950:
-.size msglist,.Lf950-msglist
+.Lf953:
+.size msglist,.Lf953-msglist
 .data
 .align 4
-.type instr.952,@object
-instr.952:
-.long .LC953
-.long .LC954
-.long .LC955
+.type instr.955,@object
+instr.955:
 .long .LC956
 .long .LC957
 .long .LC958
 .long .LC959
 .long .LC960
 .long .LC961
+.long .LC962
+.long .LC963
+.long .LC964
 .long 0
-.size instr.952,40
+.size instr.955,40
 .globl Instructions
 .text
 .align 16
@@ -7265,26 +7265,23 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-pushl $instr.952
+pushl $instr.955
 call msglist
 addl $4,%esp
 mov $0,%eax
-.LC951:
+.LC954:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf962:
-.size Instructions,.Lf962-Instructions
+.Lf965:
+.size Instructions,.Lf965-Instructions
 .data
 .align 4
-.type head.964,@object
-head.964:
-.long .LC965
-.long .LC966
-.long .LC967
+.type head.967,@object
+head.967:
 .long .LC968
 .long .LC969
 .long .LC970
@@ -7296,8 +7293,11 @@ head.964:
 .long .LC976
 .long .LC977
 .long .LC978
+.long .LC979
+.long .LC980
+.long .LC981
 .long 0
-.size head.964,60
+.size head.967,60
 .globl Heading
 .text
 .align 16
@@ -7308,26 +7308,23 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-pushl $head.964
+pushl $head.967
 call msglist
 addl $4,%esp
 mov $0,%eax
-.LC963:
+.LC966:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf979:
-.size Heading,.Lf979-Heading
+.Lf982:
+.size Heading,.Lf982-Heading
 .data
 .align 4
-.type chars.981,@object
-chars.981:
-.long .LC982
-.long .LC983
-.long .LC984
+.type chars.984,@object
+chars.984:
 .long .LC985
 .long .LC986
 .long .LC987
@@ -7344,8 +7341,11 @@ chars.981:
 .long .LC998
 .long .LC999
 .long .LC1000
+.long .LC1001
+.long .LC1002
+.long .LC1003
 .long 0
-.size chars.981,80
+.size chars.984,80
 .globl Characteristics
 .text
 .align 16
@@ -7356,26 +7356,23 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-pushl $chars.981
+pushl $chars.984
 call msglist
 addl $4,%esp
 mov $0,%eax
-.LC980:
+.LC983:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf1001:
-.size Characteristics,.Lf1001-Characteristics
+.Lf1004:
+.size Characteristics,.Lf1004-Characteristics
 .data
 .align 4
-.type hist.1003,@object
-hist.1003:
-.long .LC1004
-.long .LC1005
-.long .LC1006
+.type hist.1006,@object
+hist.1006:
 .long .LC1007
 .long .LC1008
 .long .LC1009
@@ -7390,8 +7387,11 @@ hist.1003:
 .long .LC1018
 .long .LC1019
 .long .LC1020
+.long .LC1021
+.long .LC1022
+.long .LC1023
 .long 0
-.size hist.1003,72
+.size hist.1006,72
 .globl History
 .text
 .align 16
@@ -7402,19 +7402,19 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-pushl $hist.1003
+pushl $hist.1006
 call msglist
 addl $4,%esp
 mov $0,%eax
-.LC1002:
+.LC1005:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf1021:
-.size History,.Lf1021-History
+.Lf1024:
+.size History,.Lf1024-History
 .globl pow
 .align 16
 .type pow,@function
@@ -7427,34 +7427,34 @@ movl %esp,%ebp
 subl $96,%esp
 movl $0,-20(%ebp)
 movl $0,-24(%ebp)
-fldl .LC8
+fldl .LC11
 fcompl 28(%ebp)
 fstsw %ax
 sahf
-jp .LC1023
-jne .LC1023
-fldl .LC9
-jmp .LC1022
-.LC1023:
-fldl .LC1028
+jp .LC1026
+jne .LC1026
+fldl .LC12
+jmp .LC1025
+.LC1026:
+fldl .LC1031
 fcompl 28(%ebp)
 fstsw %ax
 sahf
-jp .LC1027
-ja .LC1027
-fldl .LC1029
+jp .LC1030
+ja .LC1030
+fldl .LC1032
 fcompl 28(%ebp)
 fstsw %ax
 sahf
-jp .LC1025
-jae .LC1025
-.LC1027:
-fldl .LC827
+jp .LC1028
+jae .LC1028
+.LC1030:
+fldl .LC830
 fcompl 20(%ebp)
 fstsw %ax
 sahf
 jp 1f
-je .LC1025
+je .LC1028
 1:
 fldl 20(%ebp)
 subl $8,%esp
@@ -7470,19 +7470,19 @@ call exp
 addl $8,%esp
 fstpl -56(%ebp)
 fldl -56(%ebp)
-jmp .LC1022
-.LC1025:
-fldl .LC8
+jmp .LC1025
+.LC1028:
+fldl .LC11
 fcompl 28(%ebp)
 fstsw %ax
 sahf
-jp .LC1030
-jbe .LC1030
+jp .LC1033
+jbe .LC1033
 fldl 28(%ebp)
 fchs
 fstpl 28(%ebp)
 movl $1,-24(%ebp)
-.LC1030:
+.LC1033:
 leal -32(%ebp),%edi
 pushl %edi
 fldl 28(%ebp)
@@ -7493,12 +7493,12 @@ addl $12,%esp
 fstpl -64(%ebp)
 fldl -64(%ebp)
 fstpl 28(%ebp)
-fldl .LC8
+fldl .LC11
 fcompl 28(%ebp)
 fstsw %ax
 sahf
 jp 1f
-je .LC1032
+je .LC1035
 1:
 fldl 20(%ebp)
 subl $8,%esp
@@ -7515,11 +7515,11 @@ addl $8,%esp
 fstpl -80(%ebp)
 fldl -80(%ebp)
 fstpl -16(%ebp)
-jmp .LC1033
-.LC1032:
-fldl .LC9
+jmp .LC1036
+.LC1035:
+fldl .LC12
 fstpl -16(%ebp)
-.LC1033:
+.LC1036:
 leal -8(%ebp),%edi
 pushl %edi
 fldl 20(%ebp)
@@ -7543,49 +7543,49 @@ fldcw 0(%esp)
 addl $4,%esp
 movl %eax,-4(%ebp)
 cmpl $0,%eax
-je .LC1034
-.LC1036:
+je .LC1037
+.LC1039:
 movl -4(%ebp),%edi
 andl $1,%edi
 cmpl $0,%edi
-je .LC1040
+je .LC1043
 fldl -16(%ebp)
 fmull 20(%ebp)
 fstpl -16(%ebp)
 movl -8(%ebp),%edi
 addl %edi,-20(%ebp)
-.LC1040:
+.LC1043:
 movl -4(%ebp),%edi
 sarl $1,%edi
 movl %edi,-4(%ebp)
 cmpl $0,%edi
-jne .LC1042
-jmp .LC1038
-.LC1042:
+jne .LC1045
+jmp .LC1041
+.LC1045:
 fldl 20(%ebp)
 fmull 20(%ebp)
 fstpl 20(%ebp)
 sall $1,-8(%ebp)
-fldl .LC1046
+fldl .LC1049
 fcompl 20(%ebp)
 fstsw %ax
 sahf
-jp .LC1036
-jbe .LC1036
-fldl .LC1047
+jp .LC1039
+jbe .LC1039
+fldl .LC1050
 fmull 20(%ebp)
 fstpl 20(%ebp)
 decl -8(%ebp)
-jmp .LC1036
-.LC1038:
-.LC1034:
+jmp .LC1039
+.LC1041:
+.LC1037:
 cmpl $0,-24(%ebp)
-je .LC1048
-fldl .LC9
+je .LC1051
+fldl .LC12
 fdivl -16(%ebp)
 fstpl -16(%ebp)
 negl -20(%ebp)
-.LC1048:
+.LC1051:
 pushl -20(%ebp)
 fldl -16(%ebp)
 subl $8,%esp
@@ -7594,15 +7594,15 @@ call ldexp
 addl $12,%esp
 fstpl -96(%ebp)
 fldl -96(%ebp)
-.LC1022:
+.LC1025:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf1050:
-.size pow,.Lf1050-pow
+.Lf1053:
+.size pow,.Lf1053-pow
 .bss
 .globl UfNGrad
 .align 4
@@ -8017,27 +8017,31 @@ ret
 .globl ovfl_buf
 .align 4
 .type ovfl_buf,@object
-.size ovfl_buf,64
-.comm ovfl_buf,64
+.size ovfl_buf,164
+.comm ovfl_buf,164
+.align 4
+.type __va_arg_tmp,@object
+.size __va_arg_tmp,4
+.lcomm __va_arg_tmp,4
 .data
 .align 4
-.LC1047:
+.LC1050:
 .long 0
 .long 1073741824
 .align 4
-.LC1046:
+.LC1049:
 .long 0
 .long 1071644672
 .align 4
-.LC1029:
+.LC1032:
 .long 0
 .long 1083256832
 .align 4
-.LC1028:
+.LC1031:
 .long 0
 .long -1064226816
 .align 1
-.LC1020:
+.LC1023:
 .byte 115
 .byte 101
 .byte 101
@@ -8077,7 +8081,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC1019:
+.LC1022:
 .byte 66
 .byte 65
 .byte 83
@@ -8140,7 +8144,7 @@ ret
 .byte 59
 .byte 0
 .align 1
-.LC1018:
+.LC1021:
 .byte 97
 .byte 115
 .byte 32
@@ -8183,7 +8187,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC1017:
+.LC1020:
 .byte 102
 .byte 108
 .byte 111
@@ -8246,7 +8250,7 @@ ret
 .byte 103
 .byte 0
 .align 1
-.LC1016:
+.LC1019:
 .byte 10
 .byte 84
 .byte 104
@@ -8315,7 +8319,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC1015:
+.LC1018:
 .byte 111
 .byte 102
 .byte 32
@@ -8384,7 +8388,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC1014:
+.LC1017:
 .byte 111
 .byte 102
 .byte 32
@@ -8453,7 +8457,7 @@ ret
 .byte 121
 .byte 0
 .align 1
-.LC1013:
+.LC1016:
 .byte 116
 .byte 104
 .byte 101
@@ -8514,7 +8518,7 @@ ret
 .byte 41
 .byte 0
 .align 1
-.LC1012:
+.LC1015:
 .byte 87
 .byte 46
 .byte 32
@@ -8580,7 +8584,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC1011:
+.LC1014:
 .byte 98
 .byte 111
 .byte 111
@@ -8645,7 +8649,7 @@ ret
 .byte 121
 .byte 0
 .align 1
-.LC1010:
+.LC1013:
 .byte 112
 .byte 114
 .byte 111
@@ -8709,7 +8713,7 @@ ret
 .byte 101
 .byte 0
 .align 1
-.LC1009:
+.LC1012:
 .byte 84
 .byte 104
 .byte 101
@@ -8776,7 +8780,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC1008:
+.LC1011:
 .byte 70
 .byte 97
 .byte 105
@@ -8823,7 +8827,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC1007:
+.LC1010:
 .byte 32
 .byte 32
 .byte 32
@@ -8854,7 +8858,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC1006:
+.LC1009:
 .byte 32
 .byte 32
 .byte 32
@@ -8908,7 +8912,7 @@ ret
 .byte 100
 .byte 0
 .align 1
-.LC1005:
+.LC1008:
 .byte 32
 .byte 32
 .byte 32
@@ -8947,7 +8951,7 @@ ret
 .byte 44
 .byte 0
 .align 1
-.LC1004:
+.LC1007:
 .byte 84
 .byte 104
 .byte 101
@@ -8992,7 +8996,7 @@ ret
 .byte 103
 .byte 0
 .align 1
-.LC1000:
+.LC1003:
 .byte 32
 .byte 32
 .byte 32
@@ -9057,7 +9061,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC999:
+.LC1002:
 .byte 32
 .byte 32
 .byte 32
@@ -9126,7 +9130,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC998:
+.LC1001:
 .byte 32
 .byte 32
 .byte 32
@@ -9169,7 +9173,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC997:
+.LC1000:
 .byte 9
 .byte 97
 .byte 110
@@ -9213,7 +9217,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC996:
+.LC999:
 .byte 32
 .byte 32
 .byte 32
@@ -9278,7 +9282,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC995:
+.LC998:
 .byte 32
 .byte 32
 .byte 32
@@ -9340,7 +9344,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC994:
+.LC997:
 .byte 32
 .byte 32
 .byte 32
@@ -9383,7 +9387,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC993:
+.LC996:
 .byte 32
 .byte 32
 .byte 32
@@ -9461,7 +9465,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC992:
+.LC995:
 .byte 32
 .byte 32
 .byte 32
@@ -9513,7 +9517,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC991:
+.LC994:
 .byte 32
 .byte 32
 .byte 32
@@ -9570,7 +9574,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC990:
+.LC993:
 .byte 9
 .byte 102
 .byte 111
@@ -9610,7 +9614,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC989:
+.LC992:
 .byte 32
 .byte 32
 .byte 32
@@ -9685,7 +9689,7 @@ ret
 .byte 101
 .byte 0
 .align 1
-.LC988:
+.LC991:
 .byte 32
 .byte 32
 .byte 32
@@ -9743,7 +9747,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC987:
+.LC990:
 .byte 32
 .byte 32
 .byte 32
@@ -9819,7 +9823,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC986:
+.LC989:
 .byte 9
 .byte 40
 .byte 79
@@ -9866,7 +9870,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC985:
+.LC988:
 .byte 32
 .byte 32
 .byte 32
@@ -9910,7 +9914,7 @@ ret
 .byte 112
 .byte 0
 .align 1
-.LC984:
+.LC987:
 .byte 32
 .byte 32
 .byte 32
@@ -9967,7 +9971,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC983:
+.LC986:
 .byte 32
 .byte 32
 .byte 32
@@ -10015,7 +10019,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC982:
+.LC985:
 .byte 82
 .byte 117
 .byte 110
@@ -10075,7 +10079,7 @@ ret
 .byte 58
 .byte 0
 .align 1
-.LC978:
+.LC981:
 .byte 9
 .byte 79
 .byte 116
@@ -10111,7 +10115,7 @@ ret
 .byte 58
 .byte 0
 .align 1
-.LC977:
+.LC980:
 .byte 9
 .byte 79
 .byte 112
@@ -10135,7 +10139,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC976:
+.LC979:
 .byte 9
 .byte 67
 .byte 111
@@ -10149,7 +10153,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC975:
+.LC978:
 .byte 9
 .byte 67
 .byte 111
@@ -10163,7 +10167,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC974:
+.LC977:
 .byte 9
 .byte 86
 .byte 101
@@ -10193,7 +10197,7 @@ ret
 .byte 59
 .byte 0
 .align 1
-.LC973:
+.LC976:
 .byte 9
 .byte 80
 .byte 114
@@ -10215,7 +10219,7 @@ ret
 .byte 59
 .byte 0
 .align 1
-.LC972:
+.LC975:
 .byte 73
 .byte 110
 .byte 32
@@ -10272,7 +10276,7 @@ ret
 .byte 58
 .byte 0
 .align 1
-.LC971:
+.LC974:
 .byte 9
 .byte 83
 .byte 97
@@ -10310,7 +10314,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC970:
+.LC973:
 .byte 9
 .byte 85
 .byte 110
@@ -10338,7 +10342,7 @@ ret
 .byte 97
 .byte 0
 .align 1
-.LC969:
+.LC972:
 .byte 9
 .byte 67
 .byte 111
@@ -10362,7 +10366,7 @@ ret
 .byte 54
 .byte 0
 .align 1
-.LC968:
+.LC971:
 .byte 9
 .byte 82
 .byte 105
@@ -10383,7 +10387,7 @@ ret
 .byte 105
 .byte 0
 .align 1
-.LC967:
+.LC970:
 .byte 80
 .byte 108
 .byte 101
@@ -10436,7 +10440,7 @@ ret
 .byte 111
 .byte 0
 .align 1
-.LC966:
+.LC969:
 .byte 99
 .byte 111
 .byte 112
@@ -10507,7 +10511,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC965:
+.LC968:
 .byte 85
 .byte 115
 .byte 101
@@ -10577,7 +10581,7 @@ ret
 .byte 108
 .byte 0
 .align 1
-.LC961:
+.LC964:
 .byte 65
 .byte 110
 .byte 115
@@ -10645,7 +10649,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC960:
+.LC963:
 .byte 97
 .byte 109
 .byte 101
@@ -10683,7 +10687,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC959:
+.LC962:
 .byte 112
 .byte 114
 .byte 111
@@ -10747,7 +10751,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC958:
+.LC961:
 .byte 119
 .byte 97
 .byte 114
@@ -10815,7 +10819,7 @@ ret
 .byte 115
 .byte 0
 .align 1
-.LC957:
+.LC960:
 .byte 116
 .byte 111
 .byte 32
@@ -10885,7 +10889,7 @@ ret
 .byte 101
 .byte 0
 .align 1
-.LC956:
+.LC959:
 .byte 101
 .byte 114
 .byte 114
@@ -10952,7 +10956,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC955:
+.LC958:
 .byte 116
 .byte 114
 .byte 121
@@ -11018,7 +11022,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC954:
+.LC957:
 .byte 32
 .byte 32
 .byte 32
@@ -11040,7 +11044,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC953:
+.LC956:
 .byte 76
 .byte 101
 .byte 115
@@ -11102,13 +11106,13 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC949:
+.LC952:
 .byte 37
 .byte 115
 .byte 10
 .byte 0
 .align 1
-.LC943:
+.LC946:
 .byte 32
 .byte 32
 .byte 32
@@ -11139,7 +11143,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC942:
+.LC945:
 .byte 37
 .byte 115
 .byte 32
@@ -11180,7 +11184,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC939:
+.LC942:
 .byte 9
 .byte 100
 .byte 105
@@ -11211,7 +11215,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC938:
+.LC941:
 .byte 9
 .byte 67
 .byte 111
@@ -11253,7 +11257,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC937:
+.LC940:
 .byte 77
 .byte 117
 .byte 108
@@ -11289,7 +11293,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC932:
+.LC935:
 .byte 90
 .byte 32
 .byte 47
@@ -11306,7 +11310,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC929:
+.LC932:
 .byte 49
 .byte 32
 .byte 42
@@ -11321,7 +11325,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC926:
+.LC929:
 .byte 90
 .byte 32
 .byte 42
@@ -11338,7 +11342,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC923:
+.LC926:
 .byte 37
 .byte 46
 .byte 49
@@ -11373,7 +11377,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC922:
+.LC925:
 .byte 87
 .byte 104
 .byte 97
@@ -11395,7 +11399,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC917:
+.LC920:
 .byte 84
 .byte 104
 .byte 105
@@ -11416,7 +11420,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC914:
+.LC917:
 .byte 84
 .byte 104
 .byte 105
@@ -11450,7 +11454,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC908:
+.LC911:
 .byte 32
 .byte 104
 .byte 97
@@ -11482,7 +11486,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC907:
+.LC910:
 .byte 84
 .byte 104
 .byte 105
@@ -11522,7 +11526,7 @@ ret
 .byte 119
 .byte 0
 .align 1
-.LC904:
+.LC907:
 .byte 87
 .byte 104
 .byte 97
@@ -11575,7 +11579,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC900:
+.LC903:
 .byte 40
 .byte 90
 .byte 32
@@ -11606,7 +11610,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC899:
+.LC902:
 .byte 83
 .byte 105
 .byte 110
@@ -11651,7 +11655,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC894:
+.LC897:
 .byte 83
 .byte 105
 .byte 109
@@ -11700,7 +11704,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC882:
+.LC885:
 .byte 9
 .byte 9
 .byte 116
@@ -11728,7 +11732,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC881:
+.LC884:
 .byte 9
 .byte 119
 .byte 104
@@ -11774,7 +11778,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC880:
+.LC883:
 .byte 9
 .byte 121
 .byte 105
@@ -11793,7 +11797,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC879:
+.LC882:
 .byte 9
 .byte 40
 .byte 37
@@ -11815,7 +11819,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC878:
+.LC881:
 .byte 99
 .byte 111
 .byte 109
@@ -11828,7 +11832,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC877:
+.LC880:
 .byte 87
 .byte 65
 .byte 82
@@ -11851,7 +11855,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC856:
+.LC859:
 .byte 9
 .byte 105
 .byte 110
@@ -11884,7 +11888,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC855:
+.LC858:
 .byte 115
 .byte 113
 .byte 114
@@ -11917,11 +11921,11 @@ ret
 .byte 10
 .byte 0
 .align 4
-.LC846:
+.LC849:
 .long -1998362383
 .long 1054144693
 .align 1
-.LC843:
+.LC846:
 .byte 37
 .byte 115
 .byte 58
@@ -11931,14 +11935,14 @@ ret
 .byte 115
 .byte 0
 .align 1
-.LC842:
+.LC845:
 .byte 70
 .byte 76
 .byte 65
 .byte 87
 .byte 0
 .align 1
-.LC841:
+.LC844:
 .byte 68
 .byte 69
 .byte 70
@@ -11947,7 +11951,7 @@ ret
 .byte 84
 .byte 0
 .align 1
-.LC840:
+.LC843:
 .byte 83
 .byte 69
 .byte 82
@@ -11964,7 +11968,7 @@ ret
 .byte 84
 .byte 0
 .align 1
-.LC839:
+.LC842:
 .byte 70
 .byte 65
 .byte 73
@@ -11974,7 +11978,7 @@ ret
 .byte 69
 .byte 0
 .align 1
-.LC831:
+.LC834:
 .byte 32
 .byte 32
 .byte 32
@@ -11997,7 +12001,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC830:
+.LC833:
 .byte 10
 .byte 68
 .byte 105
@@ -12044,11 +12048,11 @@ ret
 .byte 100
 .byte 0
 .align 4
-.LC827:
+.LC830:
 .long 0
 .long -1074790400
 .align 1
-.LC821:
+.LC824:
 .byte 69
 .byte 78
 .byte 68
@@ -12064,7 +12068,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC820:
+.LC823:
 .byte 10
 .byte 65
 .byte 32
@@ -12125,7 +12129,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC817:
+.LC820:
 .byte 84
 .byte 104
 .byte 101
@@ -12178,7 +12182,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC816:
+.LC819:
 .byte 32
 .byte 100
 .byte 117
@@ -12208,7 +12212,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC815:
+.LC818:
 .byte 44
 .byte 10
 .byte 101
@@ -12248,24 +12252,24 @@ ret
 .byte 103
 .byte 0
 .align 1
-.LC814:
+.LC817:
 .byte 46
 .byte 10
 .byte 0
 .align 1
-.LC811:
+.LC814:
 .byte 56
 .byte 53
 .byte 52
 .byte 0
 .align 1
-.LC810:
+.LC813:
 .byte 55
 .byte 53
 .byte 52
 .byte 0
 .align 1
-.LC807:
+.LC810:
 .byte 116
 .byte 104
 .byte 101
@@ -12296,7 +12300,7 @@ ret
 .byte 80
 .byte 0
 .align 1
-.LC806:
+.LC809:
 .byte 82
 .byte 111
 .byte 117
@@ -12330,7 +12334,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC803:
+.LC806:
 .byte 84
 .byte 104
 .byte 101
@@ -12378,7 +12382,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC797:
+.LC800:
 .byte 78
 .byte 111
 .byte 32
@@ -12434,7 +12438,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC796:
+.LC799:
 .byte 32
 .byte 112
 .byte 114
@@ -12470,7 +12474,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC795:
+.LC798:
 .byte 80
 .byte 111
 .byte 116
@@ -12520,7 +12524,7 @@ ret
 .byte 115
 .byte 0
 .align 1
-.LC792:
+.LC795:
 .byte 117
 .byte 110
 .byte 97
@@ -12553,7 +12557,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC791:
+.LC794:
 .byte 84
 .byte 104
 .byte 101
@@ -12585,7 +12589,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC787:
+.LC790:
 .byte 100
 .byte 101
 .byte 115
@@ -12618,7 +12622,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC786:
+.LC789:
 .byte 84
 .byte 104
 .byte 101
@@ -12664,7 +12668,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC781:
+.LC784:
 .byte 83
 .byte 97
 .byte 116
@@ -12695,7 +12699,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC780:
+.LC783:
 .byte 84
 .byte 104
 .byte 101
@@ -12729,7 +12733,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC769:
+.LC772:
 .byte 84
 .byte 104
 .byte 101
@@ -12757,7 +12761,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC762:
+.LC765:
 .byte 70
 .byte 76
 .byte 65
@@ -12779,7 +12783,7 @@ ret
 .byte 61
 .byte 0
 .align 1
-.LC761:
+.LC764:
 .byte 68
 .byte 69
 .byte 70
@@ -12803,7 +12807,7 @@ ret
 .byte 61
 .byte 0
 .align 1
-.LC760:
+.LC763:
 .byte 83
 .byte 69
 .byte 82
@@ -12835,7 +12839,7 @@ ret
 .byte 61
 .byte 0
 .align 1
-.LC759:
+.LC762:
 .byte 70
 .byte 65
 .byte 73
@@ -12861,7 +12865,7 @@ ret
 .byte 61
 .byte 0
 .align 1
-.LC755:
+.LC758:
 .byte 10
 .byte 32
 .byte 32
@@ -12905,7 +12909,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC754:
+.LC757:
 .byte 32
 .byte 32
 .byte 37
@@ -12917,7 +12921,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC751:
+.LC754:
 .byte 32
 .byte 32
 .byte 32
@@ -12960,7 +12964,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC750:
+.LC753:
 .byte 87
 .byte 104
 .byte 97
@@ -13021,7 +13025,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC749:
+.LC752:
 .byte 32
 .byte 32
 .byte 105
@@ -13063,7 +13067,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC748:
+.LC751:
 .byte 32
 .byte 32
 .byte 88
@@ -13104,7 +13108,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC743:
+.LC746:
 .byte 32
 .byte 32
 .byte 88
@@ -13134,7 +13138,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC728:
+.LC731:
 .byte 105
 .byte 115
 .byte 32
@@ -13156,7 +13160,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC727:
+.LC730:
 .byte 32
 .byte 117
 .byte 110
@@ -13202,7 +13206,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC726:
+.LC729:
 .byte 66
 .byte 97
 .byte 100
@@ -13210,7 +13214,7 @@ ret
 .byte 121
 .byte 0
 .align 1
-.LC719:
+.LC722:
 .byte 32
 .byte 105
 .byte 115
@@ -13252,7 +13256,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC718:
+.LC721:
 .byte 67
 .byte 111
 .byte 109
@@ -13288,7 +13292,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC706:
+.LC709:
 .byte 32
 .byte 105
 .byte 115
@@ -13330,7 +13334,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC705:
+.LC708:
 .byte 67
 .byte 111
 .byte 109
@@ -13382,7 +13386,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC688:
+.LC691:
 .byte 43
 .byte 45
 .byte 37
@@ -13430,7 +13434,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC687:
+.LC690:
 .byte 67
 .byte 111
 .byte 109
@@ -13455,7 +13459,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC681:
+.LC684:
 .byte 97
 .byte 98
 .byte 111
@@ -13477,7 +13481,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC680:
+.LC683:
 .byte 65
 .byte 110
 .byte 121
@@ -13531,7 +13535,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC679:
+.LC682:
 .byte 32
 .byte 32
 .byte 32
@@ -13585,7 +13589,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC678:
+.LC681:
 .byte 78
 .byte 111
 .byte 32
@@ -13637,7 +13641,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC677:
+.LC680:
 .byte 84
 .byte 104
 .byte 101
@@ -13707,7 +13711,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC676:
+.LC679:
 .byte 79
 .byte 118
 .byte 101
@@ -13745,7 +13749,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC673:
+.LC676:
 .byte 79
 .byte 118
 .byte 101
@@ -13783,7 +13787,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC664:
+.LC667:
 .byte 111
 .byte 118
 .byte 101
@@ -13826,7 +13830,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC661:
+.LC664:
 .byte 45
 .byte 40
 .byte 45
@@ -13851,7 +13855,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC660:
+.LC663:
 .byte 102
 .byte 105
 .byte 110
@@ -13862,7 +13866,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC659:
+.LC662:
 .byte 83
 .byte 101
 .byte 101
@@ -13876,7 +13880,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC656:
+.LC659:
 .byte 84
 .byte 114
 .byte 121
@@ -13904,7 +13908,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC655:
+.LC658:
 .byte 67
 .byte 97
 .byte 110
@@ -13930,7 +13934,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC648:
+.LC651:
 .byte 84
 .byte 104
 .byte 105
@@ -13961,7 +13965,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC647:
+.LC650:
 .byte 83
 .byte 101
 .byte 97
@@ -13998,7 +14002,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC646:
+.LC649:
 .byte 32
 .byte 46
 .byte 46
@@ -14030,7 +14034,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC638:
+.LC641:
 .byte 84
 .byte 101
 .byte 115
@@ -14083,7 +14087,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC637:
+.LC640:
 .byte 65
 .byte 99
 .byte 99
@@ -14111,7 +14115,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC630:
+.LC633:
 .byte 9
 .byte 99
 .byte 97
@@ -14159,7 +14163,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC629:
+.LC632:
 .byte 9
 .byte 84
 .byte 104
@@ -14199,7 +14203,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC628:
+.LC631:
 .byte 9
 .byte 100
 .byte 105
@@ -14241,7 +14245,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC627:
+.LC630:
 .byte 9
 .byte 40
 .byte 49
@@ -14269,7 +14273,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC626:
+.LC629:
 .byte 32
 .byte 37
 .byte 46
@@ -14283,7 +14287,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC625:
+.LC628:
 .byte 67
 .byte 97
 .byte 108
@@ -14296,7 +14300,7 @@ ret
 .byte 100
 .byte 0
 .align 1
-.LC618:
+.LC621:
 .byte 84
 .byte 101
 .byte 115
@@ -14359,7 +14363,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC614:
+.LC617:
 .byte 84
 .byte 104
 .byte 105
@@ -14390,7 +14394,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC611:
+.LC614:
 .byte 32
 .byte 32
 .byte 32
@@ -14416,7 +14420,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC610:
+.LC613:
 .byte 116
 .byte 104
 .byte 105
@@ -14455,7 +14459,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC606:
+.LC609:
 .byte 97
 .byte 99
 .byte 116
@@ -14495,7 +14499,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC605:
+.LC608:
 .byte 115
 .byte 104
 .byte 111
@@ -14548,7 +14552,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC604:
+.LC607:
 .byte 85
 .byte 102
 .byte 84
@@ -14594,7 +14598,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC603:
+.LC606:
 .byte 83
 .byte 105
 .byte 110
@@ -14640,7 +14644,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC602:
+.LC605:
 .byte 82
 .byte 97
 .byte 110
@@ -14682,7 +14686,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC597:
+.LC600:
 .byte 109
 .byte 101
 .byte 114
@@ -14702,7 +14706,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC596:
+.LC599:
 .byte 99
 .byte 97
 .byte 108
@@ -14755,7 +14759,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC595:
+.LC598:
 .byte 32
 .byte 98
 .byte 101
@@ -14770,7 +14774,7 @@ ret
 .byte 104
 .byte 0
 .align 1
-.LC594:
+.LC597:
 .byte 84
 .byte 104
 .byte 101
@@ -14810,7 +14814,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC593:
+.LC596:
 .byte 88
 .byte 32
 .byte 47
@@ -14830,7 +14834,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC592:
+.LC595:
 .byte 88
 .byte 32
 .byte 47
@@ -14846,7 +14850,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC589:
+.LC592:
 .byte 101
 .byte 110
 .byte 99
@@ -14894,7 +14898,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC588:
+.LC591:
 .byte 32
 .byte 32
 .byte 46
@@ -14931,7 +14935,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC587:
+.LC590:
 .byte 32
 .byte 32
 .byte 32
@@ -14960,7 +14964,7 @@ ret
 .byte 101
 .byte 0
 .align 1
-.LC586:
+.LC589:
 .byte 99
 .byte 111
 .byte 110
@@ -15003,7 +15007,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC585:
+.LC588:
 .byte 116
 .byte 104
 .byte 105
@@ -15043,7 +15047,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC584:
+.LC587:
 .byte 32
 .byte 32
 .byte 32
@@ -15084,7 +15088,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC583:
+.LC586:
 .byte 121
 .byte 101
 .byte 116
@@ -15112,7 +15116,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC582:
+.LC585:
 .byte 88
 .byte 32
 .byte 61
@@ -15154,7 +15158,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC577:
+.LC580:
 .byte 85
 .byte 110
 .byte 100
@@ -15185,7 +15189,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC567:
+.LC570:
 .byte 40
 .byte 114
 .byte 111
@@ -15216,7 +15220,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC566:
+.LC569:
 .byte 85
 .byte 110
 .byte 100
@@ -15268,7 +15272,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC561:
+.LC564:
 .byte 124
 .byte 81
 .byte 32
@@ -15289,7 +15293,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC560:
+.LC563:
 .byte 112
 .byte 114
 .byte 105
@@ -15328,7 +15332,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC559:
+.LC562:
 .byte 81
 .byte 32
 .byte 61
@@ -15384,7 +15388,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC558:
+.LC561:
 .byte 85
 .byte 110
 .byte 100
@@ -15437,7 +15441,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC556:
+.LC559:
 .byte 32
 .byte 111
 .byte 114
@@ -15497,7 +15501,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC555:
+.LC558:
 .byte 32
 .byte 99
 .byte 111
@@ -15524,7 +15528,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC554:
+.LC557:
 .byte 97
 .byte 112
 .byte 112
@@ -15556,7 +15560,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC553:
+.LC556:
 .byte 69
 .byte 105
 .byte 116
@@ -15599,7 +15603,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC541:
+.LC544:
 .byte 83
 .byte 109
 .byte 97
@@ -15655,7 +15659,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC540:
+.LC543:
 .byte 32
 .byte 116
 .byte 104
@@ -15684,7 +15688,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC539:
+.LC542:
 .byte 68
 .byte 105
 .byte 102
@@ -15720,7 +15724,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC536:
+.LC539:
 .byte 32
 .byte 116
 .byte 104
@@ -15752,7 +15756,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC535:
+.LC538:
 .byte 80
 .byte 114
 .byte 111
@@ -15785,7 +15789,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC528:
+.LC531:
 .byte 118
 .byte 97
 .byte 108
@@ -15829,7 +15833,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC527:
+.LC530:
 .byte 85
 .byte 110
 .byte 100
@@ -15877,7 +15881,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC526:
+.LC529:
 .byte 112
 .byte 111
 .byte 115
@@ -15920,7 +15924,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC525:
+.LC528:
 .byte 66
 .byte 117
 .byte 116
@@ -15956,7 +15960,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC522:
+.LC525:
 .byte 80
 .byte 115
 .byte 101
@@ -15995,7 +15999,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC521:
+.LC524:
 .byte 97
 .byte 108
 .byte 108
@@ -16023,7 +16027,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC520:
+.LC523:
 .byte 80
 .byte 111
 .byte 115
@@ -16067,7 +16071,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC507:
+.LC510:
 .byte 109
 .byte 117
 .byte 108
@@ -16118,7 +16122,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC483:
+.LC486:
 .byte 83
 .byte 101
 .byte 101
@@ -16166,7 +16170,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC480:
+.LC483:
 .byte 46
 .byte 46
 .byte 46
@@ -16196,7 +16200,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC477:
+.LC480:
 .byte 9
 .byte 105
 .byte 110
@@ -16226,7 +16230,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC476:
+.LC479:
 .byte 69
 .byte 114
 .byte 114
@@ -16284,7 +16288,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC455:
+.LC458:
 .byte 84
 .byte 101
 .byte 115
@@ -16334,7 +16338,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC452:
+.LC455:
 .byte 115
 .byte 113
 .byte 114
@@ -16373,7 +16377,7 @@ ret
 .byte 103
 .byte 0
 .align 1
-.LC450:
+.LC453:
 .byte 116
 .byte 111
 .byte 32
@@ -16390,7 +16394,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC449:
+.LC452:
 .byte 79
 .byte 98
 .byte 115
@@ -16423,6 +16427,63 @@ ret
 .byte 32
 .byte 0
 .align 1
+.LC451:
+.byte 83
+.byte 113
+.byte 117
+.byte 97
+.byte 114
+.byte 101
+.byte 32
+.byte 114
+.byte 111
+.byte 111
+.byte 116
+.byte 32
+.byte 105
+.byte 115
+.byte 32
+.byte 110
+.byte 101
+.byte 105
+.byte 116
+.byte 104
+.byte 101
+.byte 114
+.byte 32
+.byte 99
+.byte 104
+.byte 111
+.byte 112
+.byte 112
+.byte 101
+.byte 100
+.byte 32
+.byte 110
+.byte 111
+.byte 114
+.byte 32
+.byte 99
+.byte 111
+.byte 114
+.byte 114
+.byte 101
+.byte 99
+.byte 116
+.byte 108
+.byte 121
+.byte 32
+.byte 114
+.byte 111
+.byte 117
+.byte 110
+.byte 100
+.byte 101
+.byte 100
+.byte 46
+.byte 10
+.byte 0
+.align 1
 .LC448:
 .byte 83
 .byte 113
@@ -16436,63 +16497,6 @@ ret
 .byte 111
 .byte 116
 .byte 32
-.byte 105
-.byte 115
-.byte 32
-.byte 110
-.byte 101
-.byte 105
-.byte 116
-.byte 104
-.byte 101
-.byte 114
-.byte 32
-.byte 99
-.byte 104
-.byte 111
-.byte 112
-.byte 112
-.byte 101
-.byte 100
-.byte 32
-.byte 110
-.byte 111
-.byte 114
-.byte 32
-.byte 99
-.byte 111
-.byte 114
-.byte 114
-.byte 101
-.byte 99
-.byte 116
-.byte 108
-.byte 121
-.byte 32
-.byte 114
-.byte 111
-.byte 117
-.byte 110
-.byte 100
-.byte 101
-.byte 100
-.byte 46
-.byte 10
-.byte 0
-.align 1
-.LC445:
-.byte 83
-.byte 113
-.byte 117
-.byte 97
-.byte 114
-.byte 101
-.byte 32
-.byte 114
-.byte 111
-.byte 111
-.byte 116
-.byte 32
 .byte 97
 .byte 112
 .byte 112
@@ -16518,7 +16522,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC440:
+.LC443:
 .byte 83
 .byte 113
 .byte 117
@@ -16566,7 +16570,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC435:
+.LC438:
 .byte 32
 .byte 102
 .byte 97
@@ -16611,7 +16615,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC434:
+.LC437:
 .byte 82
 .byte 97
 .byte 100
@@ -16637,7 +16641,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC433:
+.LC436:
 .byte 65
 .byte 110
 .byte 111
@@ -16676,7 +16680,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC393:
+.LC396:
 .byte 84
 .byte 101
 .byte 115
@@ -16723,7 +16727,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC371:
+.LC374:
 .byte 115
 .byte 113
 .byte 114
@@ -16769,7 +16773,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC370:
+.LC373:
 .byte 115
 .byte 113
 .byte 114
@@ -16813,7 +16817,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC353:
+.LC356:
 .byte 84
 .byte 101
 .byte 115
@@ -16844,7 +16848,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC342:
+.LC345:
 .byte 84
 .byte 101
 .byte 115
@@ -16894,7 +16898,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC337:
+.LC340:
 .byte 83
 .byte 113
 .byte 117
@@ -16934,7 +16938,7 @@ ret
 .byte 103
 .byte 0
 .align 1
-.LC335:
+.LC338:
 .byte 10
 .byte 82
 .byte 117
@@ -16970,7 +16974,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC334:
+.LC337:
 .byte 32
 .byte 32
 .byte 32
@@ -17017,7 +17021,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC333:
+.LC336:
 .byte 88
 .byte 32
 .byte 42
@@ -17048,11 +17052,11 @@ ret
 .byte 10
 .byte 0
 .align 4
-.LC324:
+.LC327:
 .long 0
 .long 1074266112
 .align 1
-.LC323:
+.LC326:
 .byte 84
 .byte 101
 .byte 115
@@ -17083,7 +17087,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC322:
+.LC325:
 .byte 68
 .byte 111
 .byte 101
@@ -17116,7 +17120,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC319:
+.LC322:
 .byte 108
 .byte 97
 .byte 99
@@ -17240,7 +17244,7 @@ ret
 .byte 119
 .byte 0
 .align 1
-.LC317:
+.LC320:
 .byte 83
 .byte 116
 .byte 105
@@ -17286,7 +17290,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC316:
+.LC319:
 .byte 83
 .byte 116
 .byte 105
@@ -17327,7 +17331,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC299:
+.LC302:
 .byte 67
 .byte 104
 .byte 101
@@ -17355,7 +17359,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC296:
+.LC299:
 .byte 40
 .byte 88
 .byte 32
@@ -17389,7 +17393,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC293:
+.LC296:
 .byte 65
 .byte 100
 .byte 100
@@ -17439,7 +17443,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC292:
+.LC295:
 .byte 65
 .byte 100
 .byte 100
@@ -17454,7 +17458,7 @@ ret
 .byte 116
 .byte 0
 .align 1
-.LC289:
+.LC292:
 .byte 65
 .byte 100
 .byte 100
@@ -17506,7 +17510,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC282:
+.LC285:
 .byte 65
 .byte 100
 .byte 100
@@ -17545,7 +17549,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC277:
+.LC280:
 .byte 73
 .byte 110
 .byte 99
@@ -17588,7 +17592,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC273:
+.LC276:
 .byte 82
 .byte 97
 .byte 100
@@ -17627,7 +17631,7 @@ ret
 .byte 49
 .byte 0
 .align 1
-.LC271:
+.LC274:
 .byte 47
 .byte 32
 .byte 105
@@ -17674,7 +17678,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC268:
+.LC271:
 .byte 68
 .byte 105
 .byte 118
@@ -17703,7 +17707,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC265:
+.LC268:
 .byte 68
 .byte 105
 .byte 118
@@ -17714,7 +17718,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC262:
+.LC265:
 .byte 68
 .byte 105
 .byte 118
@@ -17754,7 +17758,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC257:
+.LC260:
 .byte 77
 .byte 117
 .byte 108
@@ -17771,7 +17775,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC254:
+.LC257:
 .byte 42
 .byte 32
 .byte 105
@@ -17814,6 +17818,41 @@ ret
 .byte 100
 .byte 101
 .byte 100
+.byte 46
+.byte 10
+.byte 0
+.align 1
+.LC256:
+.byte 77
+.byte 117
+.byte 108
+.byte 116
+.byte 105
+.byte 112
+.byte 108
+.byte 105
+.byte 99
+.byte 97
+.byte 116
+.byte 105
+.byte 111
+.byte 110
+.byte 32
+.byte 97
+.byte 112
+.byte 112
+.byte 101
+.byte 97
+.byte 114
+.byte 115
+.byte 32
+.byte 116
+.byte 111
+.byte 32
+.byte 99
+.byte 104
+.byte 111
+.byte 112
 .byte 46
 .byte 10
 .byte 0
@@ -17845,41 +17884,6 @@ ret
 .byte 116
 .byte 111
 .byte 32
-.byte 99
-.byte 104
-.byte 111
-.byte 112
-.byte 46
-.byte 10
-.byte 0
-.align 1
-.LC250:
-.byte 77
-.byte 117
-.byte 108
-.byte 116
-.byte 105
-.byte 112
-.byte 108
-.byte 105
-.byte 99
-.byte 97
-.byte 116
-.byte 105
-.byte 111
-.byte 110
-.byte 32
-.byte 97
-.byte 112
-.byte 112
-.byte 101
-.byte 97
-.byte 114
-.byte 115
-.byte 32
-.byte 116
-.byte 111
-.byte 32
 .byte 114
 .byte 111
 .byte 117
@@ -17899,7 +17903,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC240:
+.LC243:
 .byte 88
 .byte 32
 .byte 42
@@ -17926,7 +17930,7 @@ ret
 .byte 49
 .byte 0
 .align 1
-.LC221:
+.LC224:
 .byte 67
 .byte 104
 .byte 101
@@ -17985,7 +17989,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC220:
+.LC223:
 .byte 32
 .byte 32
 .byte 32
@@ -18050,7 +18054,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC217:
+.LC220:
 .byte 32
 .byte 32
 .byte 46
@@ -18104,7 +18108,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC216:
+.LC219:
 .byte 32
 .byte 32
 .byte 115
@@ -18154,7 +18158,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC215:
+.LC218:
 .byte 32
 .byte 32
 .byte 115
@@ -18214,7 +18218,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC214:
+.LC217:
 .byte 99
 .byte 111
 .byte 109
@@ -18258,7 +18262,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC211:
+.LC214:
 .byte 45
 .byte 32
 .byte 108
@@ -18309,7 +18313,7 @@ ret
 .byte 100
 .byte 0
 .align 1
-.LC206:
+.LC209:
 .byte 42
 .byte 32
 .byte 97
@@ -18354,7 +18358,7 @@ ret
 .byte 103
 .byte 0
 .align 1
-.LC202:
+.LC205:
 .byte 67
 .byte 111
 .byte 109
@@ -18390,7 +18394,7 @@ ret
 .byte 49
 .byte 0
 .align 1
-.LC200:
+.LC203:
 .byte 68
 .byte 105
 .byte 118
@@ -18434,7 +18438,7 @@ ret
 .byte 88
 .byte 0
 .align 1
-.LC195:
+.LC198:
 .byte 68
 .byte 105
 .byte 118
@@ -18534,7 +18538,7 @@ ret
 .byte 101
 .byte 0
 .align 1
-.LC191:
+.LC194:
 .byte 42
 .byte 32
 .byte 103
@@ -18573,7 +18577,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC189:
+.LC192:
 .byte 42
 .byte 32
 .byte 108
@@ -18610,7 +18614,7 @@ ret
 .byte 88
 .byte 0
 .align 1
-.LC186:
+.LC189:
 .byte 10
 .byte 67
 .byte 104
@@ -18655,7 +18659,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC185:
+.LC188:
 .byte 83
 .byte 117
 .byte 98
@@ -18712,7 +18716,7 @@ ret
 .byte 46
 .byte 0
 .align 1
-.LC180:
+.LC183:
 .byte 83
 .byte 117
 .byte 98
@@ -18760,7 +18764,7 @@ ret
 .byte 33
 .byte 0
 .align 1
-.LC176:
+.LC179:
 .byte 114
 .byte 111
 .byte 117
@@ -18802,7 +18806,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC175:
+.LC178:
 .byte 112
 .byte 114
 .byte 101
@@ -18850,7 +18854,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC174:
+.LC177:
 .byte 83
 .byte 111
 .byte 109
@@ -18903,7 +18907,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC168:
+.LC171:
 .byte 111
 .byte 102
 .byte 32
@@ -18927,7 +18931,7 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC167:
+.LC170:
 .byte 90
 .byte 49
 .byte 32
@@ -18954,7 +18958,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC166:
+.LC169:
 .byte 44
 .byte 32
 .byte 111
@@ -18997,7 +19001,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC165:
+.LC168:
 .byte 66
 .byte 101
 .byte 99
@@ -19029,7 +19033,7 @@ ret
 .byte 102
 .byte 0
 .align 1
-.LC161:
+.LC164:
 .byte 9
 .byte 85
 .byte 50
@@ -19059,7 +19063,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC160:
+.LC163:
 .byte 9
 .byte 85
 .byte 49
@@ -19089,7 +19093,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC159:
+.LC162:
 .byte 80
 .byte 114
 .byte 101
@@ -19101,10 +19105,10 @@ ret
 .byte 110
 .byte 0
 .align 1
-.LC158:
+.LC161:
 .byte 0
 .align 1
-.LC151:
+.LC154:
 .byte 84
 .byte 104
 .byte 97
@@ -19159,7 +19163,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC146:
+.LC149:
 .byte 80
 .byte 111
 .byte 115
@@ -19188,7 +19192,7 @@ ret
 .byte 115
 .byte 0
 .align 1
-.LC145:
+.LC148:
 .byte 98
 .byte 121
 .byte 32
@@ -19249,7 +19253,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC144:
+.LC147:
 .byte 97
 .byte 114
 .byte 101
@@ -19295,7 +19299,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC143:
+.LC146:
 .byte 114
 .byte 101
 .byte 115
@@ -19332,7 +19336,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC142:
+.LC145:
 .byte 68
 .byte 105
 .byte 115
@@ -19378,7 +19382,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC120:
+.LC123:
 .byte 80
 .byte 114
 .byte 101
@@ -19421,7 +19425,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC118:
+.LC121:
 .byte 84
 .byte 104
 .byte 101
@@ -19478,7 +19482,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC117:
+.LC120:
 .byte 108
 .byte 111
 .byte 103
@@ -19544,7 +19548,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC114:
+.LC117:
 .byte 111
 .byte 102
 .byte 32
@@ -19607,7 +19611,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC113:
+.LC116:
 .byte 80
 .byte 114
 .byte 101
@@ -19665,7 +19669,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC100:
+.LC103:
 .byte 67
 .byte 111
 .byte 109
@@ -19710,7 +19714,7 @@ ret
 .byte 48
 .byte 0
 .align 1
-.LC96:
+.LC99:
 .byte 40
 .byte 49
 .byte 45
@@ -19752,11 +19756,11 @@ ret
 .byte 63
 .byte 0
 .align 4
-.LC94:
+.LC97:
 .long 0
 .long 1076101120
 .align 1
-.LC89:
+.LC92:
 .byte 82
 .byte 97
 .byte 100
@@ -19790,7 +19794,7 @@ ret
 .byte 48
 .byte 0
 .align 1
-.LC85:
+.LC88:
 .byte 82
 .byte 97
 .byte 100
@@ -19828,7 +19832,7 @@ ret
 .byte 115
 .byte 0
 .align 1
-.LC83:
+.LC86:
 .byte 77
 .byte 89
 .byte 83
@@ -19868,7 +19872,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC82:
+.LC85:
 .byte 82
 .byte 97
 .byte 100
@@ -19888,11 +19892,11 @@ ret
 .byte 10
 .byte 0
 .align 4
-.LC79:
+.LC82:
 .long 1202590843
 .long 1065646817
 .align 1
-.LC78:
+.LC81:
 .byte 103
 .byte 101
 .byte 116
@@ -19947,7 +19951,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC77:
+.LC80:
 .byte 99
 .byte 111
 .byte 110
@@ -19992,7 +19996,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC62:
+.LC65:
 .byte 82
 .byte 101
 .byte 99
@@ -20030,7 +20034,7 @@ ret
 .byte 32
 .byte 0
 .align 1
-.LC61:
+.LC64:
 .byte 67
 .byte 108
 .byte 111
@@ -20083,7 +20087,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC55:
+.LC58:
 .byte 82
 .byte 97
 .byte 100
@@ -20099,7 +20103,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC46:
+.LC49:
 .byte 83
 .byte 101
 .byte 97
@@ -20137,11 +20141,11 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC45:
+.LC48:
 .byte 10
 .byte 0
 .align 1
-.LC44:
+.LC47:
 .byte 45
 .byte 49
 .byte 44
@@ -20196,7 +20200,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC39:
+.LC42:
 .byte 53
 .byte 32
 .byte 33
@@ -20249,7 +20253,7 @@ ret
 .byte 56
 .byte 0
 .align 1
-.LC35:
+.LC38:
 .byte 57
 .byte 32
 .byte 33
@@ -20301,7 +20305,7 @@ ret
 .byte 48
 .byte 0
 .align 1
-.LC31:
+.LC34:
 .byte 49
 .byte 47
 .byte 50
@@ -20325,7 +20329,7 @@ ret
 .byte 48
 .byte 0
 .align 1
-.LC27:
+.LC30:
 .byte 45
 .byte 49
 .byte 43
@@ -20377,7 +20381,7 @@ ret
 .byte 48
 .byte 0
 .align 1
-.LC23:
+.LC26:
 .byte 51
 .byte 32
 .byte 33
@@ -20428,11 +20432,11 @@ ret
 .byte 48
 .byte 0
 .align 4
-.LC21:
+.LC24:
 .long -755914244
 .long 1062232653
 .align 1
-.LC20:
+.LC23:
 .byte 67
 .byte 111
 .byte 109
@@ -20477,7 +20481,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC15:
+.LC18:
 .byte 48
 .byte 43
 .byte 48
@@ -20519,7 +20523,7 @@ ret
 .byte 50
 .byte 0
 .align 1
-.LC13:
+.LC16:
 .byte 80
 .byte 114
 .byte 111
@@ -20570,15 +20574,15 @@ ret
 .byte 10
 .byte 0
 .align 4
-.LC9:
+.LC12:
 .long 0
 .long 1072693248
 .align 4
-.LC8:
+.LC11:
 .long 0
 .long 0
 .align 1
-.LC2:
+.LC6:
 .byte 10
 .byte 42
 .byte 32

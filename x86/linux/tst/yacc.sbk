@@ -22,62 +22,62 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 subl $4,%esp
-jmp .LC3
-.LC2:
+jmp .LC6
 .LC5:
+.LC8:
 movl -4(%ebp),%edi
 cmpl $-1,%edi
-jl .LC6
+jl .LC9
 cmpl $4,%edi
-jg .LC6
-jmp *.LC17+4(,%edi,4)
+jg .LC9
+jmp *.LC20+4(,%edi,4)
 .data
 .align 4
-.LC17:
-.long .LC7
-.long .LC8
+.LC20:
+.long .LC10
 .long .LC11
-.long .LC12
-.long .LC7
 .long .LC14
+.long .LC15
+.long .LC10
+.long .LC17
 .text
-.LC8:
+.LC11:
 call yywrap
 cmpl $0,%eax
-je .LC7
+je .LC10
 mov $0,%eax
-jmp .LC1
-.LC11:
-mov $257,%eax
-jmp .LC1
-.LC12:
-mov $258,%eax
-jmp .LC1
+jmp .LC4
 .LC14:
+mov $257,%eax
+jmp .LC4
+.LC15:
+mov $258,%eax
+jmp .LC4
+.LC17:
 movsbl yytext,%eax
-jmp .LC1
-.LC6:
+jmp .LC4
+.LC9:
 pushl -4(%ebp)
-pushl $.LC16
+pushl $.LC19
 pushl yyout
 call fprintf
 addl $12,%esp
-.LC7:
-.LC3:
+.LC10:
+.LC6:
 call yylook
 movl %eax,-4(%ebp)
 cmpl $0,%eax
-jge .LC2
+jge .LC5
 mov $0,%eax
-.LC1:
+.LC4:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf19:
-.size yylex,.Lf19-yylex
+.Lf22:
+.size yylex,.Lf22-yylex
 .data
 .globl yyvstop
 .align 4
@@ -619,113 +619,94 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-subl $44,%esp
+subl $40,%esp
 cmpl $0,yymorfg
-jne .LC35
+jne .LC38
 leal yytext,%edi
 movl %edi,-16(%ebp)
-jmp .LC36
-.LC35:
+jmp .LC39
+.LC38:
 movl $0,yymorfg
 movl yyleng,%edi
 leal yytext(%edi),%edi
 movl %edi,-16(%ebp)
-.LC36:
-.LC37:
+.LC39:
+.LC40:
 leal yylstate,%edi
 movl %edi,-8(%ebp)
 movl yybgin,%edi
 movl %edi,-4(%ebp)
 movl %edi,yyestate
 cmpl $10,yyprevious
-jne .LC41
+jne .LC44
 movl -4(%ebp),%edi
 leal 12(%edi),%edi
 movl %edi,-4(%ebp)
-.LC41:
-.LC43:
+.LC44:
+.LC46:
 movl -4(%ebp),%edi
 movl (,%edi),%edi
 movl %edi,-12(%ebp)
 movl -12(%ebp),%edi
 leal yycrank,%esi
 cmpl %esi,%edi
-jne .LC47
+jne .LC50
 movl -4(%ebp),%edi
 movl 4(%edi),%edi
 movl %edi,-28(%ebp)
 movl -28(%ebp),%edi
 cmpl $0,%edi
-jne .LC49
+jne .LC52
 jmp .LC94
-.LC49:
+.LC52:
 movl -28(%ebp),%edi
 movl (,%edi),%edi
 leal yycrank,%esi
 cmpl %esi,%edi
-jne .LC51
+jne .LC54
 jmp .LC94
-.LC51:
-.LC47:
+.LC54:
+.LC50:
 movl -16(%ebp),%edi
 leal 1(%edi),%esi
 movl %esi,-16(%ebp)
 movl yysptr,%esi
 leal yysbuf,%ebx
 cmpl %ebx,%esi
-jbe .LC61
+jbe .LC63
 movl yysptr,%esi
 leal -1(%esi),%esi
 movl %esi,yysptr
 movsbl (,%esi),%esi
 movl %esi,-40(%ebp)
-jmp .LC62
-.LC61:
-movl yyin,%esi
-leal 4(%esi),%esi
-movl (,%esi),%ebx
-subl $1,%ebx
-movl %ebx,(,%esi)
-cmpl $0,%ebx
-jl .LC63
-movl yyin,%esi
-movl (,%esi),%ebx
-leal 1(%ebx),%edx
-movl %edx,(,%esi)
-movsbl (,%ebx),%esi
-andl $255,%esi
-movl %esi,-44(%ebp)
 jmp .LC64
 .LC63:
 pushl yyin
-call _filbuf
+call getc
 addl $4,%esp
 movl %eax,%esi
-movl %esi,-44(%ebp)
-.LC64:
-movl -44(%ebp),%esi
 movl %esi,-40(%ebp)
-.LC62:
+.LC64:
 movl -40(%ebp),%esi
 movl %esi,yytchar
 cmpl $10,%esi
-jne .LC59
+jne .LC61
 incl yylineno
 movl yytchar,%esi
 movl %esi,-36(%ebp)
+jmp .LC62
+.LC61:
+movl yytchar,%esi
+movl %esi,-36(%ebp)
+.LC62:
+cmpl $-1,-36(%ebp)
+jne .LC59
+movl $0,-32(%ebp)
 jmp .LC60
 .LC59:
 movl yytchar,%esi
-movl %esi,-36(%ebp)
-.LC60:
-cmpl $-1,-36(%ebp)
-jne .LC57
-movl $0,-32(%ebp)
-jmp .LC58
-.LC57:
-movl yytchar,%esi
 movl %esi,-32(%ebp)
-.LC58:
+.LC60:
 movl -32(%ebp),%esi
 movl %esi,-20(%ebp)
 movl %esi,%ebx
@@ -784,7 +765,7 @@ imul $12,%esi,%esi
 leal yysvec(%esi),%esi
 movl %esi,-4(%ebp)
 movl %esi,(,%edi)
-jmp .LC43
+jmp .LC46
 .LC66:
 movl -12(%ebp),%edi
 leal yycrank,%esi
@@ -848,7 +829,7 @@ imul $12,%esi,%esi
 leal yysvec(%esi),%esi
 movl %esi,-4(%ebp)
 movl %esi,(,%edi)
-jmp .LC43
+jmp .LC46
 .LC77:
 movl -20(%ebp),%edi
 movsbl yymatch(%edi),%edi
@@ -899,7 +880,7 @@ imul $12,%esi,%esi
 leal yysvec(%esi),%esi
 movl %esi,-4(%ebp)
 movl %esi,(,%edi)
-jmp .LC43
+jmp .LC46
 .LC83:
 .LC75:
 .LC67:
@@ -1009,7 +990,7 @@ movl yyfnd,%edi
 leal 4(%edi),%esi
 movl %esi,yyfnd
 movl (,%edi),%eax
-jmp .LC34
+jmp .LC37
 .LC96:
 movl -16(%ebp),%edi
 movsbl (,%edi),%edi
@@ -1037,105 +1018,69 @@ jne .LC108
 leal yysbuf,%edi
 movl %edi,yysptr
 mov $0,%eax
-jmp .LC34
+jmp .LC37
 .LC108:
 movl yysptr,%edi
 leal yysbuf,%esi
 cmpl %esi,%edi
-jbe .LC118
+jbe .LC117
 movl yysptr,%edi
 leal -1(%edi),%edi
 movl %edi,yysptr
 movsbl (,%edi),%edi
 movl %edi,-40(%ebp)
-jmp .LC119
-.LC118:
-movl yyin,%edi
-leal 4(%edi),%edi
-movl (,%edi),%esi
-subl $1,%esi
-movl %esi,(,%edi)
-cmpl $0,%esi
-jl .LC120
-movl yyin,%edi
-movl (,%edi),%esi
-leal 1(%esi),%ebx
-movl %ebx,(,%edi)
-movsbl (,%esi),%edi
-andl $255,%edi
-movl %edi,-44(%ebp)
-jmp .LC121
-.LC120:
+jmp .LC118
+.LC117:
 pushl yyin
-call _filbuf
+call getc
 addl $4,%esp
 movl %eax,%edi
-movl %edi,-44(%ebp)
-.LC121:
-movl -44(%ebp),%edi
 movl %edi,-40(%ebp)
-.LC119:
+.LC118:
 movl -40(%ebp),%edi
 movl %edi,yytchar
 cmpl $10,%edi
-jne .LC116
+jne .LC115
 incl yylineno
 movl yytchar,%edi
 movl %edi,-36(%ebp)
-jmp .LC117
-.LC116:
+jmp .LC116
+.LC115:
 movl yytchar,%edi
 movl %edi,-36(%ebp)
-.LC117:
+.LC116:
 cmpl $-1,-36(%ebp)
-jne .LC114
+jne .LC113
 movl $0,-32(%ebp)
-jmp .LC115
-.LC114:
+jmp .LC114
+.LC113:
 movl yytchar,%edi
 movl %edi,-32(%ebp)
-.LC115:
+.LC114:
 movl -32(%ebp),%edi
 movl %edi,%ebx
 movb %bl,yytext
 movsbl %bl,%edi
 movl %edi,yyprevious
 cmpl $0,yyprevious
-jle .LC122
-movl yyout,%edi
-leal 4(%edi),%edi
-movl (,%edi),%esi
-subl $1,%esi
-movl %esi,(,%edi)
-cmpl $0,%esi
-jl .LC125
-movl yyout,%edi
-movl (,%edi),%esi
-leal 1(%esi),%ebx
-movl %ebx,(,%edi)
-movl yyprevious,%edi
-movl %edi,%ebx
-movb %bl,(,%esi)
-jmp .LC126
-.LC125:
+jle .LC119
 pushl yyout
 pushl yyprevious
-call _flsbuf
+call putc
 addl $8,%esp
-.LC126:
-.LC122:
+.LC119:
 leal yytext,%edi
 movl %edi,-16(%ebp)
-jmp .LC37
-.LC34:
+jmp .LC40
+.LC37:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf127:
-.size yylook,.Lf127-yylook
+.Lf121:
+.size yylook,.Lf121-yylook
 .globl yyback
 .align 16
 .type yyback,@function
@@ -1147,33 +1092,33 @@ pushl %edi
 movl %esp,%ebp
 movl 20(%ebp),%edi
 cmpl $0,%edi
-jne .LC132
+jne .LC126
 mov $0,%eax
-jmp .LC128
-.LC131:
+jmp .LC122
+.LC125:
 movl 20(%ebp),%edi
 leal 4(%edi),%esi
 movl %esi,20(%ebp)
 movl 24(%ebp),%esi
 cmpl %esi,(,%edi)
-jne .LC134
+jne .LC128
 mov $1,%eax
-jmp .LC128
-.LC134:
-.LC132:
+jmp .LC122
+.LC128:
+.LC126:
 movl 20(%ebp),%edi
 cmpl $0,(,%edi)
-jne .LC131
+jne .LC125
 mov $0,%eax
-.LC128:
+.LC122:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf136:
-.size yyback,.Lf136-yyback
+.Lf130:
+.size yyback,.Lf130-yyback
 .globl yyinput
 .align 16
 .type yyinput,@function
@@ -1183,73 +1128,54 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-subl $16,%esp
+subl $12,%esp
 movl yysptr,%edi
 leal yysbuf,%esi
 cmpl %esi,%edi
-jbe .LC146
+jbe .LC139
 movl yysptr,%edi
 leal -1(%edi),%edi
 movl %edi,yysptr
 movsbl (,%edi),%edi
 movl %edi,-12(%ebp)
-jmp .LC147
-.LC146:
-movl yyin,%edi
-leal 4(%edi),%edi
-movl (,%edi),%esi
-subl $1,%esi
-movl %esi,(,%edi)
-cmpl $0,%esi
-jl .LC148
-movl yyin,%edi
-movl (,%edi),%esi
-leal 1(%esi),%ebx
-movl %ebx,(,%edi)
-movsbl (,%esi),%edi
-andl $255,%edi
-movl %edi,-16(%ebp)
-jmp .LC149
-.LC148:
+jmp .LC140
+.LC139:
 pushl yyin
-call _filbuf
+call getc
 addl $4,%esp
 movl %eax,%edi
-movl %edi,-16(%ebp)
-.LC149:
-movl -16(%ebp),%edi
 movl %edi,-12(%ebp)
-.LC147:
+.LC140:
 movl -12(%ebp),%edi
 movl %edi,yytchar
 cmpl $10,%edi
-jne .LC144
+jne .LC137
 incl yylineno
 movl yytchar,%edi
 movl %edi,-8(%ebp)
-jmp .LC145
-.LC144:
+jmp .LC138
+.LC137:
 movl yytchar,%edi
 movl %edi,-8(%ebp)
-.LC145:
+.LC138:
 cmpl $-1,-8(%ebp)
-jne .LC142
+jne .LC135
 movl $0,-4(%ebp)
-jmp .LC143
-.LC142:
+jmp .LC136
+.LC135:
 movl yytchar,%edi
 movl %edi,-4(%ebp)
-.LC143:
+.LC136:
 movl -4(%ebp),%eax
-.LC137:
+.LC131:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf150:
-.size yyinput,.Lf150-yyinput
+.Lf141:
+.size yyinput,.Lf141-yyinput
 .globl yyoutput
 .align 16
 .type yyoutput,@function
@@ -1259,37 +1185,20 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-movl yyout,%edi
-leal 4(%edi),%edi
-movl (,%edi),%esi
-subl $1,%esi
-movl %esi,(,%edi)
-cmpl $0,%esi
-jl .LC153
-movl yyout,%edi
-movl (,%edi),%esi
-leal 1(%esi),%ebx
-movl %ebx,(,%edi)
-movl 20(%ebp),%edi
-movl %edi,%ebx
-movb %bl,(,%esi)
-jmp .LC154
-.LC153:
 pushl yyout
 pushl 20(%ebp)
-call _flsbuf
+call putc
 addl $8,%esp
-.LC154:
 mov $0,%eax
-.LC151:
+.LC142:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf155:
-.size yyoutput,.Lf155-yyoutput
+.Lf143:
+.size yyoutput,.Lf143-yyoutput
 .globl yyunput
 .align 16
 .type yyunput,@function
@@ -1302,9 +1211,9 @@ movl %esp,%ebp
 movl 20(%ebp),%edi
 movl %edi,yytchar
 cmpl $10,yytchar
-jne .LC157
+jne .LC145
 decl yylineno
-.LC157:
+.LC145:
 movl yysptr,%edi
 leal 1(%edi),%esi
 movl %esi,yysptr
@@ -1312,15 +1221,15 @@ movl yytchar,%esi
 movl %esi,%ebx
 movb %bl,(,%edi)
 mov $0,%eax
-.LC156:
+.LC144:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf159:
-.size yyunput,.Lf159-yyunput
+.Lf147:
+.size yyunput,.Lf147-yyunput
 .globl main
 .align 16
 .type main,@function
@@ -1330,21 +1239,21 @@ pushl %ebx
 pushl %esi
 pushl %edi
 movl %esp,%ebp
-leal _iob,%edi
+movl stdin,%edi
 movl %edi,yyin
-leal _iob+32,%edi
+movl stdout,%edi
 movl %edi,yyout
 call yyparse
 mov $0,%eax
-.LC160:
+.LC148:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf162:
-.size main,.Lf162-main
+.Lf149:
+.size main,.Lf149-main
 .globl yyerror
 .align 16
 .type yyerror,@function
@@ -1355,19 +1264,19 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 pushl 20(%ebp)
-pushl $.LC164
+pushl $.LC151
 call printf
 addl $8,%esp
 mov $0,%eax
-.LC163:
+.LC150:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf165:
-.size yyerror,.Lf165-yyerror
+.Lf152:
+.size yyerror,.Lf152-yyerror
 .data
 .globl yyexca
 .align 2
@@ -1814,19 +1723,19 @@ leal -330(%ebp),%edi
 movl %edi,-12(%ebp)
 leal yyv-4,%edi
 movl %edi,-20(%ebp)
-.LC169:
+.LC156:
 movl -12(%ebp),%edi
 leal 2(%edi),%edi
 movl %edi,-12(%ebp)
 leal -30(%ebp),%esi
 cmpl %esi,%edi
-jbe .LC170
-pushl $.LC173
+jbe .LC157
+pushl $.LC160
 call yyerror
 addl $4,%esp
 mov $1,%eax
-jmp .LC166
-.LC170:
+jmp .LC153
+.LC157:
 movl -12(%ebp),%edi
 movw -8(%ebp),%si
 movw %si,(,%edi)
@@ -1836,15 +1745,64 @@ movl %edi,-20(%ebp)
 movl -20(%ebp),%edi
 movl yyval,%esi
 movl %esi,(,%edi)
-.LC174:
+.LC161:
 movswl -8(%ebp),%edi
 movw yypact(,%edi,2),%di
 movw %di,-16(%ebp)
 movswl -16(%ebp),%edi
 cmpl $-1000,%edi
-jg .LC175
-jmp .LC177
-.LC175:
+jg .LC162
+jmp .LC164
+.LC162:
+cmpl $0,yychar
+jge .LC165
+call yylex
+movl %eax,yychar
+cmpl $0,%eax
+jge .LC167
+movl $0,yychar
+.LC167:
+.LC165:
+movswl -16(%ebp),%edi
+movl yychar,%esi
+leal (%esi,%edi),%edi
+movw %di,-16(%ebp)
+movswl %di,%edi
+cmpl $0,%edi
+jl .LC171
+movswl -16(%ebp),%edi
+cmpl $249,%edi
+jl .LC169
+.LC171:
+jmp .LC164
+.LC169:
+movswl -16(%ebp),%edi
+movw yyact(,%edi,2),%di
+movw %di,-16(%ebp)
+movswl %di,%edi
+movswl yychk(,%edi,2),%edi
+cmpl yychar,%edi
+jne .LC172
+movl $-1,yychar
+movl yylval,%edi
+movl %edi,yyval
+movw -16(%ebp),%di
+movw %di,-8(%ebp)
+movswl yyerrflag,%edi
+cmpl $0,%edi
+jle .LC156
+movswl yyerrflag,%edi
+subl $1,%edi
+movw %di,yyerrflag
+jmp .LC156
+.LC172:
+.LC164:
+movswl -8(%ebp),%edi
+movw yydef(,%edi,2),%di
+movw %di,-16(%ebp)
+movswl %di,%edi
+cmpl $-2,%edi
+jne .LC176
 cmpl $0,yychar
 jge .LC178
 call yylex
@@ -1854,127 +1812,78 @@ jge .LC180
 movl $0,yychar
 .LC180:
 .LC178:
-movswl -16(%ebp),%edi
-movl yychar,%esi
-leal (%esi,%edi),%edi
-movw %di,-16(%ebp)
-movswl %di,%edi
-cmpl $0,%edi
-jl .LC184
-movswl -16(%ebp),%edi
-cmpl $249,%edi
-jl .LC182
-.LC184:
-jmp .LC177
-.LC182:
-movswl -16(%ebp),%edi
-movw yyact(,%edi,2),%di
-movw %di,-16(%ebp)
-movswl %di,%edi
-movswl yychk(,%edi,2),%edi
-cmpl yychar,%edi
-jne .LC185
-movl $-1,yychar
-movl yylval,%edi
-movl %edi,yyval
-movw -16(%ebp),%di
-movw %di,-8(%ebp)
-movswl yyerrflag,%edi
-cmpl $0,%edi
-jle .LC169
-movswl yyerrflag,%edi
-subl $1,%edi
-movw %di,yyerrflag
-jmp .LC169
-.LC185:
-.LC177:
-movswl -8(%ebp),%edi
-movw yydef(,%edi,2),%di
-movw %di,-16(%ebp)
-movswl %di,%edi
-cmpl $-2,%edi
-jne .LC189
-cmpl $0,yychar
-jge .LC191
-call yylex
-movl %eax,yychar
-cmpl $0,%eax
-jge .LC193
-movl $0,yychar
-.LC193:
-.LC191:
 leal yyexca,%edi
 movl %edi,-24(%ebp)
-jmp .LC198
-.LC195:
-.LC196:
+jmp .LC185
+.LC182:
+.LC183:
 movl -24(%ebp),%edi
 leal 4(%edi),%edi
 movl %edi,-24(%ebp)
-.LC198:
+.LC185:
 movl -24(%ebp),%edi
 movswl (,%edi),%esi
 cmpl $-1,%esi
-jne .LC195
+jne .LC182
 movswl 2(%edi),%edi
 movswl -8(%ebp),%esi
 cmpl %esi,%edi
-jne .LC195
-jmp .LC200
-.LC199:
+jne .LC182
+jmp .LC187
+.LC186:
 movl -24(%ebp),%edi
 movswl (,%edi),%edi
 cmpl yychar,%edi
-jne .LC202
-jmp .LC201
-.LC202:
-.LC200:
+jne .LC189
+jmp .LC188
+.LC189:
+.LC187:
 movl -24(%ebp),%edi
 leal 4(%edi),%edi
 movl %edi,-24(%ebp)
 movswl (,%edi),%edi
 cmpl $0,%edi
-jge .LC199
-.LC201:
+jge .LC186
+.LC188:
 movl -24(%ebp),%edi
 movw 2(%edi),%di
 movw %di,-16(%ebp)
 movswl %di,%edi
 cmpl $0,%edi
-jge .LC204
+jge .LC191
 mov $0,%eax
-jmp .LC166
-.LC204:
-.LC189:
+jmp .LC153
+.LC191:
+.LC176:
 movswl -16(%ebp),%edi
 cmpl $0,%edi
-jne .LC206
+jne .LC193
 movswl yyerrflag,%edi
 movl %edi,-336(%ebp)
 movl -336(%ebp),%edi
 cmpl $0,%edi
-jl .LC208
+jl .LC195
 cmpl $3,%edi
-jg .LC208
-jmp *.LC224(,%edi,4)
+jg .LC195
+jmp *.LC211(,%edi,4)
 .data
 .align 4
-.LC224:
-.long .LC211
-.long .LC214
-.long .LC214
-.long .LC221
-.text
 .LC211:
-pushl $.LC212
+.long .LC198
+.long .LC201
+.long .LC201
+.long .LC208
+.text
+.LC198:
+pushl $.LC199
 call yyerror
 addl $4,%esp
-.LC213:
+.LC200:
 incl yynerrs
-.LC214:
+.LC201:
 movw $3,yyerrflag
-jmp .LC216
-.LC215:
+jmp .LC203
+.LC202:
 movl -12(%ebp),%edi
 movswl (,%edi),%edi
 movswl yypact(,%edi,2),%edi
@@ -1982,18 +1891,18 @@ leal 256(%edi),%edi
 movw %di,-16(%ebp)
 movswl -16(%ebp),%edi
 cmpl $0,%edi
-jl .LC218
+jl .LC205
 cmpl $249,%edi
-jge .LC218
+jge .LC205
 movswl yyact(,%edi,2),%edi
 movswl yychk(,%edi,2),%edi
 cmpl $256,%edi
-jne .LC218
+jne .LC205
 movswl -16(%ebp),%edi
 movw yyact(,%edi,2),%di
 movw %di,-8(%ebp)
-jmp .LC169
-.LC218:
+jmp .LC156
+.LC205:
 movl -12(%ebp),%edi
 movswl (,%edi),%esi
 movw yypact(,%esi,2),%si
@@ -2003,23 +1912,23 @@ movl %edi,-12(%ebp)
 movl -20(%ebp),%edi
 leal -4(%edi),%edi
 movl %edi,-20(%ebp)
-.LC216:
+.LC203:
 movl -12(%ebp),%edi
 leal -328(%ebp),%esi
 cmpl %esi,%edi
-jae .LC215
-.LC220:
+jae .LC202
+.LC207:
 mov $1,%eax
-jmp .LC166
-.LC221:
-cmpl $0,yychar
-jne .LC222
-jmp .LC220
-.LC222:
-movl $-1,yychar
-jmp .LC174
+jmp .LC153
 .LC208:
-.LC206:
+cmpl $0,yychar
+jne .LC209
+jmp .LC207
+.LC209:
+movl $-1,yychar
+jmp .LC161
+.LC195:
+.LC193:
 movw -16(%ebp),%di
 movswl %di,%esi
 leal (,%esi,2),%esi
@@ -2050,7 +1959,7 @@ leal 1(%edi),%edi
 movw %di,-28(%ebp)
 movswl -28(%ebp),%edi
 cmpl $249,%edi
-jge .LC227
+jge .LC214
 movw yyact(,%edi,2),%di
 movw %di,-8(%ebp)
 movswl %di,%edi
@@ -2058,95 +1967,95 @@ movswl yychk(,%edi,2),%edi
 movswl -16(%ebp),%esi
 negl %esi
 cmpl %esi,%edi
-je .LC225
-.LC227:
+je .LC212
+.LC214:
 movswl -16(%ebp),%edi
 movswl yypgo(,%edi,2),%edi
 movw yyact(,%edi,2),%di
 movw %di,-8(%ebp)
-.LC225:
+.LC212:
 movswl -332(%ebp),%edi
 movl %edi,-336(%ebp)
 movl -336(%ebp),%edi
 cmpl $4,%edi
-jl .LC169
+jl .LC156
 cmpl $14,%edi
-jg .LC169
-jmp *.LC249-16(,%edi,4)
+jg .LC156
+jmp *.LC236-16(,%edi,4)
 .data
 .align 4
-.LC249:
-.long .LC231
-.long .LC232
-.long .LC234
-.long .LC236
-.long .LC238
-.long .LC240
-.long .LC242
-.long .LC169
-.long .LC244
-.long .LC246
-.long .LC248
-.text
-.LC231:
-movw $0,yyerrflag
-jmp .LC169
-.LC232:
-pushl $.LC233
-call printf
-addl $4,%esp
-jmp .LC169
-.LC234:
-pushl $.LC235
-call printf
-addl $4,%esp
-jmp .LC169
 .LC236:
-pushl $.LC237
+.long .LC218
+.long .LC219
+.long .LC221
+.long .LC223
+.long .LC225
+.long .LC227
+.long .LC229
+.long .LC156
+.long .LC231
+.long .LC233
+.long .LC235
+.text
+.LC218:
+movw $0,yyerrflag
+jmp .LC156
+.LC219:
+pushl $.LC220
 call printf
 addl $4,%esp
-jmp .LC169
-.LC238:
-pushl $.LC239
+jmp .LC156
+.LC221:
+pushl $.LC222
 call printf
 addl $4,%esp
-jmp .LC169
-.LC240:
-pushl $.LC241
+jmp .LC156
+.LC223:
+pushl $.LC224
 call printf
 addl $4,%esp
-jmp .LC169
-.LC242:
-pushl $.LC243
+jmp .LC156
+.LC225:
+pushl $.LC226
 call printf
 addl $4,%esp
-jmp .LC169
-.LC244:
-pushl $.LC245
+jmp .LC156
+.LC227:
+pushl $.LC228
 call printf
 addl $4,%esp
-jmp .LC169
-.LC246:
+jmp .LC156
+.LC229:
+pushl $.LC230
+call printf
+addl $4,%esp
+jmp .LC156
+.LC231:
+pushl $.LC232
+call printf
+addl $4,%esp
+jmp .LC156
+.LC233:
 pushl $yytext
-pushl $.LC247
+pushl $.LC234
 call printf
 addl $8,%esp
-jmp .LC169
-.LC248:
+jmp .LC156
+.LC235:
 pushl $yytext
-pushl $.LC164
+pushl $.LC151
 call printf
 addl $8,%esp
-jmp .LC169
-.LC166:
+jmp .LC156
+.LC153:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf251:
-.size yyparse,.Lf251-yyparse
+.Lf238:
+.size yyparse,.Lf238-yyparse
 .globl yywrap
 .align 16
 .type yywrap,@function
@@ -2157,15 +2066,15 @@ pushl %esi
 pushl %edi
 movl %esp,%ebp
 mov $1,%eax
-.LC252:
+.LC239:
 movl %ebp,%esp
 popl %edi
 popl %esi
 popl %ebx
 popl %ebp
 ret
-.Lf253:
-.size yywrap,.Lf253-yywrap
+.Lf240:
+.size yywrap,.Lf240-yywrap
 .bss
 .globl yyv
 .align 4
@@ -2222,6 +2131,10 @@ ret
 .type yyleng,@object
 .size yyleng,4
 .comm yyleng,4
+.align 4
+.type __va_arg_tmp,@object
+.size __va_arg_tmp,4
+.lcomm __va_arg_tmp,4
 .globl yyval
 .align 4
 .type yyval,@object
@@ -2234,7 +2147,7 @@ ret
 .comm yylval,4
 .data
 .align 1
-.LC247:
+.LC234:
 .byte 112
 .byte 117
 .byte 115
@@ -2245,7 +2158,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC245:
+.LC232:
 .byte 108
 .byte 111
 .byte 97
@@ -2253,7 +2166,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC243:
+.LC230:
 .byte 110
 .byte 101
 .byte 103
@@ -2263,7 +2176,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC241:
+.LC228:
 .byte 100
 .byte 105
 .byte 118
@@ -2273,7 +2186,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC239:
+.LC226:
 .byte 109
 .byte 117
 .byte 108
@@ -2285,7 +2198,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC237:
+.LC224:
 .byte 110
 .byte 101
 .byte 103
@@ -2299,14 +2212,14 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC235:
+.LC222:
 .byte 97
 .byte 100
 .byte 100
 .byte 10
 .byte 0
 .align 1
-.LC233:
+.LC220:
 .byte 115
 .byte 116
 .byte 111
@@ -2315,7 +2228,7 @@ ret
 .byte 10
 .byte 0
 .align 1
-.LC212:
+.LC199:
 .byte 115
 .byte 121
 .byte 110
@@ -2330,7 +2243,7 @@ ret
 .byte 114
 .byte 0
 .align 1
-.LC173:
+.LC160:
 .byte 121
 .byte 97
 .byte 99
@@ -2352,13 +2265,13 @@ ret
 .byte 119
 .byte 0
 .align 1
-.LC164:
+.LC151:
 .byte 37
 .byte 115
 .byte 10
 .byte 0
 .align 1
-.LC16:
+.LC19:
 .byte 98
 .byte 97
 .byte 100
